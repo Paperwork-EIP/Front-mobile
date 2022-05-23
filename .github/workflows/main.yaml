@@ -4,8 +4,7 @@ name: flutter-ci
 
 on:
   pull_request:                   # trigger: pull requests
-    branches: [ main ]            # on branch main
-    #- main                       # other way to do it
+    branches: [ prod ]            # on branch prod
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -16,12 +15,12 @@ jobs:
   format: # check formatting issues in directory
     defaults:
       run:
-        working-directory: my_app/
-    runs-on: ubuntu-latest
+        working-directory: my_app/ # setup work directory
+    runs-on: ubuntu-latest # set the machine on which it will run
     steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2.3.0
-      - run: flutter format --set-exit-if-changed .
+      - uses: actions/checkout@v3 # check out of the repository so the workflow can access it | needs to be done for each job
+      - uses: subosito/flutter-action@v2.3.0 # setup flutter environment for the workflow to run jobs on | also needs to be done for each new job
+      - run: flutter format --set-exit-if-changed . # format code will probably setup a commit and push rule after formatting, might also mix format and analyze before pushing
       - name: run echo
         run: echo check flutter format
 
@@ -37,7 +36,7 @@ jobs:
       - name: run echo
         run: echo check flutter analyze
 
-  test:
+  test: # running flutter tests
     defaults:
       run:
         working-directory: my_app/
@@ -51,7 +50,7 @@ jobs:
       - name: run echo
         run: echo run tests coverage
   
-  build-apk:
+  build-apk: # build the app
     defaults:
       run:
         working-directory: my_app/
