@@ -4,8 +4,7 @@ name: flutter-ci
 
 on:
   pull_request:                   # trigger: pull requests
-    branches: [ main ]            # on branch main
-    #- main                       # other way to do it
+    branches: [ prod ]            # on branch main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
