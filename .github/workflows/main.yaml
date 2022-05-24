@@ -27,7 +27,7 @@ jobs:
 # add, commit & push if changes were made | WIP
 # format code will probably setup a commit and push rule after formatting, might also mix format and analyze before pushing
       - name: run echo
-        run: echo check flutter format & analyze for errors
+        run: echo check flutter format and analyze for errors
 
 
 
