@@ -4,7 +4,7 @@ name: flutter-ci
 
 on:
   pull_request:                   # trigger: pull requests
-    branches: [ prod ]            # on branch prod
+    branches: [ preprod ]            # on branch preprod
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -12,7 +12,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
-  format: # check formatting issues in directory
+  check: # check formatting issues & anaylizing code for errors
     defaults:
       run:
         working-directory: my_app/ # setup work directory
@@ -20,21 +20,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3 # check out of the repository so the workflow can access it | needs to be done for each job
       - uses: subosito/flutter-action@v2.3.0 # setup flutter environment for the workflow to run jobs on | also needs to be done for each new job
-      - run: flutter format --set-exit-if-changed . # format code will probably setup a commit and push rule after formatting, might also mix format and analyze before pushing
-      - name: run echo
-        run: echo check flutter format
-
-  analyze: # check for errors in code
-    defaults:
-      run:
-        working-directory: my_app/
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2.3.0
+      - run: flutter format --set-exit-if-changed . 
       - run: flutter analyze
+#      - uses: EndBug/add-and-commit@v9
+
+# add, commit & push if changes were made | WIP
+# format code will probably setup a commit and push rule after formatting, might also mix format and analyze before pushing
       - name: run echo
-        run: echo check flutter analyze
+        run: echo check flutter format & analyze for errors
+
+
 
   test: # running flutter tests
     defaults:
