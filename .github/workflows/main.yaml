@@ -15,7 +15,7 @@ jobs:
   check: # check formatting issues & anaylizing code for errors
     defaults:
       run:
-        working-directory: my_app/ # setup work directory
+        working-directory: my_app/workspace/ # setup work directory
     runs-on: ubuntu-latest # set the machine on which it will run
     steps:
       - uses: actions/checkout@v3 # check out of the repository so the workflow can access it | needs to be done for each job
@@ -34,7 +34,7 @@ jobs:
   test: # running flutter tests
     defaults:
       run:
-        working-directory: my_app/
+        working-directory: my_app/workspace/
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -48,7 +48,7 @@ jobs:
   build-apk: # build the app
     defaults:
       run:
-        working-directory: my_app/
+        working-directory: my_app/workspace/
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
