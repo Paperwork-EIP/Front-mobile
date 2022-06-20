@@ -25,6 +25,8 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
+  google_fonts: ^2.1.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -34,14 +36,12 @@ dev_dependencies:
   flutter_lints: ^1.0.0
 
 flutter:
-
   uses-material-design: true
 
-
-
-
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - assets/images/google_image.png
+    - assets/images/facebook_image.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/login/login.dart';
 import 'package:my_app/signup/signup.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,12 +14,19 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style =
-        TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary);
+    final ButtonStyle style = ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+    );
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Log in'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+        title: Center(
+            child: Text(
+          'Log in',
+          style: GoogleFonts.inter(fontSize: 22, fontWeight: FontWeight.w700),
+        )),
         actions: <Widget>[
           TextButton(
             style: style,
@@ -28,7 +36,13 @@ class LoginPage extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const SignupPage()),
               );
             },
-            child: const Text('Sign Up'),
+            child: Text(
+              'Sign Up',
+              style: GoogleFonts.inter(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF29C9B3)),
+            ),
           ),
         ],
       ),
