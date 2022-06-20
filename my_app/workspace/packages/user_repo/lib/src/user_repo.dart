@@ -7,7 +7,6 @@ import 'models/models.dart';
 class UserRepository {
   User? _user;
 
-
 // get user from backend - this is a mock
   Future<User?> getUser() async {
     if (_user != null) return _user;

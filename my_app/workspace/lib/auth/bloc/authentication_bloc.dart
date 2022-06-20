@@ -8,8 +8,7 @@ import 'package:authentication_repository/auth_repo.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-class AuthenticationBloc
-    extends Bloc<AuthenticationEvent, AuthState> {
+class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthState> {
   AuthenticationBloc({
     required AuthRepository authenticationRepository,
     required UserRepository userRepository,
@@ -25,8 +24,7 @@ class AuthenticationBloc
 
   final AuthRepository _authenticationRepository;
   final UserRepository _userRepository;
-  late StreamSubscription<AuthStatus>
-      _authenticationStatusSubscription;
+  late StreamSubscription<AuthStatus> _authenticationStatusSubscription;
 
   @override
   Future<void> close() {

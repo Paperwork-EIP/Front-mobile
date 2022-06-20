@@ -22,7 +22,6 @@ class AuthRepository {
     );
   }
 
-
   Future<void> SignUp({
     required String username,
     required String email,
@@ -40,5 +39,4 @@ class AuthRepository {
 
 // used to close the StreamController when it is no longer needed
   void dispose() => _controller.close();
-
 }
