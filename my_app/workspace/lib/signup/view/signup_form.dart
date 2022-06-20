@@ -55,16 +55,21 @@ class _UsernameInput extends StatelessWidget {
     return BlocBuilder<SignupBloc, SignupState>(
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
-        return TextField(
-          key: const Key('signupForm_usernameInput_textField'),
-          onChanged: (username) =>
-              context.read<SignupBloc>().add(SignupUsernameChanged(username)),
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            labelText: 'Username',
-            errorText: state.username.invalid ? 'invalid username' : null,
-          ),
-        );
+        return SizedBox(
+            width: 500,
+            height: 60,
+            child: TextField(
+              key: const Key('signupForm_usernameInput_textField'),
+              onChanged: (username) => context
+                  .read<SignupBloc>()
+                  .add(SignupUsernameChanged(username)),
+              decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                labelText: 'Username',
+                errorText: state.username.invalid ? 'invalid username' : null,
+              ),
+            ));
       },
     );
   }
@@ -76,16 +81,20 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<SignupBloc, SignupState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return TextField(
-          key: const Key('signupForm_emailInput_textField'),
-          onChanged: (email) =>
-              context.read<SignupBloc>().add(SignupEmailChanged(email)),
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            labelText: 'Email',
-            errorText: state.email.invalid ? 'invalid email' : null,
-          ),
-        );
+        return SizedBox(
+            width: 500,
+            height: 60,
+            child: TextField(
+              key: const Key('signupForm_emailInput_textField'),
+              onChanged: (email) =>
+                  context.read<SignupBloc>().add(SignupEmailChanged(email)),
+              decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                labelText: 'Email',
+                errorText: state.email.invalid ? 'invalid email' : null,
+              ),
+            ));
       },
     );
   }
@@ -97,19 +106,27 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<SignupBloc, SignupState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
-          key: const Key('signupForm_passwordInput_textField'),
-          onChanged: (password) =>
-              context.read<SignupBloc>().add(SignupPasswordChanged(password)),
-          obscureText: true,
-          decoration: InputDecoration(
-            suffixText: "Show",
-            suffixStyle: const TextStyle(color: const Color(0xFF29C9B3)),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-            labelText: 'Password',
-            errorText: state.password.invalid ? 'invalid password' : null,
-          ),
-        );
+        return SizedBox(
+            width: 500,
+            height: 60,
+            child: TextField(
+              key: const Key('signupForm_passwordInput_textField'),
+              onChanged: (password) => context
+                  .read<SignupBloc>()
+                  .add(SignupPasswordChanged(password)),
+              obscureText: true,
+              decoration: InputDecoration(
+                suffix: TextButton(
+                  child: const Text("Show"),
+                  onPressed: () {},
+                  style: TextButton.styleFrom(primary: const Color(0xFF29C9B3)),
+                ),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                labelText: 'Password',
+                errorText: state.password.invalid ? 'invalid password' : null,
+              ),
+            ));
       },
     );
   }
@@ -121,19 +138,27 @@ class _ConfirmPasswordInput extends StatelessWidget {
     return BlocBuilder<SignupBloc, SignupState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
-          key: const Key('signupForm_passwordInput_textField'),
-          onChanged: (password) =>
-              context.read<SignupBloc>().add(SignupPasswordChanged(password)),
-          obscureText: true,
-          decoration: InputDecoration(
-            suffixText: "Show",
-            suffixStyle: const TextStyle(color: Color(0xFF29C9B3)),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-            labelText: 'Confirm Password',
-            errorText: state.password.invalid ? 'invalid password' : null,
-          ),
-        );
+        return SizedBox(
+            width: 500,
+            height: 60,
+            child: TextField(
+              key: const Key('signupForm_passwordInput_textField'),
+              onChanged: (password) => context
+                  .read<SignupBloc>()
+                  .add(SignupPasswordChanged(password)),
+              obscureText: true,
+              decoration: InputDecoration(
+                suffix: TextButton(
+                  child: const Text("Show"),
+                  onPressed: () {},
+                  style: TextButton.styleFrom(primary: const Color(0xFF29C9B3)),
+                ),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                labelText: 'Confirm Password',
+                errorText: state.password.invalid ? 'invalid password' : null,
+              ),
+            ));
       },
     );
   }

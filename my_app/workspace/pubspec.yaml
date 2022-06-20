@@ -22,7 +22,7 @@ dependencies:
     path: packages/auth_repo
   user_repository:
     path: packages/user_repo
-
+  http: ^0.13.4
   cupertino_icons: ^1.0.2
 
   google_fonts: ^2.1.0
