@@ -28,6 +28,8 @@ dependencies:
   google_fonts: ^2.1.0
   
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   bloc_test: ^9.0.2
@@ -38,6 +40,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  assets:
+    - assets/makima.png
+    - assets/Bar Line.png
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/google_image.png
