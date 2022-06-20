@@ -53,7 +53,6 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     ));
   }
 
-// TODO : send info to back to add a user. This just signs in the user
   void _onSubmitted(
     SignupSubmitted event,
     Emitter<SignupState> emit,
