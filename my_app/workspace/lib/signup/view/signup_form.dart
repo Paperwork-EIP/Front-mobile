@@ -25,13 +25,13 @@ class SignupForm extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             _UsernameInput(),
-            const Padding(padding: EdgeInsets.all(15)),
+            const Padding(padding: EdgeInsets.all(10)),
             _EmailInput(),
-            const Padding(padding: EdgeInsets.all(15)),
+            const Padding(padding: EdgeInsets.all(10)),
             _PasswordInput(),
-            const Padding(padding: EdgeInsets.all(15)),
+            const Padding(padding: EdgeInsets.all(10)),
             _ConfirmPasswordInput(),
-            const Padding(padding: EdgeInsets.all(50)),
+            const Padding(padding: EdgeInsets.all(40)),
             Wrap(
               spacing: 50,
               alignment: WrapAlignment.center,
@@ -40,7 +40,7 @@ class SignupForm extends StatelessWidget {
                 _FacebookButton(),
               ],
             ),
-            const Padding(padding: EdgeInsets.all(60)),
+            const Padding(padding: EdgeInsets.all(50)),
             _SignupButton(),
           ],
         ),
@@ -180,10 +180,10 @@ class _SignupButton extends StatelessWidget {
             : ElevatedButton(
                 style: ButtonStyle(
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0))),
+                        borderRadius: BorderRadius.circular(40.0))),
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
-                            vertical: 25, horizontal: 170)),
+                            vertical: 20, horizontal: 150)),
                     foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
                     backgroundColor: MaterialStateProperty.all<Color>(

@@ -25,18 +25,18 @@ class LoginForm extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             _UsernameInput(),
-            const Padding(padding: EdgeInsets.all(15)),
+            const Padding(padding: EdgeInsets.all(10)),
             _PasswordInput(),
-            const Padding(padding: EdgeInsets.all(60)),
+            const Padding(padding: EdgeInsets.all(40)),
             Wrap(
-              spacing: 50,
+              spacing: 30,
               alignment: WrapAlignment.center,
               children: [
                 _GoogleButton(),
                 _FacebookButton(),
               ],
             ),
-            const Padding(padding: EdgeInsets.all(60)),
+            const Padding(padding: EdgeInsets.all(40)),
             _LoginButton(),
             const Padding(padding: EdgeInsets.all(10)),
             _ForgotButton(),
@@ -53,18 +53,21 @@ class _UsernameInput extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
-        return TextField(
-          key: const Key('loginForm_usernameInput_textField'),
-          onChanged: (username) =>
-              context.read<LoginBloc>().add(LoginUsernameChanged(username)),
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            labelText: 'Username',
-            errorText: state.username.invalid ? 'invalid username' : null,
-          ),
-        );
+        return SizedBox(
+            width: 500,
+            height: 60,
+            child: TextField(
+              key: const Key('loginForm_usernameInput_textField'),
+              onChanged: (username) =>
+                  context.read<LoginBloc>().add(LoginUsernameChanged(username)),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                labelText: 'Username',
+                errorText: state.username.invalid ? 'invalid username' : null,
+              ),
+            ));
       },
     );
   }
@@ -76,24 +79,27 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
-          key: const Key('loginForm_passwordInput_textField'),
-          onChanged: (password) =>
-              context.read<LoginBloc>().add(LoginPasswordChanged(password)),
-          obscureText: true,
-          decoration: InputDecoration(
-            suffix: TextButton(
-              child: const Text("Show"),
-              onPressed: () {},
-              style: TextButton.styleFrom(primary: const Color(0xFF29C9B3)),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            labelText: 'Password',
-            errorText: state.password.invalid ? 'invalid password' : null,
-          ),
-        );
+        return SizedBox(
+            width: 500,
+            height: 60,
+            child: TextField(
+              key: const Key('loginForm_passwordInput_textField'),
+              onChanged: (password) =>
+                  context.read<LoginBloc>().add(LoginPasswordChanged(password)),
+              obscureText: true,
+              decoration: InputDecoration(
+                suffix: TextButton(
+                  child: const Text("Show"),
+                  onPressed: () {},
+                  style: TextButton.styleFrom(primary: const Color(0xFF29C9B3)),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                labelText: 'Password',
+                errorText: state.password.invalid ? 'invalid password' : null,
+              ),
+            ));
       },
     );
   }
@@ -140,10 +146,10 @@ class _LoginButton extends StatelessWidget {
             : ElevatedButton(
                 style: ButtonStyle(
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0))),
+                        borderRadius: BorderRadius.circular(40.0))),
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
-                            vertical: 25, horizontal: 170)),
+                            vertical: 20, horizontal: 150)),
                     foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
                     backgroundColor: MaterialStateProperty.all<Color>(
@@ -177,7 +183,7 @@ class _ForgotButton extends StatelessWidget {
                 shape: MaterialStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0))),
                 padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 100)),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 70)),
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.white)),
