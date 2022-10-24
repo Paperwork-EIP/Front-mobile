@@ -24,7 +24,7 @@ Dans le dossier workspace (cd my_app/workspace) :
 
 Anne MBOKE
 Annaïg LEIZOUR
-Austin-william LO
+Austin-William LO
 Dylan FAURE
 Emma RUILLIERE
 Luca BANYOLS
