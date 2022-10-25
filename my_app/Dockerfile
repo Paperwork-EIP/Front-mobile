@@ -10,13 +10,13 @@ WORKDIR /home/developer/
 
 # Prepare Android directories and system variables
 RUN mkdir -p Android/sdk/cmdline-tools/
-ENV ANDROID_SDK_ROOT /home/developer/Android/sdk
+ENV ANDROID_SDK_ROOT /home/developer/Android/sdk/cmdline-tools
 RUN mkdir -p .android && touch .android/repositories.cfg
 
 # Set up Android SDK
-RUN wget -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-RUN wget -O sdk-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
-RUN unzip sdk-tools.zip && rm sdk-tools.zip
+#RUN wget -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+RUN wget -O tools.zip https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
+RUN unzip tools.zip && rm tools.zip
 RUN mv tools Android/sdk/cmdline-tools/tools
 RUN cd Android/sdk/cmdline-tools/tools/bin && yes | ./sdkmanager --licenses
 RUN cd Android/sdk/cmdline-tools/tools/bin && ./sdkmanager "build-tools;29.0.2" "patcher;v4" "platform-tools" "platforms;android-29" "sources;android-29"

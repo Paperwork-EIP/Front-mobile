@@ -79,7 +79,7 @@ class Profile extends StatelessWidget {
                         child: TextButton(
                           onPressed: () {
                             Navigator.pushNamed(context, '/');
-                            },
+                          },
                           child: const Text(
                             'Settings',
                             style: TextStyle(fontSize: 18, color: Colors.white),

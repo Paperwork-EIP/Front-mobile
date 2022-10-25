@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/auth/auth.dart';
 import 'package:my_app/propal_add.dart';
+import 'package:my_app/calendar.dart';
 
 /*class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -395,7 +396,32 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            TextButton(
+            Container(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: 300,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(252, 105, 118, 1),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: const BorderSide(color: Colors.red))),
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      "/calendar",
+                    );
+                  },
+                  child: const Text(
+                    'Calendar',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+                    TextButton(
             onPressed: () {
               Navigator.push(
                 context,
@@ -410,8 +436,7 @@ class HomePage extends StatelessWidget {
                   color: Color(0xFF29C9B3)),
             ),
           ),
-          ],
-        ),
+
       ),
     );
   }
