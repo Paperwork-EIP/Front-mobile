@@ -227,7 +227,7 @@ class HomePage extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 20),
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    width: 350,
+                    width: 325,
                     height: 200,
                     decoration: BoxDecoration(
                         //   image: DecorationImage(
@@ -236,7 +236,15 @@ class HomePage extends StatelessWidget {
                         //   ),
                         // ),
                         borderRadius: BorderRadius.circular(18.0),
-                        border: Border.all(color: Colors.black),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                        // border: Border.all(color: Colors.black),
                         color: Colors.white),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,7 +263,7 @@ class HomePage extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 20),
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    width: 350,
+                    width: 325,
                     height: 200,
                     // decoration: const BoxDecoration(
                     //   image: DecorationImage(
@@ -265,7 +273,15 @@ class HomePage extends StatelessWidget {
                     // ),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18.0),
-                        border: Border.all(color: Colors.black),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                        // border: Border.all(color: Colors.black),
                         color: Colors.white),
                     child: Column(
                       // crossAxisAlignment: CrossAxisAlignment.start,
@@ -292,7 +308,8 @@ class HomePage extends StatelessWidget {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 30,
-                                      color:Color(0xFF0E3311).withOpacity(0.26)),
+                                      color:
+                                          Color(0xFF0E3311).withOpacity(0.26)),
                                 ),
                               ),
                               const Divider(color: Colors.black),
@@ -317,7 +334,7 @@ class HomePage extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 20),
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    width: 350,
+                    width: 325,
                     height: 200,
                     // decoration: const BoxDecoration(
                     //   image: DecorationImage(
@@ -327,7 +344,15 @@ class HomePage extends StatelessWidget {
                     // ),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18.0),
-                        border: Border.all(color: Colors.black),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                        // border: Border.all(color: Colors.black),
                         color: Colors.white),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
