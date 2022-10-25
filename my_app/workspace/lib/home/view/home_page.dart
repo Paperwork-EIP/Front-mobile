@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/auth/auth.dart';
+import 'package:my_app/propal_add.dart';
 
 /*class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -392,8 +394,23 @@ class HomePage extends StatelessWidget {
                   )
                 ],
               ),
-            ],
+            ),
+            TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddPropal()),
+              );
+            },
+            child: Text(
+              'Add Propal',
+              style: GoogleFonts.inter(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF29C9B3)),
+            ),
           ),
+          ],
         ),
       ),
     );
