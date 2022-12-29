@@ -392,10 +392,8 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
-            ),
+                  ),
+                
             Container(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
@@ -436,7 +434,9 @@ class HomePage extends StatelessWidget {
                   color: Color(0xFF29C9B3)),
             ),
           ),
-
+        ],
+              ),
+            ),
       ),
     );
   }
