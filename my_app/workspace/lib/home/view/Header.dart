@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../../propal_add.dart';
+import '../../quizz/Process/process.dart';
 
 class Header extends StatelessWidget {
   final void Function() closeDrawer;
@@ -53,7 +54,6 @@ class NavBar extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('  ', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20)),
                         IconButton(
                           icon: const Icon(Icons.close),
                           onPressed: closeDrawer,
@@ -78,10 +78,10 @@ class NavBar extends StatelessWidget {
             leading: const Icon(Icons.create),
             title: const Text('Start a new Process'),
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => StartPropal()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Process()),
+              );
             },
           ),
           ListTile(
@@ -111,7 +111,9 @@ class NavBar extends StatelessWidget {
               );
             },
           ),
-          const SizedBox(height: 65),
+          Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children : [
           const Divider(),
           ListTile(
             leading: const Icon(Icons.help_outline),
@@ -128,6 +130,8 @@ class NavBar extends StatelessWidget {
             title: const Text('Logout'),
             onTap: () => null,
           ),
+          ],
+      ),
         ],
       ),
     );
