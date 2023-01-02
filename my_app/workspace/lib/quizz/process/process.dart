@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 var processList = [
   'Vital card',
   'Driver license',
   'Visa',
+];
+
+var vitalQuestion = [
+  'Do you have your social security number ?', 'Do you have the french nationality or a resident permit ?',
 ];
 
 class Process extends StatelessWidget {
@@ -26,7 +34,7 @@ class Process extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   shadowColor: Colors.grey.shade200,
-                  child: const StartProcess(),
+                  child: const QuizzProcess(),
                 ),
           ),
         ],
@@ -44,6 +52,23 @@ class QuizzProcess extends StatefulWidget {
 }
 
 class _QuizzProcessState extends State<QuizzProcess> {
+  var count = 0;
+  var res = [];
+
+  void increment (int id, bool value) {
+    if (count < vitalQuestion.length - 1) {
+      setState(() {
+        count = count + 1;
+        res.add({"id": id, "res": value});
+      });
+    } else {
+        res.add({"id": id, "res": value});
+
+      Navigator.pop(context);
+      // redirection vers l'autre page avec les données
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,16 +77,17 @@ class _QuizzProcessState extends State<QuizzProcess> {
       children: [
          IconButton(
             icon: const Icon(Icons.close),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         // ignore: prefer_const_constructors
         ListTile(
-          title: const Text('Card title 1', style: TextStyle(fontSize: 22), textAlign: TextAlign.center),
+          title: const Text('Process title', style: TextStyle(fontSize: 22), textAlign: TextAlign.center),
         ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
+        Center(
           child: Text(
-            'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
+            vitalQuestion[count],
             style: TextStyle(color: Colors.black.withOpacity(0.6), fontSize: 18), textAlign: TextAlign.center,
           ),
         ),
@@ -74,12 +100,17 @@ class _QuizzProcessState extends State<QuizzProcess> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),
                       )),
-              onPressed: () {},
+              onPressed: () {
+               increment(count, false);
+              },
               child: const Text(
                 'No',
                 style: TextStyle(fontSize: 20, color: Colors.white),
                 textAlign: TextAlign.center,
               ),
+            ),
+            const SizedBox(
+              width: 20,
             ),
             TextButton(
               style: TextButton.styleFrom(
@@ -87,7 +118,9 @@ class _QuizzProcessState extends State<QuizzProcess> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),
                     )),
-              onPressed: () {},
+              onPressed: () {
+                increment(count, true);
+              },
               child: const Text(
                 'Yes',
                 style: TextStyle(fontSize: 20, color: Colors.white),
@@ -195,3 +228,24 @@ Widget dropDown(BuildContext context, final List<String> items, String dropDownV
     isExpanded: true,
   ));
 }
+
+ Future<void> sendResQuizz({
+    required List resQuizz,
+  }) async {
+    var response;
+    try {
+      response = await http.post(
+        Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/add"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: json.encode(
+            {"user_response": response}),
+      );
+      if (response.statusCode == 200) {
+        print("Success");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }

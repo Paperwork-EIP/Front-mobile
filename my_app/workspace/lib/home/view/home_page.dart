@@ -381,7 +381,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-<<<<<<< HEAD
                 
           ],
         ),
@@ -389,45 +388,6 @@ class _HomePageState extends State<HomePage> {
         ],
               ),
             ),
-=======
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AddPropal()),
-                      );
-                    },
-                    child: Text(
-                      'Add Propal',
-                      style: GoogleFonts.inter(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF29C9B3)),
-                    ),
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(252, 105, 118, 1),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: const BorderSide(color: Colors.red))),
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        "/calendar",
-                      );
-                    },
-                    child: const Text(
-                      'Calendar',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
->>>>>>> 95da182757c96245bd47944613eed3a2722538c0
       ),
     );
   }
