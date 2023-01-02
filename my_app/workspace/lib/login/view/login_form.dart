@@ -91,7 +91,7 @@ class _PasswordInput extends StatelessWidget {
                 suffix: TextButton(
                   child: const Text("Show"),
                   onPressed: () {},
-                  style: TextButton.styleFrom(primary: const Color(0xFF29C9B3)),
+                  style: TextButton.styleFrom(foregroundColor: const Color(0xFF29C9B3)),
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),

@@ -249,15 +249,15 @@ class HomePage extends StatelessWidget {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 5,
                             blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
+                            offset: const Offset(0, 3), // changes position of shadow
                           ),
                         ],
                         // border: Border.all(color: Colors.black),
                         color: Colors.white),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const Text(
+                      children: const <Widget>[
+                        Text(
                           'Ongoing process',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -286,7 +286,7 @@ class HomePage extends StatelessWidget {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 5,
                             blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
+                            offset: const Offset(0, 3), // changes position of shadow
                           ),
                         ],
                         // border: Border.all(color: Colors.black),
@@ -317,7 +317,7 @@ class HomePage extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 30,
                                       color:
-                                          Color(0xFF0E3311).withOpacity(0.26)),
+                                          const Color(0xFF0E3311).withOpacity(0.26)),
                                 ),
                               ),
                               const Divider(color: Colors.black),
@@ -357,15 +357,15 @@ class HomePage extends StatelessWidget {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 5,
                             blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
+                            offset: const Offset(0, 3), // changes position of shadow
                           ),
                         ],
                         // border: Border.all(color: Colors.black),
                         color: Colors.white),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const Text(
+                      children: const <Widget>[
+                        Text(
                           'Calendar',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -398,46 +398,39 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    child: SizedBox(
-                      width: 300,
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromRGBO(252, 105, 118, 1),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side: const BorderSide(color: Colors.red))),
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            "/calendar",
-                          );
-                        },
-                        child: const Text(
-                          'Calendar',
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
-                      ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddPropal()),
+                      );
+                    },
+                    child: Text(
+                      'Add Propal',
+                      style: GoogleFonts.inter(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF29C9B3)),
                     ),
-                  )
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(252, 105, 118, 1),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: const BorderSide(color: Colors.red))),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        "/calendar",
+                      );
+                    },
+                    child: const Text(
+                      'Calendar',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
                 ],
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddPropal()),
-                  );
-                },
-                child: Text(
-                  'Add Propal',
-                  style: GoogleFonts.inter(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF29C9B3)),
-                ),
               ),
             ],
           ),

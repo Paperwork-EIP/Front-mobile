@@ -41,7 +41,7 @@ class SignupPage extends StatelessWidget {
               style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF29C9B3)),
+                  color: const Color(0xFF29C9B3)),
             ),
           ),
         ],

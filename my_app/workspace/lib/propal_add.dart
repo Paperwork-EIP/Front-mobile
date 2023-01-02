@@ -40,7 +40,7 @@ class AddPropal extends StatelessWidget {
                 height: 700,
                 width: 420,
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(33, 124, 204, 160),
+                    color: const Color.fromARGB(33, 124, 204, 160),
                     borderRadius: BorderRadius.circular(10)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -76,8 +76,7 @@ class AddPropal extends StatelessWidget {
                     ElevatedButton(
                       
                       style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(130, 40),
-                          primary: Color.fromARGB(255, 82, 185, 137)),
+                          fixedSize: const Size(130, 40), backgroundColor: const Color.fromARGB(255, 82, 185, 137)),
                       // ),
                       onPressed: () {},
                       child: const Text("Submit"),

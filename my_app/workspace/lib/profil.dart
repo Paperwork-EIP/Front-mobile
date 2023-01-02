@@ -111,17 +111,16 @@ class Profile extends StatelessWidget {
                   ),
                 ),
                 // ),
-                Container(
-                    child: Column(children: const [
+                Column(children: const [
                   Text(
-                    'Your current processes',
-                    style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                'Your current processes',
+                style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
                   ),
                   Image(image: AssetImage('assets/Bar Line.png'))
-                ])),
+                ]),
               ],
             ),
             Positioned(
