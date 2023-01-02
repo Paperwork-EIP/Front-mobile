@@ -29,10 +29,10 @@ void main() {
         setUp: () {
           when(
             () => authenticationRepository.logIn(
-              username: 'username',
+              email: 'username',
               password: 'password',
             ),
-          ).thenAnswer((_) => Future.value('user'));
+          ).thenAnswer((_) => Future<String>.value('user'));
         },
         build: () => LoginBloc(
           authenticationRepository: authenticationRepository,
@@ -71,7 +71,7 @@ void main() {
         setUp: () {
           when(
             () => authenticationRepository.logIn(
-              username: 'username',
+              email: 'username',
               password: 'password',
             ),
           ).thenThrow(Exception('oops'));

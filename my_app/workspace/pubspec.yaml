@@ -27,6 +27,8 @@ dependencies:
 
   google_fonts: ^2.1.0
   table_calendar: ^3.0.7
+  provider: ^6.0.4
+  flutter_dotenv: ^5.0.2
   
 dev_dependencies:
   integration_test:
@@ -42,6 +44,8 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
+
     - assets/makima.png
     - assets/Calendar.png
     - assets/ongoing_process.png

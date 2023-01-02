@@ -5,6 +5,7 @@ import 'package:my_app/auth/auth.dart';
 import 'package:my_app/home/view/Header.dart';
 import 'package:my_app/propal_add.dart';
 import 'package:my_app/calendar.dart';
+import 'package:my_app/profile/profile.dart';
 
 /*class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -231,15 +232,15 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 5,
                             blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
+                            offset: const Offset(0, 3), // changes position of shadow
                           ),
                         ],
                         // border: Border.all(color: Colors.black),
                         color: Colors.white),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const Text(
+                      children: const <Widget>[
+                        Text(
                           'Ongoing process',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -268,7 +269,7 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 5,
                             blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
+                            offset: const Offset(0, 3), // changes position of shadow
                           ),
                         ],
                         // border: Border.all(color: Colors.black),
@@ -299,7 +300,7 @@ class _HomePageState extends State<HomePage> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 30,
                                       color:
-                                          Color(0xFF0E3311).withOpacity(0.26)),
+                                          const Color(0xFF0E3311).withOpacity(0.26)),
                                 ),
                               ),
                               const Divider(color: Colors.black),
@@ -339,15 +340,15 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 5,
                             blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
+                            offset: const Offset(0, 3), // changes position of shadow
                           ),
                         ],
                         // border: Border.all(color: Colors.black),
                         color: Colors.white),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const Text(
+                      children: const <Widget>[
+                        Text(
                           'Calendar',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -380,6 +381,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
+<<<<<<< HEAD
                 
           ],
         ),
@@ -387,6 +389,45 @@ class _HomePageState extends State<HomePage> {
         ],
               ),
             ),
+=======
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddPropal()),
+                      );
+                    },
+                    child: Text(
+                      'Add Propal',
+                      style: GoogleFonts.inter(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF29C9B3)),
+                    ),
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(252, 105, 118, 1),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: const BorderSide(color: Colors.red))),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        "/calendar",
+                      );
+                    },
+                    child: const Text(
+                      'Calendar',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+>>>>>>> 95da182757c96245bd47944613eed3a2722538c0
       ),
     );
   }

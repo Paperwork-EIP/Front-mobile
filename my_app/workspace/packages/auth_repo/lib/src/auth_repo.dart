@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-
-//import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum AuthStatus { unknown, authenticated, unauthenticated }
 
@@ -16,71 +16,60 @@ class AuthRepository {
   }
 
   Future<void> logIn({
-    required String username,
+    required String email,
     required String password,
   }) async {
-    await Future.delayed(
-      const Duration(milliseconds: 300),
-      () => _controller.add(AuthStatus.authenticated),
-    );
-  }
-
-/*
-  static Future<LoginResponse> _sendLoginInfo(
-      String email, String password, String logType) async {
-    String uri = Env.hostIp + logType;
-    final response = await http.post(
-      Uri.parse(uri),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      encoding: Encoding.getByName('utf-8'),
-      body: json.encode({
-        'mail': email,
-        'password': password,
-      }),
-    );
-    if (response.statusCode == 200) {
-      print(response.body);
-      await FlutterSession()
-          .set('token', jsonDecode(response.body)['accessToken']);
-      return LoginResponse(
-          name: jsonDecode(response.body)['name'],
-          accessToken: jsonDecode(response.body)['accessToken']);
-    } else {
-      throw Exception("Can't send login info to server");
+    var response;
+    print(json.encode({
+      'email': email,
+      'password': password,
+    }));
+    try {
+      response = await http.post(
+        Uri.parse("${dotenv.get('SERVER_URL')}/user/login"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: json.encode({"email": email, "password": password}),
+      );
+      if (response.statusCode == 200) {
+        _controller.add(AuthStatus.authenticated);
+      }
+    } catch (e) {
+      print('r= ${response}');
+      print(e);
     }
   }
-}
-*/
+
   Future<void> SignUp({
     required String username,
     required String email,
     required String password,
   }) async {
-/*    String uri = "host/path/...";
-    final response = await http.post(
-      Uri.parse(uri),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      encoding: Encoding.getByName('utf-8'),
-      body: json.encode({
-        'username': username,
-        'mail': email,
-        'password': password,
-      }),
-    );
-    if (response.statusCode == 200) {
-      print(response.body);*/
-      await Future.delayed(
-        const Duration(milliseconds: 300),
-        () => _controller
-            .add(AuthStatus.authenticated), // TODO : save session token here
+    var response;
+    print(json.encode({
+      'username': username,
+      'email': email,
+      'password': password,
+    }));
+    try {
+      response = await http.post(
+        Uri.parse("${dotenv.get('SERVER_URL')}/user/register"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: json.encode(
+            {"email": email, "password": password, 'username': username}),
       );
-/*    } else {
-      throw Exception("Can't send login info to server");
-    }*/
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print(response.statusCode);
+        _controller.add(AuthStatus.authenticated);
+      }
+    } catch (e) {
+      print('r= ${response}');
+      print(e);
+    }
   }
 
   void logOut() {

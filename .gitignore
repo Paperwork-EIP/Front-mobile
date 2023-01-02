@@ -1,5 +1,8 @@
 ### Flutter Generated
 
+#environment
+.env
+
 # Miscellaneous
 *.class
 *.lock
