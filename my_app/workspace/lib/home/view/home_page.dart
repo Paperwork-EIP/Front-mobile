@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/auth/auth.dart';
+import 'package:my_app/home/view/Header.dart';
 import 'package:my_app/propal_add.dart';
 import 'package:my_app/calendar.dart';
 import 'package:my_app/profile/profile.dart';
@@ -170,60 +171,42 @@ import 'package:my_app/profile/profile.dart';
 //   }
 // }
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
-  final String title = 'profile';
-  final String username = 'Sandros';
-  final String finishedProcess = 'None';
+class HomePage extends StatefulWidget {
+  HomePage({Key? key}) : super(key: key);
 
   static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => const HomePage());
+    return MaterialPageRoute<void>(builder: (_) => HomePage());
+  }
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final String title = 'profile';
+
+  final String username = 'Sandros';
+
+  final String finishedProcess = 'None';
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openDrawer() {
+    _scaffoldKey.currentState!.openDrawer();
+  }
+
+  void _closeDrawer(){
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(80.0),
-          child: AppBar(
-            title:
-                InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Profile()),
-                      );
-                    }, // Image tapped
-                    customBorder: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    splashColor: Colors.white10, // Splash color over image
-                    child: Ink.image(
-                      fit: BoxFit.cover, // Fixes border issues
-                      width: 100,
-                      height: 100,
-                      image: const AssetImage('assets/makima.png'),
-                    )),
-            actions: <Widget>[
-              Container(
-                alignment: Alignment.bottomRight,
-                child: TextButton(
-                  onPressed: () {
-                    context
-                        .read<AuthenticationBloc>()
-                        .add(AuthenticationLogoutRequested());
-                  },
-                  child: const Text(
-                    'Logout',
-                    style: TextStyle(fontSize: 18, color: Color(0xFF29C9B3)),
-                  ),
-                ),
-              ),
-            ],
-            scrolledUnderElevation: 6.0,
-            shadowColor: Theme.of(context).colorScheme.shadow,
-            backgroundColor: const Color(0xFFE0FDF7),
-          )),
+      key: _scaffoldKey,
+      appBar:  PreferredSize(
+          preferredSize: Size.fromHeight(40.0),
+          child: Header(closeDrawer: _closeDrawer, openDrawer:_openDrawer)),
+      drawer: NavBar(closeDrawer: _closeDrawer),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.white,
@@ -398,43 +381,13 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AddPropal()),
-                      );
-                    },
-                    child: Text(
-                      'Add Propal',
-                      style: GoogleFonts.inter(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF29C9B3)),
-                    ),
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(252, 105, 118, 1),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: const BorderSide(color: Colors.red))),
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        "/calendar",
-                      );
-                    },
-                    child: const Text(
-                      'Calendar',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                
+          ],
         ),
+                   
+        ],
+              ),
+            ),
       ),
     );
   }
