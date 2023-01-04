@@ -25,7 +25,7 @@ class Profile extends StatelessWidget {
                 
             //   },
             // ),
-            BackButton(color: Color(0xFF29C9B3),)
+            BackButton(color: Color.fromRGBO(252, 105, 118, 1),)
           ]),
           Column(children: <Widget>[
             Container(
