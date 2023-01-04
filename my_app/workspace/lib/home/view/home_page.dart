@@ -15,6 +15,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'package:my_app/global.dart' as globals;
+
 // Widget build(BuildContext context) {
 //     return Scaffold(
 //       key: _scaffoldKey,
@@ -237,7 +239,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // final date = getCalendar(email: 'test@test.test');
 
-  final String email = 'test@test.test';
+  final String email = globals.email;
 
   final String finishedProcess = 'None';
 
