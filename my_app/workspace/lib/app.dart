@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/auth/auth.dart';
 import 'package:my_app/calendar.dart';
+import 'package:my_app/profile/profile.dart';
 import 'package:my_app/home/home.dart';
 import 'package:my_app/login/login.dart';
 import 'package:my_app/signup/signup.dart';
@@ -80,6 +81,7 @@ class _AppViewState extends State<AppView> {
       onGenerateRoute: (_) => SplashPage.route(),
       routes: {
         '/calendar': (context) => const CalendarPage(),
+        '/profile' : (context) => Profile(),
       },
     );
   }
