@@ -65,7 +65,7 @@ class AddPropal extends StatelessWidget {
                         // obscureText: false,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'Propal',
+                          labelText: 'Content',
                         ),
                         minLines: 10, // any number you need (It works as the rows for the textarea)
                         keyboardType: TextInputType.multiline,
