@@ -1,5 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:my_app/global.dart' as globals;
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
+Future<void> submitProcessIdea({
+    required String title,
+    required String description,
+    required String content,
+    required String email
+  }) async {
+    var response;
+    print(json.encode({
+      'title': title,
+      'description': description,
+      'content': content,
+      'email': email,
+    }));
+    try {
+      response = await http.post(
+        Uri.parse("${dotenv.get('SERVER_URL')}/process/add"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: json.encode({"title": title, "description": description, "content": content, "email": email,}),
+      );
+      if (response.statusCode == 200) {
+        print(response.body);
+        // _controller.add(AuthStatus.authenticated);
+      }
+    } catch (e) {
+      print('r= ${response}');
+      print(e);
+    }
+  }
 // ignore: non_constant_identifier_names
 SizedBox CreateInput(String name, String type, bool outline, double width,
     double height, TextEditingController _controller) {
@@ -24,6 +58,7 @@ class AddPropal extends StatelessWidget {
   Widget build(BuildContext context) {
     final _controllerEmail = TextEditingController();
     final _controllerPassword = TextEditingController();
+    final _controller = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -57,20 +92,20 @@ class AddPropal extends StatelessWidget {
                         _controllerPassword),
                     // CreateInput('Explain why this approach would be useful?', 'content', true, 335, 170,
                     //     _controllerPassword),
-                    const SizedBox(
+                     SizedBox(
                     width: 335,
                     // height: height,
                       child: TextField(
-                        // controller: _controller,
-                        // obscureText: false,
-                        decoration: InputDecoration(
+                        controller: _controller,
+                        obscureText: false,
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Content',
                         ),
                         minLines: 10, // any number you need (It works as the rows for the textarea)
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
-                        style: TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ),
                     ElevatedButton(
@@ -78,7 +113,9 @@ class AddPropal extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                           fixedSize: const Size(130, 40), backgroundColor: const Color.fromARGB(255, 82, 185, 137)),
                       // ),
-                      onPressed: () {},
+                      onPressed: () {
+                        submitProcessIdea(title:_controllerEmail.text, description: _controllerPassword.text, content: _controller.text, email: globals.email);
+                        },
                       child: const Text("Submit"),
                     ),
                   ],
