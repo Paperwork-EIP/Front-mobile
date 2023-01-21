@@ -1,60 +1,174 @@
 import 'package:flutter/material.dart';
-import 'package:authentication_repository/auth_repo.dart';
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:my_app/login/login.dart';
-import 'package:formz/formz.dart';
-import 'package:formz/formz.dart';
+// import 'package:authentication_repository/auth_repo.dart';
+// import 'package:bloc/bloc.dart';
+// import 'package:equatable/equatable.dart';
+// import 'package:my_app/login/login.dart';
+// import 'package:formz/formz.dart';
+// import 'package:formz/formz.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:my_app/global.dart' as globals;
+
+import 'package:my_app/home/view/Header.dart';
+
+class ModifyProfile {
+  final String message;
+
+  const ModifyProfile({required this.message});
+
+  factory ModifyProfile.fromJson(Map<String, dynamic> json) {
+    return ModifyProfile(
+      message: json['message'],
+    );
+  }
+}
+
+Future<ModifyProfile> setModifyUser(
+    {required String email,
+    required String newEmail,
+    required String newUsername,
+    required String newPassword,
+    // required profilePicture,
+    }) async {
+  try {
+    if (newEmail == "") {
+      newEmail = globals.email;
+    }
+    else {
+      globals.email = newEmail;
+    }
+    if (newUsername == "") {
+      newUsername = globals.username;
+    }
+    if (newPassword == "") {
+      newPassword = globals.password;
+    }
+    else {
+      globals.password = newPassword;
+    }
+    // if (profilePicture!) {
+    //   profile
+    // }
+    var response = await http.get(
+      Uri.parse("${dotenv.get('SERVER_URL')}/user//modifyDatas?email=$email&username=$newUsername&new_email=$newEmail&password=$newPassword"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    if (response.statusCode == 200) {
+      print(response.body);
+      return ModifyProfile.fromJson(jsonDecode(response.body));
+    }
+    return ModifyProfile.fromJson(
+        {'message': 'Error : Failed to load process', 'response': null});
+  } catch (error) {
+    throw Exception('Failed to load Process');
+  }
+}
 
 class Profile extends StatelessWidget {
+  late String profilePicture;
   @override
   Widget build(BuildContext context) {
-    // final _controllerEmail = TextEditingController();
-    // final _controllerPassword = TextEditingController();
 
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Stack(
-          children: <Widget>[
+        body: Stack(children: <Widget>[
           Row(children: const <Widget>[
-            // IconButton(
-            //   icon: const Icon(Icons.arrow_back),
-            //   tooltip: "Go Back",
-            //   color: Color(0xFF29C9B3),
-            //   onPressed: () {
-                
-            //   },
-            // ),
-            BackButton(color: Color.fromRGBO(252, 105, 118, 1),)
+            BackButton(
+              color: Color.fromRGBO(252, 105, 118, 1),
+            )
           ]),
           Column(children: <Widget>[
             Container(
-              margin: const EdgeInsets.only(top: 20),
-              padding: const EdgeInsets.symmetric(horizontal: 50.0),
-              width: 325,
-              height: 200,
-              child: Material(
-                  color: Colors.blue,
-                  elevation: 8,
-                  shape: const CircleBorder(),
-                  // borderRadius: BorderRadius.circular(1000),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: InkWell(
-                      splashColor: Colors.black26,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(color: Colors.white, width: 3),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Ink.image(
-                          image: AssetImage('assets/makima.png'),
-                          height: 75,
-                          width: 75,
-                          fit: BoxFit.cover,
-                        ),
-                      ))),
-            ),
+                margin: const EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                width: 325,
+                height: 200,
+                child: FutureBuilder<UserPicture>(
+                    future: getUserPicture(email: globals.email),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        globals.globalUserPicture = snapshot.data!.picture;
+                        return ElevatedButton(
+                          onPressed: () => showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Choose a new picture'),
+                              content: const Text('Insert the link of your new picture'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    // profilePicture = ;
+                                    Navigator.pop(context, 'Submit');
+                                  },
+                                  child: const Text('Submit'),
+                                ),
+                              ],
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            elevation: 0,
+                            ),
+                          child: Material(
+                              color: Colors.white,
+                              elevation: 8,
+                              shape: const CircleBorder(),
+                              // borderRadius: BorderRadius.circular(1000),
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              child: InkWell(
+                                  splashColor: Colors.black26,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      border: Border.all(
+                                          color: Colors.white, width: 3),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Ink.image(
+                                      image: const AssetImage('assets/makima.png'),
+                                          // NetworkImage(snapshot.data!.response),
+                                      // height: 75,
+                                      // width: 75,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ))),
+                        );
+                      } else {
+                        return ElevatedButton(
+                          onPressed: () {},
+                          child: Material(
+                              color: Colors.white,
+                              elevation: 8,
+                              shape: const CircleBorder(),
+                              // borderRadius: BorderRadius.circular(1000),
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              child: InkWell(
+                                  splashColor: Colors.black26,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      border: Border.all(
+                                          color: Colors.white, width: 3),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Ink.image(
+                                      image: const AssetImage('assets/makima.png'),
+                                      height: 75,
+                                      width: 75,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ))),
+                        );
+                      }
+                    })),
             MyForm(),
           ])
         ]));
@@ -62,6 +176,7 @@ class Profile extends StatelessWidget {
 }
 
 class MyForm extends StatefulWidget {
+
   @override
   MyFormState createState() {
     return MyFormState();
@@ -69,71 +184,86 @@ class MyForm extends StatefulWidget {
 }
 
 class MyFormState extends State<MyForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
+
   final _formKey = GlobalKey<FormState>();
-  final _username = 'Sandros';
-  final _email = 'sandros@gmail.com';
+  final _username = globals.username;
+  final _email = globals.email;
   final _changePassword = "change password";
 
+  final _controllerUsername = TextEditingController();
+  final _controllerEmail = TextEditingController();
+  final _controllerPassword = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
     return Form(
-      key: _formKey,
-      child: Container(
-      margin: const EdgeInsets.only(left: 20),
-      width: 800,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextFormField(
-            decoration: InputDecoration(
-              icon: const Icon(Icons.person),
-              hintText: _username,
-              labelText: 'Username',
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              icon: const Icon(Icons.email),
-              hintText: _email,
-              labelText: 'Email',
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              icon: const Icon(Icons.password),
-              hintText: _changePassword,
-              labelText: 'Change Password',
-            ),
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              icon: const Icon(Icons.password_outlined),
-              // hintText: _changePassword,
-              labelText: 'Confirm Password',
-            ),
-          ),
-          Container(
-              padding: const EdgeInsets.only(left: 380, top: 40.0),
-              child: TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: const Color(0xFF29C9B3),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                side: const BorderSide(
-                                    color: Color(0xFF29C9B3)))),
-                        onPressed: () {},
-                        child: const Text(
-                          'Submit',
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+        key: _formKey,
+        child: Container(
+          margin: const EdgeInsets.only(left: 20),
+          width: 800,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TextFormField(
+                controller: _controllerUsername,
+                decoration: InputDecoration(
+                  icon: const Icon(Icons.person),
+                  hintText: _username,
+                  labelText: 'Username',
+                ),
               ),
-        ],
-      ),
-    ));
+              TextFormField(
+                controller: _controllerEmail,
+                decoration: InputDecoration(
+                  icon: const Icon(Icons.email),
+                  hintText: _email,
+                  labelText: 'Email',
+                ),
+              ),
+              TextFormField(
+                controller: _controllerPassword,
+                decoration: InputDecoration(
+                  icon: const Icon(Icons.password),
+                  hintText: _changePassword,
+                  labelText: 'Change Password',
+                ),
+              ),
+              // TextFormField(
+              //   decoration: const InputDecoration(
+              //     icon: const Icon(Icons.password_outlined),
+              //     // hintText: _changePassword,
+              //     labelText: 'Confirm Password',
+              //   ),
+              // ),
+              Container(
+                padding: const EdgeInsets.only(left: 380, top: 40.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                      backgroundColor: const Color(0xFF29C9B3),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          side: const BorderSide(color: Color(0xFF29C9B3)))),
+                  onPressed: () {
+                    print(_controllerEmail.text);
+                    print(_controllerPassword.text);
+                    print(_controllerUsername.text);
+                    setModifyUser(email: globals.email, 
+                                  newEmail: _controllerEmail.text, 
+                                  newUsername: _controllerUsername.text, 
+                                  newPassword: _controllerPassword.text, 
+                                  // profilePicture: profilePicture
+                                  );
+                  },
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

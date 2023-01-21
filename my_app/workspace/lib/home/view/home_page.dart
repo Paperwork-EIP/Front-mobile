@@ -1,4 +1,4 @@
-import 'dart:html';
+// import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,18 +35,23 @@ class OngoingProcess {
 Future<OngoingProcess> getOngoingProcess({
   required String email,
 }) async {
-  var response;
-  response = await http.get(
-    Uri.parse(
-        "${dotenv.get('SERVER_URL')}/userProcess/getUserProcesses?user_email=$email"),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  );
-  if (response.statusCode == 200) {
-    return OngoingProcess.fromJson(jsonDecode(response.body));
-  }
-  else {
+  try {
+    var response;
+    response = await http.get(
+      Uri.parse(
+          "${dotenv.get('SERVER_URL')}/userProcess/getUserProcesses?user_email=$email"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    if (response.statusCode == 200) {
+      return OngoingProcess.fromJson(jsonDecode(response.body));
+    }
+    return OngoingProcess.fromJson({
+      'message': 'Failed to load Process',
+      'response': null,
+    });
+  } catch (error) {
     throw Exception('Failed to load Process');
   }
 }
@@ -71,17 +76,21 @@ class Calendar {
 Future<Calendar> getCalendar({
   required String email,
 }) async {
-  var response;
-  response = await http.get(
-    Uri.parse("${dotenv.get('SERVER_URL')}/calendar/getAll?email=$email"),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  );
-  if (response.statusCode == 200) {
-    return Calendar.fromJson(jsonDecode(response.body));
-  }
-  else {
+  try {
+    var response = await http.get(
+      Uri.parse("${dotenv.get('SERVER_URL')}/calendar/getAll?email=$email"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    if (response.statusCode == 200) {
+      return Calendar.fromJson(jsonDecode(response.body));
+    }
+    return Calendar.fromJson({
+      'message': 'Failed to load calendar',
+      'appoinment': null,
+    });
+  } catch (error) {
     throw Exception('Failed to load calendar');
   }
 }
@@ -94,11 +103,11 @@ class HomePage extends StatefulWidget {
   }
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
+@visibleForTesting
 class _HomePageState extends State<HomePage> {
-
   final String email = globals.email;
 
   final String finishedProcess = 'None';
@@ -118,7 +127,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(40.0),
+            preferredSize: const Size.fromHeight(80.0),
             child: Header(closeDrawer: _closeDrawer, openDrawer: _openDrawer)),
         drawer: NavBar(closeDrawer: _closeDrawer),
         body: Container(
@@ -130,7 +139,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  height: 800,
+                  height: 600,
                   width: 420,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -159,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.grey.withOpacity(0.5),
                                           spreadRadius: 5,
                                           blurRadius: 7,
-                                          offset: Offset(0,
+                                          offset: const Offset(0,
                                               3), // changes position of shadow
                                         ),
                                       ]),
@@ -216,8 +225,7 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 );
-                              }
-                              else {
+                              } else {
                                 return Container(
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -227,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.grey.withOpacity(0.5),
                                           spreadRadius: 5,
                                           blurRadius: 7,
-                                          offset: Offset(0,
+                                          offset: const Offset(0,
                                               3), // changes position of shadow
                                         ),
                                       ]),
@@ -253,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 5,
                                     blurRadius: 7,
-                                    offset: Offset(
+                                    offset: const Offset(
                                         0, 3), // changes position of shadow
                                   ),
                                 ]),
@@ -287,9 +295,10 @@ class _HomePageState extends State<HomePage> {
                                               Column(
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.symmetric(
-                                                            horizontal: 10.0,
-                                                            vertical: 10.0),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10.0,
+                                                        vertical: 10.0),
                                                     child: Text(
                                                         snapshot.data!
                                                                 .response[i]
@@ -298,7 +307,8 @@ class _HomePageState extends State<HomePage> {
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize: 20,
-                                                          color: Color(0xFF29C9B3),
+                                                          color:
+                                                              Color(0xFF29C9B3),
                                                         )),
                                                   )
                                                 ],
@@ -324,7 +334,8 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const Process()),
+                            MaterialPageRoute(
+                                builder: (context) => const Process()),
                           );
                         },
                         child: const Text("Start a process"),
