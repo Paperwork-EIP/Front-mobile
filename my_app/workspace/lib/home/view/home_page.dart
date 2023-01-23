@@ -1,3 +1,4 @@
+// import 'dart:html';
 import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +7,7 @@ import 'package:my_app/home/view/Header.dart';
 // import 'package:my_app/propal_add.dart';
 // import 'package:my_app/calendar.dart';
 // import 'package:my_app/profile/profile.dart';
+import 'package:my_app/quizz/process/process.dart';
 import 'package:intl/intl.dart';
 
 import 'dart:async';
@@ -15,160 +17,41 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:my_app/global.dart' as globals;
 
-import '../../quizz/process/process.dart';
 
-// Widget build(BuildContext context) {
-//     return Scaffold(
-//       key: _scaffoldKey,
-//       appBar:  PreferredSize(
-//           preferredSize: Size.fromHeight(40.0),
-//           child: Header(closeDrawer: _closeDrawer, openDrawer:_openDrawer)),
-//       drawer: NavBar(closeDrawer: _closeDrawer),
-//       body: SingleChildScrollView(
-//         child: Container(
-//           color: Colors.white,
-//           child: Stack(
-//             alignment: Alignment.center,
-//             children: <Widget>[
-//               Column(
-//                 children: <Widget>[
-//                   Container(
-//                     margin: const EdgeInsets.only(top: 20),
-//                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//                     width: 325,
-//                     height: 200,
-//                     decoration: BoxDecoration(
-//                         borderRadius: BorderRadius.circular(18.0),
-//                         boxShadow: [
-//                           BoxShadow(
-//                             color: Colors.grey.withOpacity(0.5),
-//                             spreadRadius: 5,
-//                             blurRadius: 7,
-//                             offset: Offset(0, 3), // changes position of shadow
-//                           ),
-//                         ],
-//                         // border: Border.all(color: Colors.black),
-//                         color: Colors.white),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: <Widget>[
-//                         const Text(
-//                           'Ongoing process',
-//                           style: TextStyle(
-//                               fontWeight: FontWeight.bold,
-//                               fontSize: 32,
-//                               color: Color.fromARGB(255, 0, 0, 0)),
-//                         ),
-//                         Divider(color: Colors.black),
-//                       ],
-//                     ),
-//                   ),
-//                   Container(
-//                     margin: const EdgeInsets.only(top: 20),
-//                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//                     width: 325,
-//                     height: 200,
-//                     // decoration: const BoxDecoration(
-//                     //   image: DecorationImage(
-//                     //     image: AssetImage('assets/Calendar.png'),
-//                     //     fit: BoxFit.cover,
-//                     //   ),
-//                     // ),
-//                     decoration: BoxDecoration(
-//                         borderRadius: BorderRadius.circular(18.0),
-//                         boxShadow: [
-//                           BoxShadow(
-//                             color: Colors.grey.withOpacity(0.5),
-//                             spreadRadius: 5,
-//                             blurRadius: 7,
-//                             offset: Offset(0, 3), // changes position of shadow
-//                           ),
-//                         ],
-//                         // border: Border.all(color: Colors.black),
-//                         color: Colors.white),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: <Widget>[
-//                         const Text(
-//                           'Calendar',
-//                           style: TextStyle(
-//                               fontWeight: FontWeight.bold,
-//                               fontSize: 32,
-//                               color: Color.fromARGB(255, 0, 0, 0)),
-//                         ),
-//                         Divider(color: Colors.black)
-//                       ],
-//                     ),
-//                   ),
-
-//           ],
-//         ),
-
-//         ],
-//               ),
-//             ),
-//       ),
-//     );
-//   }
-
-// SizedBox CreateInput(String name, String type, bool outline, double width,
-//     double height, TextEditingController _controller) {
-//   return SizedBox(
-//     width: width,
-//     height: height,
-//     child: TextField(
-//       controller: _controller,
-//       obscureText: (type == 'password') ? true : false,
-//       decoration: InputDecoration(
-//         border: outline ? const OutlineInputBorder() : null,
-//         labelText: name,
-//       ),
-//       style: const TextStyle(fontSize: 14),
-//     ),
-//   );
-// }
-
-class Process {
+class OngoingProcess {
   final String message;
   final response;
 
-  const Process({required this.message, required this.response});
+  const OngoingProcess({required this.message, required this.response});
 
-  factory Process.fromJson(Map<String, dynamic> json) {
-    return Process(
+  factory OngoingProcess.fromJson(Map<String, dynamic> json) {
+    return OngoingProcess(
       message: json['message'],
       response: json['response'],
     );
   }
 }
 
-Future<Process> getOngoingProcess({
+Future<OngoingProcess> getOngoingProcess({
   required String email,
 }) async {
-  var response;
-  // try {
-  response = await http.get(
-    Uri.parse(
-        "${dotenv.get('SERVER_URL')}/userProcess/getUserProcesses?user_email=$email"),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  );
-  print(response.statusCode);
-  if (response.statusCode == 200) {
-    print(response.body);
-    // var jsonData = jsonDecode(response.body);
-    // List<Process> process = [];
-
-    // for(var u in jsonData) {
-    //   Process processs = Process(u['message'], u['response']);
-    //   process.add(processs);
-    // }
-
-    return Process.fromJson(jsonDecode(response.body));
-  }
-  // } catch (e) {
-  else {
+  try {
+    var response;
+    response = await http.get(
+      Uri.parse(
+          "${dotenv.get('SERVER_URL')}/userProcess/getUserProcesses?user_email=$email"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    if (response.statusCode == 200) {
+      return OngoingProcess.fromJson(jsonDecode(response.body));
+    }
+    return OngoingProcess.fromJson({
+      'message': 'Failed to load Process',
+      'response': null,
+    });
+  } catch (error) {
     throw Exception('Failed to load Process');
   }
 }
@@ -193,36 +76,23 @@ class Calendar {
 Future<Calendar> getCalendar({
   required String email,
 }) async {
-  var response;
-  // print(json.encode({
-  //   'email': email,
-  //   'password': password,
-  // }));
-  // try {
-  response = await http.get(
-    Uri.parse("${dotenv.get('SERVER_URL')}/calendar/getAll?email=$email"),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    // body: json.encode({"email": email, "password": password}),
-  );
-  if (response.statusCode == 200) {
-    print(response.body);
-    return Calendar.fromJson(jsonDecode(response.body));
-    // var jsonData = jsonDecode(response.body);
-    // print(jsonData);
-    // return(json);
-    // print(response.body);
-    // _controller.add(AuthStatus.authenticated);
-  }
-  // } catch (e) {
-  else {
+  try {
+    var response = await http.get(
+      Uri.parse("${dotenv.get('SERVER_URL')}/calendar/getAll?email=$email"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    if (response.statusCode == 200) {
+      return Calendar.fromJson(jsonDecode(response.body));
+    }
+    return Calendar.fromJson({
+      'message': 'Failed to load calendar',
+      'appoinment': null,
+    });
+  } catch (error) {
     throw Exception('Failed to load calendar');
   }
-
-  // print('r= $response');
-  // print(e);
-  // }
 }
 
 class HomePage extends StatefulWidget {
@@ -233,12 +103,11 @@ class HomePage extends StatefulWidget {
   }
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
+@visibleForTesting
 class _HomePageState extends State<HomePage> {
-  // final date = getCalendar(email: 'test@test.test');
-
   final String email = globals.email;
 
   final String finishedProcess = 'None';
@@ -265,7 +134,6 @@ class _HomePageState extends State<HomePage> {
                     closeDrawer: _closeDrawer, openDrawer: _openDrawer))),
         drawer: NavBar(closeDrawer: _closeDrawer),
         body: Container(
-          // padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
           alignment: Alignment.center,
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 1200),
@@ -274,7 +142,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  height: 800,
+                  height: 600,
                   width: 420,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -286,8 +154,6 @@ class _HomePageState extends State<HomePage> {
                         child: FutureBuilder<Calendar>(
                             future: getCalendar(email: email),
                             builder: (context, snapshot) {
-                              // print('length' + snapshot.data!.appoinment.length);
-                              // if (snapshot.data!)
                               if (snapshot.hasData &&
                                   snapshot.data!.appoinment.length != 0) {
                                 var date = snapshot.data!.appoinment[0]['date'];
@@ -295,7 +161,6 @@ class _HomePageState extends State<HomePage> {
                                     snapshot.data!.appoinment[0]['step_title'];
                                 date = DateTime.parse(date);
                                 var hours = DateFormat('jm').format(date);
-                                // DateFormat('yMMMMEEEEd').format(DateTime.now())
                                 date = DateFormat('MMMMEEEEd').format(date);
                                 return Container(
                                   decoration: BoxDecoration(
@@ -306,14 +171,12 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.grey.withOpacity(0.5),
                                           spreadRadius: 5,
                                           blurRadius: 7,
-                                          offset: Offset(0,
+                                          offset: const Offset(0,
                                               3), // changes position of shadow
                                         ),
                                       ]),
                                   child: Row(
-                                    // crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      // showDate
                                       SizedBox(
                                         width: 125,
                                         child: Padding(
@@ -332,11 +195,10 @@ class _HomePageState extends State<HomePage> {
                                       const VerticalDivider(),
                                       // showRDV
                                       Column(
-                                        // crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 15.0,
+                                                horizontal: 10.0,
                                                 vertical: 15.0),
                                             child: Text(title,
                                                 style: const TextStyle(
@@ -347,7 +209,7 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 15.0,
+                                                horizontal: 10.0,
                                                 vertical: 5.0),
                                             child: Text(hours,
                                                 style: const TextStyle(
@@ -366,9 +228,7 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 );
-                              }
-                              // Text(date);
-                              else {
+                              } else {
                                 return Container(
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -378,7 +238,7 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.grey.withOpacity(0.5),
                                           spreadRadius: 5,
                                           blurRadius: 7,
-                                          offset: Offset(0,
+                                          offset: const Offset(0,
                                               3), // changes position of shadow
                                         ),
                                       ]),
@@ -404,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 5,
                                     blurRadius: 7,
-                                    offset: Offset(
+                                    offset: const Offset(
                                         0, 3), // changes position of shadow
                                   ),
                                 ]),
@@ -422,9 +282,7 @@ class _HomePageState extends State<HomePage> {
                                       )),
                                 ),
                                 const Divider(),
-                                // SingleChildScrollView(
-                                //   child:
-                                FutureBuilder<Process>(
+                                FutureBuilder<OngoingProcess>(
                                     future: getOngoingProcess(email: email),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
