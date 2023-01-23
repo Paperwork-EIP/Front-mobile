@@ -154,9 +154,9 @@ Future<Process> getOngoingProcess({
       "Content-Type": "application/json",
     },
   );
-  print(response.statusCode);
+//  print(response.statusCode);
   if (response.statusCode == 200) {
-    print(response.body);
+//    print(response.body);
     // var jsonData = jsonDecode(response.body);
     // List<Process> process = [];
 
@@ -207,7 +207,7 @@ Future<Calendar> getCalendar({
     // body: json.encode({"email": email, "password": password}),
   );
   if (response.statusCode == 200) {
-    print(response.body);
+//    print(response.body);
     return Calendar.fromJson(jsonDecode(response.body));
     // var jsonData = jsonDecode(response.body);
     // print(jsonData);
