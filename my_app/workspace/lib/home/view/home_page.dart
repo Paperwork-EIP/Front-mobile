@@ -195,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 15.0,
+                                                horizontal: 10.0,
                                                 vertical: 15.0),
                                             child: Text(title,
                                                 style: const TextStyle(
@@ -206,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 15.0,
+                                                horizontal: 10.0,
                                                 vertical: 5.0),
                                             child: Text(hours,
                                                 style: const TextStyle(

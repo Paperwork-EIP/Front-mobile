@@ -72,9 +72,10 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
+    return Drawer(
+    // Scaffold(
         backgroundColor: Colors.white,
-        body: Stack(children: <Widget>[
+        child: Stack(children: <Widget>[
           Row(children: const <Widget>[
             BackButton(
               color: Color.fromRGBO(252, 105, 118, 1),
@@ -149,8 +150,9 @@ class Profile extends StatelessWidget {
                                       shape: BoxShape.circle,
                                     ),
                                     child: Ink.image(
-                                      image: const AssetImage('assets/makima.png'),
-                                          // NetworkImage(snapshot.data!.response),
+                                      image: NetworkImage(snapshot.data!.picture),
+                                      // const AssetImage('assets/makima.png'),
+                                      
                                       // height: 75,
                                       // width: 75,
                                       fit: BoxFit.cover,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 // import 'package:my_app/home/view/Header.dart';
 import 'package:my_app/profile/profile.dart';
+import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -45,4 +46,31 @@ void main() {
           () => setModifyUser(email: invalidEmail, newEmail: newEmail, newUsername: newUsername, newPassword: newPassword, profilePicture: newPicture), throwsException);
     });
   });
+
+  // group('Profile widget', () {
+  //   testWidgets('find element', (WidgetTester tester) async {
+  //   await tester.pumpWidget(Profile());
+  //   await tester.pumpAndSettle(const Duration(seconds: 2));
+  //   // expect(find.text('content'), findsOneWidget);
+  //   // expect(find.text('MyApp'), findsOneWidget);
+  //   expect(find.byType(ElevatedButton), findsNWidgets(1));
+
+  //   // await tester.pumpAndSettle(const Duration(seconds: 1));
+  //   // expect(find.byType(ElevatedButton), findsOneWidget);
+  //   });
+  // });
+
+  // group('Myform widget', () {
+  //   testWidgets('find element', (WidgetTester tester) async {
+  //   await tester.pumpWidget(MyForm());
+  //   await tester.pumpAndSettle(const Duration(seconds: 2));
+  //   // expect(find.text('content'), findsOneWidget);
+  //   // expect(find.text('MyApp'), findsOneWidget);
+  //   expect(find.byType(TextFormField), findsNWidgets(3));
+
+  //   await tester.pumpAndSettle(const Duration(seconds: 1));
+  //   expect(find.byType(ElevatedButton), findsOneWidget);
+  //   });
+  // });
+
 }

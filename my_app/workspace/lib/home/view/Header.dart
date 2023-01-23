@@ -129,8 +129,8 @@ class NavBar extends StatelessWidget {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Ink.image(
-                                    image: const AssetImage('assets/makima.png'),
-                                    // NetworkImage(snapshot.data!.picture),
+                                    image: NetworkImage(snapshot.data!.picture),
+                                    // const AssetImage('assets/makima.png'),
                                     height: 75,
                                     width: 75,
                                     fit: BoxFit.cover,
