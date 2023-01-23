@@ -1,10 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:authentication_repository/auth_repo.dart';
-// import 'package:bloc/bloc.dart';
-// import 'package:equatable/equatable.dart';
-// import 'package:my_app/login/login.dart';
-// import 'package:formz/formz.dart';
-// import 'package:formz/formz.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -72,7 +66,7 @@ Future<ModifyProfile> setModifyUser(
 }
 
 class Profile extends StatelessWidget {
-  late String profilePicture;
+  // late String profilePicture;
   final _controllerPicture = TextEditingController();
 
   @override
@@ -125,7 +119,9 @@ class Profile extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    profilePicture = globals.tentativeLink;
+                                    globals.tentativeLink = _controllerPicture.text;
+                                    // profilePicture = globals.tentativeLink;
+                                    print(_controllerPicture.text);
                                     Navigator.pop(context, 'Submit');
                                   },
                                   child: const Text('Submit'),

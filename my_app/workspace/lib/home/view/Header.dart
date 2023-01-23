@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_returning_null_for_void
 
 import 'package:flutter/material.dart';
-import 'package:my_app/app.dart';
-import 'package:my_app/integration_test/app_test.dart';
+// import 'package:my_app/app.dart';
+// import 'package:my_app/integration_test/app_test.dart';
 import 'package:restart_app/restart_app.dart';
 
 import 'dart:async';
