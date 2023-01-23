@@ -51,6 +51,7 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      home: HomePage(),
       navigatorKey: _navigatorKey,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthState>(

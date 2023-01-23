@@ -1,3 +1,3 @@
-library paperwork.globals;
+library my_app.globals;
 
 dynamic email;
