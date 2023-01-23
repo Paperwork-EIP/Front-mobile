@@ -16,16 +16,15 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         IconButton(
-          icon: const Icon(Icons.menu),
+          icon: const Icon(Icons.menu, size: 35.0),
           color: const Color(0xFF29C9B3),
           onPressed: openDrawer,
         ),
         IconButton(
-          icon: const Icon(Icons.phone),
+          icon: const Icon(Icons.phone, size: 35.0),
           color: const Color(0xFFFC6976),
           onPressed: () {},
         ),
@@ -103,7 +102,7 @@ class NavBar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Process()),
+                MaterialPageRoute(builder: (context) => const Quizz()),
               );
             },
           ),
