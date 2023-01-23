@@ -30,7 +30,7 @@ Future<ModifyProfile> setModifyUser(
     required String newEmail,
     required String newUsername,
     required String newPassword,
-    // required profilePicture,
+    required profilePicture,
     }) async {
   try {
     if (newEmail == "") {
@@ -48,11 +48,14 @@ Future<ModifyProfile> setModifyUser(
     else {
       globals.password = newPassword;
     }
-    // if (profilePicture!) {
-    //   profile
-    // }
+    if (profilePicture == "") {
+      profilePicture = globals.globalUserPicture;
+    }
+    else {
+      globals.globalUserPicture = profilePicture;
+    }
     var response = await http.get(
-      Uri.parse("${dotenv.get('SERVER_URL')}/user//modifyDatas?email=$email&username=$newUsername&new_email=$newEmail&password=$newPassword"),
+      Uri.parse("${dotenv.get('SERVER_URL')}/user//modifyDatas?email=$email&username=$newUsername&new_email=$newEmail&password=$newPassword&profile_picture=$profilePicture"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -70,6 +73,8 @@ Future<ModifyProfile> setModifyUser(
 
 class Profile extends StatelessWidget {
   late String profilePicture;
+  final _controllerPicture = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
@@ -96,16 +101,31 @@ class Profile extends StatelessWidget {
                           onPressed: () => showDialog<String>(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Choose a new picture'),
-                              content: const Text('Insert the link of your new picture'),
+                              title: const Text('Insert the link of your new picture'),
+                              content: SizedBox(
+                                // width: width,
+                                // height: height,
+                                child: TextField(
+                                  controller: _controllerPicture,
+                                  obscureText: false,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Your link',
+                                  ),
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              ),
                               actions: <Widget>[
                                 TextButton(
-                                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                                  onPressed: () {
+                                    _controllerPicture.clear();
+                                    Navigator.pop(context, 'Cancel');
+                                  },
                                   child: const Text('Cancel'),
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    // profilePicture = ;
+                                    profilePicture = globals.tentativeLink;
                                     Navigator.pop(context, 'Submit');
                                   },
                                   child: const Text('Submit'),
@@ -252,7 +272,7 @@ class MyFormState extends State<MyForm> {
                                   newEmail: _controllerEmail.text, 
                                   newUsername: _controllerUsername.text, 
                                   newPassword: _controllerPassword.text, 
-                                  // profilePicture: profilePicture
+                                  profilePicture: globals.tentativeLink,
                                   );
                   },
                   child: const Text(
