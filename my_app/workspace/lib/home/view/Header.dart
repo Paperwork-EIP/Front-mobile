@@ -41,7 +41,7 @@ Future<UserPicture> getUserPicture({
       },
     );
     if (response.statusCode == 200) {
-      print(response.body);
+      // print(response.body);
       return UserPicture.fromJson(jsonDecode(response.body));
     }
     return UserPicture.fromJson(

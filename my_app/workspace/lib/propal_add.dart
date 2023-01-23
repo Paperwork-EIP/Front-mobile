@@ -26,7 +26,7 @@ Future<void> submitProcessIdea({
         body: json.encode({"title": title, "description": description, "content": content, "email": email,}),
       );
       if (response.statusCode == 200) {
-        print(response.body);
+        // print(response.body);
         // _controller.add(AuthStatus.authenticated);
       }
     } catch (e) {

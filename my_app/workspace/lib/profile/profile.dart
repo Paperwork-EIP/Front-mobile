@@ -263,9 +263,9 @@ class MyFormState extends State<MyForm> {
                           borderRadius: BorderRadius.circular(25.0),
                           side: const BorderSide(color: Color(0xFF29C9B3)))),
                   onPressed: () {
-                    print(_controllerEmail.text);
-                    print(_controllerPassword.text);
-                    print(_controllerUsername.text);
+                    // print(_controllerEmail.text);
+                    // print(_controllerPassword.text);
+                    // print(_controllerUsername.text);
                     setModifyUser(email: globals.email, 
                                   newEmail: _controllerEmail.text, 
                                   newUsername: _controllerUsername.text, 
