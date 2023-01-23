@@ -14,8 +14,8 @@ var vitalQuestion = [
   'Do you have your social security number ?', 'Do you have the french nationality or a resident permit ?',
 ];
 
-class Process extends StatelessWidget {
-  const Process({super.key});
+class Quizz extends StatelessWidget {
+  const Quizz({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +59,13 @@ class _QuizzProcessState extends State<QuizzProcess> {
     if (count < vitalQuestion.length - 1) {
       setState(() {
         count = count + 1;
-        res.add({"id": id, "res": value});
+        res.add([id, value]);
       });
     } else {
-        res.add({"id": id, "res": value});
+        res.add([id, value]);
+
+
+      //ajouter le call api pour envoyer le resultat du quizz
 
       Navigator.pop(context);
       // redirection vers l'autre page avec les données
@@ -228,6 +231,7 @@ Widget dropDown(BuildContext context, final List<String> items, String dropDownV
     isExpanded: true,
   ));
 }
+
 
  Future<void> sendResQuizz({
     required List resQuizz,

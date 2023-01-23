@@ -17,116 +17,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:my_app/global.dart' as globals;
 
-// Widget build(BuildContext context) {
-//     return Scaffold(
-//       key: _scaffoldKey,
-//       appBar:  PreferredSize(
-//           preferredSize: Size.fromHeight(40.0),
-//           child: Header(closeDrawer: _closeDrawer, openDrawer:_openDrawer)),
-//       drawer: NavBar(closeDrawer: _closeDrawer),
-//       body: SingleChildScrollView(
-//         child: Container(
-//           color: Colors.white,
-//           child: Stack(
-//             alignment: Alignment.center,
-//             children: <Widget>[
-//               Column(
-//                 children: <Widget>[
-//                   Container(
-//                     margin: const EdgeInsets.only(top: 20),
-//                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//                     width: 325,
-//                     height: 200,
-//                     decoration: BoxDecoration(
-//                         borderRadius: BorderRadius.circular(18.0),
-//                         boxShadow: [
-//                           BoxShadow(
-//                             color: Colors.grey.withOpacity(0.5),
-//                             spreadRadius: 5,
-//                             blurRadius: 7,
-//                             offset: Offset(0, 3), // changes position of shadow
-//                           ),
-//                         ],
-//                         // border: Border.all(color: Colors.black),
-//                         color: Colors.white),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: <Widget>[
-//                         const Text(
-//                           'Ongoing process',
-//                           style: TextStyle(
-//                               fontWeight: FontWeight.bold,
-//                               fontSize: 32,
-//                               color: Color.fromARGB(255, 0, 0, 0)),
-//                         ),
-//                         Divider(color: Colors.black),
-//                       ],
-//                     ),
-//                   ),
-//                   Container(
-//                     margin: const EdgeInsets.only(top: 20),
-//                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//                     width: 325,
-//                     height: 200,
-//                     // decoration: const BoxDecoration(
-//                     //   image: DecorationImage(
-//                     //     image: AssetImage('assets/Calendar.png'),
-//                     //     fit: BoxFit.cover,
-//                     //   ),
-//                     // ),
-//                     decoration: BoxDecoration(
-//                         borderRadius: BorderRadius.circular(18.0),
-//                         boxShadow: [
-//                           BoxShadow(
-//                             color: Colors.grey.withOpacity(0.5),
-//                             spreadRadius: 5,
-//                             blurRadius: 7,
-//                             offset: Offset(0, 3), // changes position of shadow
-//                           ),
-//                         ],
-//                         // border: Border.all(color: Colors.black),
-//                         color: Colors.white),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: <Widget>[
-//                         const Text(
-//                           'Calendar',
-//                           style: TextStyle(
-//                               fontWeight: FontWeight.bold,
-//                               fontSize: 32,
-//                               color: Color.fromARGB(255, 0, 0, 0)),
-//                         ),
-//                         Divider(color: Colors.black)
-//                       ],
-//                     ),
-//                   ),
+import '../../quizz/result/result_quizz.dart';
 
-//           ],
-//         ),
-
-//         ],
-//               ),
-//             ),
-//       ),
-//     );
-//   }
-
-// SizedBox CreateInput(String name, String type, bool outline, double width,
-//     double height, TextEditingController _controller) {
-//   return SizedBox(
-//     width: width,
-//     height: height,
-//     child: TextField(
-//       controller: _controller,
-//       obscureText: (type == 'password') ? true : false,
-//       decoration: InputDecoration(
-//         border: outline ? const OutlineInputBorder() : null,
-//         labelText: name,
-//       ),
-//       style: const TextStyle(fontSize: 14),
-//     ),
-//   );
-// }
 
 class Process {
   final String message;
@@ -457,7 +349,7 @@ class _HomePageState extends State<HomePage> {
                                         ]));
                                       } else {
                                         return (const Text(
-                                            'no current process'));
+                                            'No current process'));
                                       }
                                     }),
                               ],
@@ -472,10 +364,10 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         onPressed: () {
-                          print(
-                              DateFormat('yMMMMEEEEd').format(DateTime.now()));
-                          // print(Date);
-                          // getCalendar(email: 'test@test.test');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ResultQuizz()),
+                          );
                         },
                         child: const Text("Start a process"),
                       ),
