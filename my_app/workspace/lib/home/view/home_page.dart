@@ -1,13 +1,11 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:my_app/auth/auth.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:google_fonts/google_fonts.dart';
+// import 'package:my_app/auth/auth.dart';
 import 'package:my_app/home/view/Header.dart';
-import 'package:my_app/propal_add.dart';
-import 'package:my_app/calendar.dart';
-import 'package:my_app/profile/profile.dart';
+// import 'package:my_app/propal_add.dart';
+// import 'package:my_app/calendar.dart';
+// import 'package:my_app/profile/profile.dart';
 import 'package:intl/intl.dart';
 
 import 'dart:async';
@@ -16,6 +14,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:my_app/global.dart' as globals;
+
+import '../../quizz/process/process.dart';
 
 // Widget build(BuildContext context) {
 //     return Scaffold(
@@ -258,8 +258,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(40.0),
-            child: Header(closeDrawer: _closeDrawer, openDrawer: _openDrawer)),
+            preferredSize: Size.fromHeight(400.0),
+            child: SizedBox(
+                height: 150.0,
+                child: Header(
+                    closeDrawer: _closeDrawer, openDrawer: _openDrawer))),
         drawer: NavBar(closeDrawer: _closeDrawer),
         body: Container(
           // padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
@@ -437,9 +440,10 @@ class _HomePageState extends State<HomePage> {
                                               Column(
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.symmetric(
-                                                            horizontal: 10.0,
-                                                            vertical: 10.0),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10.0,
+                                                        vertical: 10.0),
                                                     child: Text(
                                                         snapshot.data!
                                                                 .response[i]
@@ -448,7 +452,8 @@ class _HomePageState extends State<HomePage> {
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize: 20,
-                                                          color: Color(0xFF29C9B3),
+                                                          color:
+                                                              Color(0xFF29C9B3),
                                                         )),
                                                   )
                                                 ],
@@ -472,10 +477,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         onPressed: () {
-                          print(
-                              DateFormat('yMMMMEEEEd').format(DateTime.now()));
-                          // print(Date);
-                          // getCalendar(email: 'test@test.test');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Quizz()),
+                          );
                         },
                         child: const Text("Start a process"),
                       ),
