@@ -121,7 +121,7 @@ class Profile extends StatelessWidget {
                                   onPressed: () {
                                     globals.tentativeLink = _controllerPicture.text;
                                     // profilePicture = globals.tentativeLink;
-                                    print(_controllerPicture.text);
+                                    // print(_controllerPicture.text);
                                     Navigator.pop(context, 'Submit');
                                   },
                                   child: const Text('Submit'),

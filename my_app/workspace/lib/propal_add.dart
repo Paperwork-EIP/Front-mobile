@@ -109,7 +109,6 @@ class AddPropal extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton(
-                      
                       style: ElevatedButton.styleFrom(
                           fixedSize: const Size(130, 40), backgroundColor: const Color.fromARGB(255, 82, 185, 137)),
                       // ),
