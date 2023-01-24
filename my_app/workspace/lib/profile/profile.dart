@@ -55,7 +55,7 @@ Future<ModifyProfile> setModifyUser(
       },
     );
     if (response.statusCode == 200) {
-      print(response.body);
+      // print(response.body);
       return ModifyProfile.fromJson(jsonDecode(response.body));
     }
     return ModifyProfile.fromJson(
@@ -72,10 +72,10 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Drawer(
-    // Scaffold(
+    return Scaffold(
+    // Drawer(
         backgroundColor: Colors.white,
-        child: Stack(children: <Widget>[
+        body: Stack(children: <Widget>[
           Row(children: const <Widget>[
             BackButton(
               color: Color.fromRGBO(252, 105, 118, 1),
