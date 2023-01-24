@@ -24,7 +24,7 @@ class Event {
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
-      date: DateTime.parse(json['date']),
+      date: DateTime.parse(json['date']).toUtc(),
       userProcessId: json['user_process_id'],
       processTitle: json['process_title'],
       stepId: json['step_id'],
@@ -32,6 +32,7 @@ class Event {
       stepDescription: json['step_description'],
     );
   }
+
   dynamic toJson() => {
         'date': date,
         'user_process_id': userProcessId,
@@ -46,10 +47,6 @@ class Event {
     return toJson().toString();
   }
 }
-
-final kToday = DateTime.now();
-final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
-final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 
 late Map<DateTime, List<Event>> kEventsSource = {};
 
@@ -70,14 +67,15 @@ Future<List<Event>> fetchEvents() async {
     for (var app in appointments) {
       events.add(Event.fromJson(app));
     }
-
     for (var event in events) {
       if (kEventsSource.containsKey(event.date)) {
         print("already in there");
       } else {
         late List<Event> eventList = <Event>[event];
-        //TODO rewrite time for DateTime key using event.date + Time 00:00:00
-        var elem = <DateTime, List<Event>>{event.date: eventList};
+        var date =
+            DateTime.utc(event.date.year, event.date.month, event.date.day);
+        print("DATE" + date.toString());
+        var elem = <DateTime, List<Event>>{date: eventList};
         kEventsSource.addEntries(elem.entries);
       }
     }
@@ -98,9 +96,11 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  DateTime _focusedDay = DateTime.now();
+  DateTime _focusedDay =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+          .toUtc();
   DateTime? _selectedDay;
-  late final ValueNotifier<List<Event>> _selectedEvents;
+  late ValueNotifier<List<Event>> _selectedEvents = ValueNotifier([]);
 
   late Future<List<Event>> futureEvents;
 
@@ -112,8 +112,9 @@ class _CalendarPageState extends State<CalendarPage> {
 
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
-    print("events : \n");
-    print(kEvents);
+//    print("selEvents : " + _selectedEvents.value.toString());
+
+//    print(_selectedDay.toString());
   }
 
   @override
@@ -123,15 +124,19 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   List<Event> _getEventsForDay(DateTime day) {
-    print("day : " +
-        day.toString() +
-        "\ninfo : " +
-        kEvents[day].toString() +
-        "\n");
+//    print(kEvents.containsKey(day));
+//    print(kEvents[DateTime(2023, 01, 26)]);
+//    print(DateTime(2023, 01, 26));
+    // if (kEvents.containsKey(day) == false) {
+    //   return kEvents[day] ?? [];
+    // }
+//    print("day : " + day.toString() + "\nevents : " + kEvents[day].toString());
     return kEvents[day] ?? [];
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    selectedDay = selectedDay.toUtc();
+    focusedDay = focusedDay.toUtc();
     if (!isSameDay(_selectedDay, selectedDay)) {
       setState(() {
         _selectedDay = selectedDay;
@@ -139,13 +144,19 @@ class _CalendarPageState extends State<CalendarPage> {
       });
 
       _selectedEvents.value = _getEventsForDay(selectedDay);
+      print("_selectedEvents - selectedDay : ");
+      print(_selectedEvents.value);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    print("select : " + _selectedDay.toString());
+    print(kEvents[_selectedDay]);
+
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(0xFF29C9B3),
           title: const Text("Calendar"),
           actions: [
             IconButton(
@@ -159,6 +170,7 @@ class _CalendarPageState extends State<CalendarPage> {
             firstDay: DateTime.utc(2010, 10, 20),
             lastDay: DateTime.utc(2040, 10, 20),
             focusedDay: _focusedDay,
+            eventLoader: _getEventsForDay,
             headerVisible: true,
             sixWeekMonthsEnforced: true,
             shouldFillViewport: false,
@@ -168,18 +180,21 @@ class _CalendarPageState extends State<CalendarPage> {
             headerStyle: const HeaderStyle(
                 titleTextStyle: TextStyle(
                     fontSize: 20,
-                    color: Colors.deepPurple,
+                    color: Colors.grey,
                     fontWeight: FontWeight.w800)),
             calendarStyle: const CalendarStyle(
+                selectedDecoration: BoxDecoration(
+                    color: Color(0xFF29C9B3), shape: BoxShape.circle),
+                todayDecoration: BoxDecoration(
+                    color: Color(0xFF29C9B3), shape: BoxShape.circle),
                 todayTextStyle: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold)),
-            onDaySelected: _onDaySelected,
             onPageChanged: (focusedDay) {
               _focusedDay = focusedDay;
             },
-            eventLoader: _getEventsForDay,
+            onDaySelected: _onDaySelected,
           ),
           Expanded(
             child: ValueListenableBuilder<List<Event>>(
@@ -198,8 +213,11 @@ class _CalendarPageState extends State<CalendarPage> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: ListTile(
-                        onTap: () => print('${value[index]}'),
-                        title: Text('${value[index]}'),
+                        onTap: () {
+                          Card(child: Text("do you wish to delete the item?"));
+                        },
+                        title: Text(
+                            '${value[index].date.hour}h${value[index].date.minute} : ${value[index].stepTitle} - ${value[index].processTitle}\n${value[index].stepDescription}'),
                       ),
                     );
                   },
@@ -209,4 +227,11 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
         ]));
   }
+
+Class CardDel() {
+  return Center(
+    child: Card(borderOnForeground: ),
+  )
+} 
+
 }
