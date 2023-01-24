@@ -16,7 +16,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:my_app/global.dart' as globals;
 
 import '../../quizz/process/process.dart';
-import '../../quizz/result/result_quizz.dart';
 
 
 class Process {
