@@ -26,7 +26,7 @@ Future<void> submitProcessIdea({
         body: json.encode({"title": title, "description": description, "content": content, "email": email,}),
       );
       if (response.statusCode == 200) {
-        print(response.body);
+        // print(response.body);
         // _controller.add(AuthStatus.authenticated);
       }
     } catch (e) {
@@ -60,9 +60,10 @@ class AddPropal extends StatelessWidget {
     final _controllerPassword = TextEditingController();
     final _controller = TextEditingController();
 
-    return Scaffold(
+    return Drawer(
+    // Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
+      child: Container(
         // padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
         alignment: Alignment.center,
         child: ConstrainedBox(
@@ -109,7 +110,6 @@ class AddPropal extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton(
-                      
                       style: ElevatedButton.styleFrom(
                           fixedSize: const Size(130, 40), backgroundColor: const Color.fromARGB(255, 82, 185, 137)),
                       // ),
