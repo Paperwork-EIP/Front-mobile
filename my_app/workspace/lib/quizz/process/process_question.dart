@@ -13,24 +13,22 @@ class ProcessQuestion {
 
   factory ProcessQuestion.fromJson(Map<String, dynamic> json) {
     return ProcessQuestion(
-      question : json['questions'],
+      question: json['questions'],
     );
   }
 
-
-
-  static Future<bool> fetchResultQuizz(resQuestion, processName, context) async {
+  static Future<bool> fetchResultQuizz(
+      resQuestion, processName, context) async {
     final response = await http.post(
-                        Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/add"),
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: {
-                          "process_title" : processName,
-                          "user_eamil" : email,
-                          "questions" : resQuestion,
-                        }
-    );
+        Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/add"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "process_title": processName,
+          "user_eamil": email,
+          "questions": resQuestion,
+        }));
 
     if (response.statusCode == 200) {
       return true;
