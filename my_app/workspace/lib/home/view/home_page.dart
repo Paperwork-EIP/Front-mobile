@@ -17,7 +17,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:my_app/global.dart' as globals;
 
-
 class OngoingProcess {
   final String message;
   final response;
@@ -49,7 +48,7 @@ Future<OngoingProcess> getOngoingProcess({
     }
     return OngoingProcess.fromJson({
       'message': 'Failed to load Process',
-      'response': null,
+      'response': '',
     });
   } catch (error) {
     throw Exception('Failed to load Process');
@@ -88,7 +87,7 @@ Future<Calendar> getCalendar({
     }
     return Calendar.fromJson({
       'message': 'Failed to load calendar',
-      'appoinment': null,
+      'appoinment': '',
     });
   } catch (error) {
     throw Exception('Failed to load calendar');
@@ -136,7 +135,7 @@ class _HomePageState extends State<HomePage> {
         body: Container(
           alignment: Alignment.center,
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1200),
+            constraints: const BoxConstraints(maxWidth: 1200, maxHeight: 700),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -154,80 +153,89 @@ class _HomePageState extends State<HomePage> {
                         child: FutureBuilder<Calendar>(
                             future: getCalendar(email: email),
                             builder: (context, snapshot) {
-                              if (snapshot.hasData &&
-                                  snapshot.data!.appoinment.length != 0) {
-                                var date = snapshot.data!.appoinment[0]['date'];
-                                var title =
-                                    snapshot.data!.appoinment[0]['step_title'];
-                                date = DateTime.parse(date);
-                                var hours = DateFormat('jm').format(date);
-                                date = DateFormat('MMMMEEEEd').format(date);
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: const Offset(0,
-                                              3), // changes position of shadow
-                                        ),
-                                      ]),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 125,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10.0, vertical: 5.0),
-                                          child: Text(date,
-                                              softWrap: true,
-                                              maxLines: 2,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
-                                                color: Colors.black,
-                                              )),
-                                        ),
-                                      ),
-                                      const VerticalDivider(),
-                                      // showRDV
-                                      Column(
-                                        children: [
-                                          Padding(
+                              if (snapshot.hasData) {
+                                if (snapshot.data!.appoinment.length != 0) {
+                                  var date = snapshot.data!.appoinment[0]['date'];
+                                  var title = snapshot.data!.appoinment[0]['step_title'];
+                                  date = DateTime.parse(date);
+                                  var hours = DateFormat('jm').format(date);
+                                  date = DateFormat('MMMMEEEEd').format(date);
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(18.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 5,
+                                            blurRadius: 7,
+                                            offset: const Offset(0,
+                                                3), // changes position of shadow
+                                          ),
+                                        ]),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 125,
+                                          child: Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 10.0,
-                                                vertical: 15.0),
-                                            child: Text(title,
+                                                vertical: 5.0),
+                                            child: Text(date,
+                                                softWrap: true,
+                                                maxLines: 2,
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 18,
                                                   color: Colors.black,
                                                 )),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10.0,
-                                                vertical: 5.0),
-                                            child: Text(hours,
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                )),
-                                          )
-                                        ],
-                                      ),
-                                      const Icon(
-                                        Icons.insert_drive_file_outlined,
-                                        color: Color(0xFF29C9B3),
-                                        size: 100,
-                                      ),
-                                    ],
-                                  ),
-                                );
+                                        ),
+                                        const VerticalDivider(),
+                                        // showRDV
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10.0,
+                                                      vertical: 15.0),
+                                              child: Text(title,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18,
+                                                    color: Colors.black,
+                                                  )),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10.0,
+                                                      vertical: 5.0),
+                                              child: Text(hours,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18,
+                                                    color: Colors.black,
+                                                  )),
+                                            )
+                                          ],
+                                        ),
+                                        const Icon(
+                                          Icons.insert_drive_file_outlined,
+                                          color: Color(0xFF29C9B3),
+                                          size: 100,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return const Icon(
+                                    Icons.insert_drive_file_outlined,
+                                    color: Color(0xFF29C9B3),
+                                    size: 100,
+                                  );
+                                }
                               } else {
                                 return Container(
                                   decoration: BoxDecoration(
@@ -287,19 +295,12 @@ class _HomePageState extends State<HomePage> {
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
                                         return (Column(children: [
-                                          for (var i = 0;
-                                              i <
-                                                  snapshot
-                                                      .data!.response.length;
-                                              i++)
-                                            if (snapshot.data!.response[i]
-                                                    ['is_done'] ==
-                                                false) ...{
+                                          for (var i = 0; i < snapshot.data!.response.length; i++)
+                                            if (snapshot.data!.response[i]['is_done'] == false) ...{
                                               Column(
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
+                                                    padding: const EdgeInsets.symmetric(
                                                         horizontal: 10.0,
                                                         vertical: 10.0),
                                                     child: Text(
@@ -310,8 +311,7 @@ class _HomePageState extends State<HomePage> {
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize: 20,
-                                                          color:
-                                                              Color(0xFF29C9B3),
+                                                          color:Color(0xFF29C9B3),
                                                         )),
                                                   )
                                                 ],

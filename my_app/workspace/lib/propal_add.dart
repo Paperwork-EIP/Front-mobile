@@ -60,10 +60,10 @@ class AddPropal extends StatelessWidget {
     final _controllerPassword = TextEditingController();
     final _controller = TextEditingController();
 
-    return Drawer(
-    // Scaffold(
+    return Scaffold(
+    // Drawer(
       backgroundColor: Colors.white,
-      child: Container(
+      body: Container(
         // padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
         alignment: Alignment.center,
         child: ConstrainedBox(
@@ -73,7 +73,7 @@ class AddPropal extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
-                height: 700,
+                height: 600,
                 width: 420,
                 decoration: BoxDecoration(
                     color: const Color.fromARGB(33, 124, 204, 160),

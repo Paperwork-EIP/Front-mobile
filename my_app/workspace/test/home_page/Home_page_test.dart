@@ -69,22 +69,55 @@ void main() {
       expect(() => getCalendar(email: invalidEmail), throwsException);
     });
   });
-  // Detecter les widgets presents
-  // group('HomePage', () {
-  //   final widget = HomePage().createElement().state as HomePage;
-
-  //   testWidgets('Widget build test', (WidgetTester tester) async {
-  //     await tester.pumpWidget(widget);
-  //     await tester.pumpAndSettle();
-
-  //     expect(find.byType(Scaffold), findsOneWidget);
-  //     expect(find.byType(Header), findsOneWidget);
-  //     expect(find.byType(NavBar), findsOneWidget);
-  //     expect(find.byType(Container), findsNWidgets(2));
-  //     expect(find.byType(ConstrainedBox), findsOneWidget);
-  //     expect(find.byType(Column), findsNWidgets(2));
-  //     expect(find.byType(SizedBox), findsNWidgets(2));
-  //     expect(find.byType(FutureBuilder), findsOneWidget);
-  //   });
-  // });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import 'dart:convert';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_test/flutter_test.dart';
+// import 'package:my_app/home/view/Header.dart';
+// import 'package:my_app/home/view/home_page.dart';
+
+// import 'package:http/http.dart' as http;
+
+// // void main() {
+//   // Detecter les widgets presents
+//   // group('HomePage', () {
+//   //   // final widget = HomePage().createElement().state as HomePage;
+//   //   Widget buildTestableWidget(Widget widget) {
+//   //     return MediaQuery(
+//   //         data: const MediaQueryData(), child: MaterialApp(home: widget));
+//   //   }
+//   //   testWidgets('Widget build test', (WidgetTester tester) async {
+//   //     await tester.pumpWidget(buildTestableWidget(HomePage()));
+//   //     await tester.pumpAndSettle();
+
+//   //     expect(find.byType(Scaffold), findsOneWidget);
+//   //     expect(find.byType(Header), findsOneWidget);
+//   //     // expect(find.byType(NavBar), findsOneWidget);
+//   //     expect(find.byType(Container), findsNWidgets(2));
+//   //     expect(find.byType(ConstrainedBox), findsOneWidget);
+//   //     expect(find.byType(Column), findsNWidgets(2));
+//   //     expect(find.byType(SizedBox), findsNWidgets(2));
+//   //     expect(find.byType(FutureBuilder), findsOneWidget);
+//   //   });
+//   // });
+// // }
