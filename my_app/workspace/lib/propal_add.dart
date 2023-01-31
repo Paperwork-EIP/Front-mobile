@@ -63,7 +63,7 @@ class AddPropal extends StatelessWidget {
     return Scaffold(
     // Drawer(
       backgroundColor: Colors.white,
-      child: Container(
+      body: Container(
         // padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
         alignment: Alignment.center,
         child: ConstrainedBox(
