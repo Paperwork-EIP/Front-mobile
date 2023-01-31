@@ -322,7 +322,7 @@ class _HomePageState extends State<HomePage> {
                                         ]));
                                       } else {
                                         return (const Text(
-                                            'no current process'));
+                                            'No current process'));
                                       }
                                     }),
                               ],
