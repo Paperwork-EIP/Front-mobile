@@ -27,6 +27,7 @@ Future<ModifyProfile> setModifyUser(
     required profilePicture,
     }) async {
   try {
+    print(newEmail);
     if (newEmail == "") {
       newEmail = globals.email;
     }
@@ -219,7 +220,7 @@ class MyFormState extends State<MyForm> {
         key: _formKey,
         child: Container(
           margin: const EdgeInsets.only(left: 20),
-          width: 800,
+          // width: 300,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -254,9 +255,11 @@ class MyFormState extends State<MyForm> {
               //     labelText: 'Confirm Password',
               //   ),
               // ),
-              Container(
-                padding: const EdgeInsets.only(left: 380, top: 40.0),
-                child: TextButton(
+              
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end, 
+                children: [
+                  TextButton(
                   style: TextButton.styleFrom(
                       backgroundColor: const Color(0xFF29C9B3),
                       shape: RoundedRectangleBorder(
@@ -266,12 +269,13 @@ class MyFormState extends State<MyForm> {
                     // print(_controllerEmail.text);
                     // print(_controllerPassword.text);
                     // print(_controllerUsername.text);
-                    setModifyUser(email: globals.email, 
-                                  newEmail: _controllerEmail.text, 
-                                  newUsername: _controllerUsername.text, 
-                                  newPassword: _controllerPassword.text, 
-                                  profilePicture: globals.tentativeLink,
-                                  );
+                    setModifyUser(
+                      email: globals.email,
+                      newEmail: _controllerEmail.text,
+                      newUsername: _controllerUsername.text,
+                      newPassword: _controllerPassword.text,
+                      profilePicture: globals.tentativeLink,
+                    );
                   },
                   child: const Text(
                     'Submit',
@@ -279,7 +283,7 @@ class MyFormState extends State<MyForm> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-              ),
+              ]),
             ],
           ),
         ));

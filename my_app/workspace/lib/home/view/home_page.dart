@@ -43,7 +43,9 @@ Future<OngoingProcess> getOngoingProcess({
         "Content-Type": "application/json",
       },
     );
+    
     if (response.statusCode == 200) {
+      // print(response.body);
       return OngoingProcess.fromJson(jsonDecode(response.body));
     }
     return OngoingProcess.fromJson({
@@ -83,6 +85,7 @@ Future<Calendar> getCalendar({
       },
     );
     if (response.statusCode == 200) {
+      // print(response.body);
       return Calendar.fromJson(jsonDecode(response.body));
     }
     return Calendar.fromJson({
@@ -126,7 +129,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(400.0),
+            preferredSize: const Size.fromHeight(150.0),
             child: SizedBox(
                 height: 150.0,
                 child: Header(
@@ -135,17 +138,17 @@ class _HomePageState extends State<HomePage> {
         body: Container(
           alignment: Alignment.center,
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1200, maxHeight: 700),
+            constraints: const BoxConstraints(maxWidth: 1200, maxHeight: 600),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  height: 600,
+                  height: 500,
                   width: 420,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         width: 400,
@@ -169,17 +172,16 @@ class _HomePageState extends State<HomePage> {
                                             color: Colors.grey.withOpacity(0.5),
                                             spreadRadius: 5,
                                             blurRadius: 7,
-                                            offset: const Offset(0,
-                                                3), // changes position of shadow
+                                            offset: const Offset(0,3), // changes position of shadow
                                           ),
                                         ]),
                                     child: Row(
                                       children: [
                                         SizedBox(
-                                          width: 125,
+                                          width: 109,
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 10.0,
+                                                horizontal: 5.0,
                                                 vertical: 5.0),
                                             child: Text(date,
                                                 softWrap: true,
@@ -198,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                                             Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                      horizontal: 10.0,
+                                                      horizontal: 4.0,
                                                       vertical: 15.0),
                                               child: Text(title,
                                                   style: const TextStyle(
@@ -294,9 +296,11 @@ class _HomePageState extends State<HomePage> {
                                     future: getOngoingProcess(email: email),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return (Column(children: [
+                                        return (Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
                                           for (var i = 0; i < snapshot.data!.response.length; i++)
-                                            if (snapshot.data!.response[i]['is_done'] == false) ...{
+                                            if (snapshot.data!.response[i]['userProcess']['is_done'] == false) ...{
                                               Column(
                                                 children: [
                                                   Padding(
@@ -304,9 +308,7 @@ class _HomePageState extends State<HomePage> {
                                                         horizontal: 10.0,
                                                         vertical: 10.0),
                                                     child: Text(
-                                                        snapshot.data!
-                                                                .response[i]
-                                                            ['process_title'],
+                                                        snapshot.data!.response[i]['userProcess']['process_title'],
                                                         style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
