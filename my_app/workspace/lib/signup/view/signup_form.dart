@@ -21,8 +21,9 @@ class SignupForm extends StatelessWidget {
       },
       child: Align(
         alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.all(15.0),
           children: [
             _UsernameInput(),
             const Padding(padding: EdgeInsets.all(10)),
@@ -119,7 +120,8 @@ class _PasswordInput extends StatelessWidget {
                 suffix: TextButton(
                   child: const Text("Show"),
                   onPressed: () {},
-                  style: TextButton.styleFrom(foregroundColor: const Color(0xFF29C9B3)),
+                  style: TextButton.styleFrom(
+                      foregroundColor: const Color(0xFF29C9B3)),
                 ),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -151,7 +153,8 @@ class _ConfirmPasswordInput extends StatelessWidget {
                 suffix: TextButton(
                   child: const Text("Show"),
                   onPressed: () {},
-                  style: TextButton.styleFrom(foregroundColor: const Color(0xFF29C9B3)),
+                  style: TextButton.styleFrom(
+                      foregroundColor: const Color(0xFF29C9B3)),
                 ),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),

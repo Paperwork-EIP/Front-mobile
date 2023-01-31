@@ -104,6 +104,18 @@ class _CalendarPageState extends State<CalendarPage> {
 
   late Future<List<Event>> futureEvents;
 
+//add event
+  late TextEditingController _processController =
+      TextEditingController(text: "process name");
+  late TextEditingController _stepController =
+      TextEditingController(text: "step name");
+  late TextEditingController _descriptionController =
+      TextEditingController(text: "description of the process");
+  late TextEditingController _hourController =
+      TextEditingController(text: "10");
+  late TextEditingController _minuteController =
+      TextEditingController(text: "00");
+
   @override
   void initState() {
     super.initState();
@@ -120,6 +132,12 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   void dispose() {
     _selectedEvents.dispose();
+// empty kEvents somehow
+    _processController.dispose();
+    _stepController.dispose();
+    _hourController.dispose();
+    _minuteController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 
@@ -156,12 +174,132 @@ class _CalendarPageState extends State<CalendarPage> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF29C9B3),
+          backgroundColor: const Color(0xFF29C9B3),
           title: const Text("Calendar"),
           actions: [
             IconButton(
               icon: const Icon(Icons.add_circle_outline_sharp),
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    TextEditingController _processController =
+                        TextEditingController(text: "process name");
+                    TextEditingController _stepController =
+                        TextEditingController(text: "step name");
+                    TextEditingController _descriptionController =
+                        TextEditingController(
+                            text: "description of the process");
+                    TextEditingController _hourController =
+                        TextEditingController(text: "10");
+                    TextEditingController _minuteController =
+                        TextEditingController(text: "00");
+                    return AlertDialog(
+                      scrollable: true,
+                      title: const Text("Add Event"),
+                      content: Column(
+                        children: [
+                          TextFormField(
+                            controller: _processController,
+                          ),
+                          TextFormField(
+                            controller: _stepController,
+                          ),
+                          TextFormField(
+                            controller: _descriptionController,
+                          ),
+                          TextFormField(
+                            controller: _hourController,
+                          ),
+                          TextFormField(
+                            controller: _minuteController,
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          child: const Text("Cancel"),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        TextButton(
+                          child: const Text("Ok"),
+                          onPressed: () {
+                            if (_processController.text.isEmpty ||
+                                _descriptionController.text.isEmpty ||
+                                _hourController.text.isEmpty ||
+                                _minuteController.text.isEmpty ||
+                                _stepController.text.isEmpty) {
+                              print("EMPTY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            } else {
+                              if (_selectedDay != null) {
+                                if (kEvents[_selectedDay!] != null) {
+                                  kEvents[_selectedDay]?.add(
+                                    Event(
+                                        processTitle: _processController.text,
+                                        date: DateTime.utc(
+                                            _selectedDay!.year,
+                                            _selectedDay!.month,
+                                            _selectedDay!.day,
+                                            int.parse(_hourController.text),
+                                            int.parse(_minuteController.text)),
+                                        stepDescription:
+                                            _descriptionController.text,
+                                        stepId: 5,
+                                        stepTitle: _stepController.text,
+                                        userProcessId: 5),
+                                  );
+                                } else {
+                                  print("objectAAAAAAAA");
+                                  late List<Event> eventList = <Event>[
+                                    Event(
+                                        processTitle: _processController.text,
+                                        date: DateTime.utc(
+                                            _selectedDay!.year,
+                                            _selectedDay!.month,
+                                            _selectedDay!.day,
+                                            int.parse(_hourController.text),
+                                            int.parse(_minuteController.text)),
+                                        stepDescription:
+                                            _descriptionController.text,
+                                        stepId: 5,
+                                        stepTitle: _stepController.text,
+                                        userProcessId: 5),
+                                  ];
+                                  var date = DateTime.utc(
+                                      _selectedDay!.year,
+                                      _selectedDay!.month,
+                                      _selectedDay!.day,
+                                      int.parse(_hourController.text),
+                                      int.parse(_minuteController.text));
+                                  print("DATE" + date.toString());
+                                  var elem = <DateTime, List<Event>>{
+                                    date: eventList
+                                  };
+                                  kEvents.addEntries(elem.entries);
+                                  setAppointment(date);
+                                  print(kEvents[date]);
+                                }
+                              } else {
+                                // kEvents[_selectedDay!] = [
+                                //   Event(title: _eventController.text)
+                                // ];
+                              }
+                            }
+                            Navigator.pop(context);
+                            _processController.clear();
+                            _stepController.clear();
+                            _hourController.clear();
+                            _minuteController.clear();
+                            _descriptionController.clear();
+                            setState(() {});
+                            return;
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -193,6 +331,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     fontWeight: FontWeight.bold)),
             onPageChanged: (focusedDay) {
               _focusedDay = focusedDay;
+              _selectedEvents.value = _getEventsForDay(_selectedDay!);
+              fetchEvents();
             },
             onDaySelected: _onDaySelected,
           ),
@@ -214,7 +354,12 @@ class _CalendarPageState extends State<CalendarPage> {
                       ),
                       child: ListTile(
                         onTap: () {
-                          Card(child: Text("do you wish to delete the item?"));
+                          _showMyDialog(
+                              appointment: value[index]); // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => const CardDel()),
+                          // );
                         },
                         title: Text(
                             '${value[index].date.hour}h${value[index].date.minute} : ${value[index].stepTitle} - ${value[index].processTitle}\n${value[index].stepDescription}'),
@@ -228,10 +373,83 @@ class _CalendarPageState extends State<CalendarPage> {
         ]));
   }
 
-Class CardDel() {
-  return Center(
-    child: Card(borderOnForeground: ),
-  )
-} 
+  Future<void> _showMyDialog({required Event appointment}) async {
+    var process = appointment.userProcessId;
+    var step = appointment.stepId;
+    var date = appointment.date;
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Modify appointment'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Would you like to delete the appointment'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Delete'),
+              onPressed: () {
+                if (kEvents[_selectedDay] != null) {
+                  kEvents[_selectedDay]!
+                      .indexWhere((element) => element.date == date);
+                }
+                deleteAppointment(process, step);
+                print("sucessfully deleted event");
+                const SnackBar(
+                  content: Text('Successfully deleted.'),
+                );
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
+  Future<void> deleteAppointment(process, step) async {
+    final email = globals.email;
+
+    final response = await http.get(
+      Uri.parse(
+          "${dotenv.get('SERVER_URL')}/calendar/delete?user_process_id=$process&step_id=$step"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      print(response.body);
+      throw Exception("Failed to delete calendar event");
+    }
+  }
 }
+
+Future<void> setAppointment(date) async {
+  final email = globals.email;
+
+  final response = await http.post(
+      Uri.parse("${dotenv.get('SERVER_URL')}/calendar/set"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(
+          {"user_process_id": "5", "step_id": "24", "date": date.toString()}));
+
+  if (response.statusCode == 200) {
+    return;
+  } else {
+    print(response.body);
+    throw Exception("Failed to set calendar event");
+  }
+}
+
+
+//delete?user_process_id=5&step_id=22
