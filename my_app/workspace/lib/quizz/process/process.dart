@@ -54,17 +54,18 @@ class Quizz extends StatelessWidget {
   }
 }
 
+List<int> listy = [];
+
 List<String> stepList(parsedJson) {
   List<String> list = [];
   ProcessQuestion obj = ProcessQuestion.fromJson(parsedJson);
 
   for (var i in obj.question!) {
     list.add(i[1]);
+    listy.add(i[0]);
   }
   return list;
 }
-
-List<String>? listy;
 
 Future<List<String>> fetchQuestions(processName) async {
   List<String> parsedJson;
@@ -77,8 +78,8 @@ Future<List<String>> fetchQuestions(processName) async {
     },
   );
   if (response.statusCode == 200) {
-    listy = stepList(jsonDecode(response.body));
-    return stepList(jsonDecode(response.body));
+    parsedJson = stepList(jsonDecode(response.body));
+    return parsedJson;
   } else {
     throw Exception('Failed to load album');
   }
@@ -111,10 +112,10 @@ class _QuizzProcessState extends State<QuizzProcess> {
       if (count < listy!.length - 1) {
         setState(() {
           count = count + 1;
-          res.add([id, value]);
+          res.add([listy[count], value]);
         });
       } else {
-        res.add([id, value]);
+        res.add([listy[count], value]);
         ProcessQuestion.fetchResultQuizz(res, processName, context);
 
         //ajouter le call api pour envoyer le resultat du quizz
@@ -158,31 +159,23 @@ class _QuizzProcessState extends State<QuizzProcess> {
                       textAlign: TextAlign.center),
                 ),
                 Center(
-                  child: 
-                  FutureBuilder<List<String>>(
+                    child: FutureBuilder<List<String>>(
                         future: futureQuestion,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            
-                              return Text(
-                                    snapshot.data![count],
-                                    style: TextStyle(
-                                        color: Colors.black.withOpacity(0.6), fontSize: 18),
-                                    textAlign: TextAlign.center,
-                                  );
-                          } 
-                            else if (snapshot.hasError) {
-                            return
-                              Text('${snapshot.error}');
+                            return Text(
+                              snapshot.data![count],
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.6),
+                                  fontSize: 18),
+                              textAlign: TextAlign.center,
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
                           }
 
                           return const CircularProgressIndicator();
-                        }
-                  )
-                  
-                  
-                  
-                ),
+                        })),
                 ButtonBar(
                   alignment: MainAxisAlignment.center,
                   children: [

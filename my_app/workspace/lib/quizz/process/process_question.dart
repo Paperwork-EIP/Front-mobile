@@ -26,7 +26,7 @@ class ProcessQuestion {
         },
         body: jsonEncode({
           "process_title": processName,
-          "user_eamil": email,
+          "user_email": email,
           "questions": resQuestion,
         }));
 
