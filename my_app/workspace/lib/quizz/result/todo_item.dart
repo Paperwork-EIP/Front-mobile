@@ -26,7 +26,7 @@ class ToDoItem extends StatelessWidget {
         ),
         
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        tileColor: Color.fromARGB(255, 255, 249, 253),
+        tileColor: const Color.fromARGB(255, 255, 249, 253),
         leading: Icon(
           todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
           color: const Color.fromARGB(255, 24, 255, 186),

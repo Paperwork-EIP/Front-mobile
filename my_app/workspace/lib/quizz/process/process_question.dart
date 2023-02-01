@@ -26,12 +26,55 @@ class ProcessQuestion {
         },
         body: jsonEncode({
           "process_title": processName,
-          "user_eamil": email,
+          "user_email": email,
           "questions": resQuestion,
         }));
 
     if (response.statusCode == 200) {
       return true;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+}
+
+class ProcessName {
+  List<dynamic>? title;
+
+  ProcessName({
+    required this.title,
+  });
+
+  factory ProcessName.fromJson(Map<String, dynamic> json) {
+    return ProcessName(
+      title: json['response'],
+    );
+  }
+
+  static List<String> processList(parsedJson) {
+    var res = parsedJson['response'];
+    String elem;
+    List<String> tab = [];
+
+    for (var i in res) {
+      elem = i['title'];
+      tab.add(elem);
+    }
+    return tab;
+  }
+
+  static Future<List<String>> fetchProcessName() async {
+    List<String> list;
+    final response = await http.get(
+      Uri.parse("${dotenv.get('SERVER_URL')}/process/getAll?user_email=$email"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    list = processList(jsonDecode(response.body));
+
+    if (response.statusCode == 200) {
+      return list;
     } else {
       throw Exception('Failed to load album');
     }
