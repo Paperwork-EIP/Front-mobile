@@ -7,25 +7,6 @@ import 'package:my_app/quizz/process/process_question.dart';
 import 'package:my_app/quizz/result/result_quizz.dart';
 import '../../global.dart';
 
-var processList = [
-  'Vital card',
-  'Driver License',
-  'Visa',
-  'Nationality Card',
-  "Vital Card",
-  "ProcessTest",
-  "ProcessTest2",
-  "Test",
-  "Visa",
-  "demande de visa",
-  "test2@test.test",
-];
-
-var vitalQuestion = [
-  'Do you have your social security number ?',
-  'Do you have the french nationality or a resident permit ?',
-];
-
 class Quizz extends StatelessWidget {
   const Quizz({super.key});
 
@@ -80,6 +61,8 @@ Future<List<String>> fetchQuestions(processName) async {
   if (response.statusCode == 200) {
     parsedJson = stepList(jsonDecode(response.body));
     return parsedJson;
+  } else if (response.statusCode == 404) {
+    return ["404"];
   } else {
     throw Exception('Failed to load album');
   }
@@ -118,13 +101,11 @@ class _QuizzProcessState extends State<QuizzProcess> {
         res.add([listy[count], value]);
         ProcessQuestion.fetchResultQuizz(res, processName, context);
 
-        //ajouter le call api pour envoyer le resultat du quizz
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => ResultQuizz(processName: processName)),
         );
-        // redirection vers l'autre page avec les données
       }
     }
 
@@ -163,13 +144,17 @@ class _QuizzProcessState extends State<QuizzProcess> {
                         future: futureQuestion,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return Text(
-                              snapshot.data![count],
-                              style: TextStyle(
-                                  color: Colors.black.withOpacity(0.6),
-                                  fontSize: 18),
-                              textAlign: TextAlign.center,
-                            );
+                            if (snapshot.data![0] == '404') {
+                              return const Text("Trouve un moyen c'est pas normal");
+                            } else {
+                              return Text(
+                                snapshot.data![count],
+                                style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    fontSize: 18),
+                                textAlign: TextAlign.center,
+                              );
+                            }
                           } else if (snapshot.hasError) {
                             return Text('${snapshot.error}');
                           }
@@ -284,7 +269,8 @@ class _StartProcessState extends State<StartProcess> {
                         );
                       } else {
                         return SizedBox(
-                            width: 200, child: dropDown(context, processList));
+                            width: 200,
+                            child: dropDown(context, snapshot.data!));
                       }
                     } else if (snapshot.hasError) {
                       return Text('${snapshot.error}');
