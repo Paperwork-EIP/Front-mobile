@@ -97,7 +97,7 @@ class _ResultQuizzState extends State<ResultQuizz> {
                     MaterialPageRoute(builder: (context) => HomePage()),
                   );
                 },
-                child: const Text("Finish"),
+                child: const Text("Save"),
               ),
             ],
           ),
