@@ -27,12 +27,10 @@ class ToDo {
     ToDo elem;
     List<ToDo> tab = [];
 
-    // if (res != null) {
-    for (var i in res) {
-      elem = ToDo.fromJson(i);
-      tab.add(elem);
-    }
-    // }
+      for (var i in res) {
+        elem = ToDo.fromJson(i);
+        tab.add(elem);
+      }
     return tab;
   }
 
