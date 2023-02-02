@@ -62,7 +62,6 @@ class AddPropal extends StatelessWidget {
     final _controller = TextEditingController();
 
     return Scaffold(
-      // Drawer(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 96, 128, 118),
