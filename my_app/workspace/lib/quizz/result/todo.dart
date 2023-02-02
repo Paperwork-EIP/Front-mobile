@@ -16,8 +16,8 @@ class ToDo {
 
   factory ToDo.fromJson(Map<String, dynamic> json) {
     return ToDo(
-      id : json['step_id'],
-      todoText : json['step_description'],
+      id: json['step_id'],
+      todoText: json['step_description'],
       isDone: json['is_done'],
     );
   }
@@ -27,22 +27,20 @@ class ToDo {
     ToDo elem;
     List<ToDo> tab = [];
 
-    // if (res != null) {
       for (var i in res) {
         elem = ToDo.fromJson(i);
         tab.add(elem);
       }
-    // }
     return tab;
   }
 
-
   static Future<List<ToDo>> fetchTodoList(processName) async {
     final response = await http.get(
-                        Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/getUserSteps?user_email=$email&process_title=$processName"),
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
+      Uri.parse(
+          "${dotenv.get('SERVER_URL')}/userProcess/getUserSteps?user_email=$email&process_title=$processName"),
+      headers: {
+        "Content-Type": "application/json",
+      },
     );
 
     if (response.statusCode == 200) {
@@ -52,5 +50,4 @@ class ToDo {
       throw Exception('Failed to load album');
     }
   }
-
 }

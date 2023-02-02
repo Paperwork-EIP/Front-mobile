@@ -7,25 +7,6 @@ import 'package:my_app/quizz/process/process_question.dart';
 import 'package:my_app/quizz/result/result_quizz.dart';
 import '../../global.dart';
 
-var processList = [
-  'Vital card',
-  'Driver License',
-  'Visa',
-  'Nationality Card',
-  "Vital Card",
-  "ProcessTest",
-  "ProcessTest2",
-  "Test",
-  "Visa",
-  "demande de visa",
-  "test2@test.test",
-];
-
-var vitalQuestion = [
-  'Do you have your social security number ?',
-  'Do you have the french nationality or a resident permit ?',
-];
-
 class Quizz extends StatelessWidget {
   const Quizz({super.key});
 
@@ -54,17 +35,18 @@ class Quizz extends StatelessWidget {
   }
 }
 
+List<int> listy = [];
+
 List<String> stepList(parsedJson) {
   List<String> list = [];
   ProcessQuestion obj = ProcessQuestion.fromJson(parsedJson);
 
   for (var i in obj.question!) {
     list.add(i[1]);
+    listy.add(i[0]);
   }
   return list;
 }
-
-List<String>? listy;
 
 Future<List<String>> fetchQuestions(processName) async {
   List<String> parsedJson;
@@ -77,8 +59,10 @@ Future<List<String>> fetchQuestions(processName) async {
     },
   );
   if (response.statusCode == 200) {
-    listy = stepList(jsonDecode(response.body));
-    return stepList(jsonDecode(response.body));
+    parsedJson = stepList(jsonDecode(response.body));
+    return parsedJson;
+  } else if (response.statusCode == 404) {
+    return ["404"];
   } else {
     throw Exception('Failed to load album');
   }
@@ -108,22 +92,20 @@ class _QuizzProcessState extends State<QuizzProcess> {
     String? processName = widget.processName;
 
     void increment(int id, bool value) {
-      if (count < listy!.length - 1) {
+      if (count < listy.length - 1) {
         setState(() {
           count = count + 1;
-          res.add([id, value]);
+          res.add([listy[count], value]);
         });
       } else {
-        res.add([id, value]);
+        res.add([listy[count], value]);
         ProcessQuestion.fetchResultQuizz(res, processName, context);
 
-        //ajouter le call api pour envoyer le resultat du quizz
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => ResultQuizz(processName: processName)),
         );
-        // redirection vers l'autre page avec les données
       }
     }
 
@@ -158,31 +140,27 @@ class _QuizzProcessState extends State<QuizzProcess> {
                       textAlign: TextAlign.center),
                 ),
                 Center(
-                  child: 
-                  FutureBuilder<List<String>>(
+                    child: FutureBuilder<List<String>>(
                         future: futureQuestion,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            
+                            if (snapshot.data![0] == '404') {
+                              return const Text("Trouve un moyen c'est pas normal");
+                            } else {
                               return Text(
-                                    snapshot.data![count],
-                                    style: TextStyle(
-                                        color: Colors.black.withOpacity(0.6), fontSize: 18),
-                                    textAlign: TextAlign.center,
-                                  );
-                          } 
-                            else if (snapshot.hasError) {
-                            return
-                              Text('${snapshot.error}');
+                                snapshot.data![count],
+                                style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    fontSize: 18),
+                                textAlign: TextAlign.center,
+                              );
+                            }
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
                           }
 
                           return const CircularProgressIndicator();
-                        }
-                  )
-                  
-                  
-                  
-                ),
+                        })),
                 ButtonBar(
                   alignment: MainAxisAlignment.center,
                   children: [
@@ -244,6 +222,14 @@ class StartProcess extends StatefulWidget {
 class _StartProcessState extends State<StartProcess> {
   String? dropdownValue;
 
+  late Future<List<String>> futureProcess;
+
+  @override
+  void initState() {
+    super.initState();
+    futureProcess = ProcessName.fetchProcessName();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -266,8 +252,32 @@ class _StartProcessState extends State<StartProcess> {
           children: [
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child:
-                  SizedBox(width: 200, child: dropDown(context, processList)),
+              child: FutureBuilder<List<String>>(
+                  future: futureProcess,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data!.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            "No process available for now, Try later",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 98, 153, 141),
+                              fontSize: 30,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        );
+                      } else {
+                        return SizedBox(
+                            width: 200,
+                            child: dropDown(context, snapshot.data!));
+                      }
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+
+                    return const CircularProgressIndicator();
+                  }),
             ),
             Center(
               child: TextButton(
@@ -278,7 +288,6 @@ class _StartProcessState extends State<StartProcess> {
                       borderRadius: BorderRadius.circular(25.0),
                     )),
                 onPressed: () {
-                  //TODO : gestion d'erreur si no value
                   if (dropdownValue != null) {
                     Navigator.push(
                       context,
@@ -286,11 +295,6 @@ class _StartProcessState extends State<StartProcess> {
                           builder: (context) =>
                               QuizzProcess(processName: dropdownValue)),
                     );
-                    //   Navigator.push(context,
-                    // MaterialPageRoute(
-                    //     builder: (context) =>
-                    //         ResultQuizz(processName: dropdownValue)),
-                    // );
                   }
                 },
                 child: const Text(
