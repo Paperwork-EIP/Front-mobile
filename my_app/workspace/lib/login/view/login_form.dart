@@ -10,40 +10,42 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state.status.isSubmissionFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
-            );
-        }
-      },
-      child: Align(
-        alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _UsernameInput(),
-            const Padding(padding: EdgeInsets.all(10)),
-            _PasswordInput(),
-            const Padding(padding: EdgeInsets.all(40)),
-            Wrap(
-              spacing: 30,
-              alignment: WrapAlignment.center,
+        listener: (context, state) {
+          if (state.status.isSubmissionFailure) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(content: Text('Authentication Failure')),
+              );
+          }
+        },
+        child: SingleChildScrollView(
+          child: Align(
+            alignment: const Alignment(0, -1 / 3),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _GoogleButton(),
-                _FacebookButton(),
+                const Padding(padding: EdgeInsets.all(20)),
+                _UsernameInput(),
+                const Padding(padding: EdgeInsets.all(10)),
+                const _PasswordInput(),
+                const Padding(padding: EdgeInsets.all(40)),
+                Wrap(
+                  spacing: 30,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    _GoogleButton(),
+                    _FacebookButton(),
+                  ],
+                ),
+                const Padding(padding: EdgeInsets.all(40)),
+                _LoginButton(),
+                const Padding(padding: EdgeInsets.all(10)),
+                _ForgotButton(),
               ],
             ),
-            const Padding(padding: EdgeInsets.all(40)),
-            _LoginButton(),
-            const Padding(padding: EdgeInsets.all(10)),
-            _ForgotButton(),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
 
@@ -73,9 +75,21 @@ class _UsernameInput extends StatelessWidget {
   }
 }
 
-class _PasswordInput extends StatelessWidget {
+class _PasswordInput extends StatefulWidget {
+  const _PasswordInput({Key? key}) : super(key: key);
+
   @override
+  State<_PasswordInput> createState() => _PasswordInputState();
+}
+
+
+class _PasswordInputState extends State<_PasswordInput> {
+  
+  bool _isObscure = true;
+  @override
+
   Widget build(BuildContext context) {
+    
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
@@ -86,13 +100,22 @@ class _PasswordInput extends StatelessWidget {
               key: const Key('loginForm_passwordInput_textField'),
               onChanged: (password) =>
                   context.read<LoginBloc>().add(LoginPasswordChanged(password)),
-              obscureText: true,
+              obscureText: _isObscure,
               decoration: InputDecoration(
-                suffix: TextButton(
-                  child: const Text("Show"),
-                  onPressed: () {},
-                  style: TextButton.styleFrom(foregroundColor: const Color(0xFF29C9B3)),
-                ),
+                // suffix: TextButton(
+                //   child: const Text("Show"),
+                //   onPressed: () {_obscureText = !_obscureText;},
+                //   style: TextButton.styleFrom(
+                //       foregroundColor: const Color(0xFF29C9B3)),
+                // ),
+                suffixIcon: IconButton(
+                    icon: Icon(
+                        _isObscure ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        _isObscure = !_isObscure;
+                      });
+                    }),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -149,7 +172,7 @@ class _LoginButton extends StatelessWidget {
                         borderRadius: BorderRadius.circular(40.0))),
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 150)),
+                            vertical: 20, horizontal: 140)),
                     foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
                     backgroundColor: MaterialStateProperty.all<Color>(
