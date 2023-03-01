@@ -73,12 +73,24 @@ class Profile extends StatelessWidget {
     return Scaffold(
         // Drawer(
         backgroundColor: Colors.white,
+        // appBar: const PreferredSize(
+        //     preferredSize: Size.fromHeight(150.0),
+        //     child:
+        //     // SizedBox(
+        //     //     height: 150.0,
+        //     //     child: 
+        //         BackButton(
+        //       color: Color.fromRGBO(252, 105, 118, 1),
+        //     )),
         body: SingleChildScrollView(
             child: Stack(children: <Widget>[
           Row(children: const <Widget>[
+            SizedBox(
+                height: 150.0,
+                child: 
             BackButton(
               color: Color.fromRGBO(252, 105, 118, 1),
-            )
+            ))
           ]),
           Column(children: <Widget>[
             Container(
