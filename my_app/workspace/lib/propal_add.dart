@@ -64,7 +64,7 @@ class AddPropal extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 96, 128, 118),
+        backgroundColor: const Color.fromARGB(255, 96, 128, 118),
       ),
       body: Container(
         alignment: Alignment.center,
@@ -74,6 +74,8 @@ class AddPropal extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              ListView(
+                children: [
               Container(
                 height: 600,
                 width: 420,
@@ -128,7 +130,7 @@ class AddPropal extends StatelessWidget {
                             msg: "Demand submit",
                             toastLength: Toast.LENGTH_SHORT,
                             timeInSecForIosWeb: 1,
-                            backgroundColor: Color.fromARGB(255, 178, 255, 191),
+                            backgroundColor: const Color.fromARGB(255, 178, 255, 191),
                             textColor: const Color.fromARGB(255, 0, 0, 0),
                             fontSize: 16.0,
                           );
@@ -140,6 +142,8 @@ class AddPropal extends StatelessWidget {
               ),
             ],
           ),
+          ],
+              ),
         ),
       ),
     );
