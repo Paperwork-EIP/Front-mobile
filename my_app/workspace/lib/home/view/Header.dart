@@ -192,7 +192,7 @@ class NavBar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.book),
+            leading: const Icon(Icons.menu_book),
             title: const Text('Lexique'),
             onTap: () {
                Navigator.push(

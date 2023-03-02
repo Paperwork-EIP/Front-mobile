@@ -40,7 +40,9 @@ class Lexique extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(item.author,
-                            style: Theme.of(context).textTheme.labelSmall),
+                            style: Theme.of(context).textTheme.labelSmall,
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,),
                         const SizedBox(height: 8),
                         Row(
                           mainAxisSize: MainAxisSize.min,
