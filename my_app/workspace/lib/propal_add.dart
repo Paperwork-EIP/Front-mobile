@@ -64,13 +64,17 @@ class AddPropal extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 96, 128, 118),
+        backgroundColor: const Color.fromARGB(255, 96, 128, 118),
       ),
       body: Container(
         alignment: Alignment.center,
-        child: ConstrainedBox(
+                    color: const Color.fromARGB(33, 124, 204, 160),
+        child: 
+        ListView(
+                children: [ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1200),
-          child: Column(
+          child:
+           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -78,9 +82,9 @@ class AddPropal extends StatelessWidget {
                 height: 600,
                 width: 420,
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(33, 124, 204, 160),
                     borderRadius: BorderRadius.circular(10)),
-                child: Column(
+                child: 
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -128,7 +132,7 @@ class AddPropal extends StatelessWidget {
                             msg: "Demand submit",
                             toastLength: Toast.LENGTH_SHORT,
                             timeInSecForIosWeb: 1,
-                            backgroundColor: Color.fromARGB(255, 178, 255, 191),
+                            backgroundColor: const Color.fromARGB(255, 178, 255, 191),
                             textColor: const Color.fromARGB(255, 0, 0, 0),
                             fontSize: 16.0,
                           );
@@ -137,9 +141,12 @@ class AddPropal extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-            ],
           ),
+            ],
+              ),
+          
+              ),
+              ],
         ),
       ),
     );
