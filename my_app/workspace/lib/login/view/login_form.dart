@@ -66,8 +66,8 @@ class _UsernameInput extends StatelessWidget {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                labelText: 'Username',
-                errorText: state.username.invalid ? 'invalid username' : null,
+                labelText: 'Email',
+                errorText: state.username.invalid ? 'invalid email' : null,
               ),
             ));
       },
