@@ -150,7 +150,7 @@ class _QuizzProcessState extends State<QuizzProcess> {
                               return Text(
                                 snapshot.data![count],
                                 style: TextStyle(
-                                    color: Colors.black.withOpacity(0.6),
+                                    // color: Colors.black.withOpacity(0.6),
                                     fontSize: 18),
                                 textAlign: TextAlign.center,
                               );
@@ -167,7 +167,7 @@ class _QuizzProcessState extends State<QuizzProcess> {
                     TextButton(
                       style: TextButton.styleFrom(
                           backgroundColor:
-                              const Color.fromARGB(153, 252, 105, 117),
+                              const Color.fromARGB(255, 228, 117, 126),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0),
                           )),
@@ -186,7 +186,7 @@ class _QuizzProcessState extends State<QuizzProcess> {
                     TextButton(
                       style: TextButton.styleFrom(
                           backgroundColor:
-                              const Color.fromARGB(178, 41, 201, 180),
+                              const Color.fromARGB(255, 166, 221, 204),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0),
                           )),
@@ -283,7 +283,7 @@ class _StartProcessState extends State<StartProcess> {
               child: TextButton(
                 style: TextButton.styleFrom(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    backgroundColor: const Color.fromARGB(178, 41, 201, 180),
+                    backgroundColor: Color.fromARGB(255, 166, 221, 204),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),
                     )),
@@ -299,7 +299,7 @@ class _StartProcessState extends State<StartProcess> {
                 },
                 child: const Text(
                   'Start',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 255, 255, 255)),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -311,17 +311,26 @@ class _StartProcessState extends State<StartProcess> {
   }
 
   Widget dropDown(BuildContext context, final List<String> items) {
+
+      Color setColor(bool value) {
+      if (value) {
+        return const Color.fromARGB(242, 211, 207, 210);
+      } else {
+        return const Color.fromARGB(238, 61, 36, 48);
+      }
+    }
+
     return (DropdownButton<String>(
       value: dropdownValue,
       hint: const Text('Select Process'),
       icon: const Icon(
         Icons.arrow_downward,
         size: 20,
-        color: Color.fromARGB(232, 25, 228, 150),
+        color: Color.fromARGB(255, 166, 221, 204),
       ),
       underline: Container(
         height: 1,
-        color: Colors.deepPurpleAccent,
+        color: const Color.fromARGB(255, 228, 117, 126),
       ),
       items: items.map((String item) {
         return DropdownMenuItem(
@@ -336,11 +345,13 @@ class _StartProcessState extends State<StartProcess> {
       },
       disabledHint: const Text("Disabled"),
       elevation: 4,
-      style: const TextStyle(
-          color: Color.fromARGB(190, 158, 55, 144), fontSize: 18),
+      style: TextStyle(
+          color: setColor(Theme.of(context).brightness == Brightness.dark), 
+          fontSize: 18),
       iconDisabledColor: Colors.grey[350],
       iconEnabledColor: Colors.green,
       isExpanded: true,
     ));
+    
   }
 }

@@ -68,7 +68,7 @@ class Header extends StatelessWidget {
       children: <Widget>[
         IconButton(
           icon: const Icon(Icons.menu, size: 35.0),
-          color: const Color(0xFF29C9B3),
+          color: const Color.fromARGB(255, 96, 128, 118),
           onPressed: openDrawer,
         ),
         IconButton(
@@ -105,6 +105,7 @@ class NavBar extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.close),
                       onPressed: closeDrawer,
+                      color: Color.fromARGB(185, 41, 41, 41),
                     ),
                   ],
                 ),
