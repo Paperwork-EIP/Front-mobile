@@ -17,6 +17,46 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:my_app/global.dart' as globals;
 
+class UserPicture {
+  final picture;
+  final String username;
+  final String password;
+
+  const UserPicture({required this.picture, required this.username, required this.password});
+
+  factory UserPicture.fromJson(Map<String, dynamic> json) {
+    return UserPicture(
+      picture: json['profile_picture'],
+      username: json['username'],
+      password: json['password'],
+    );
+  }
+}
+
+Future<UserPicture> getUserPicture({
+  required String email,
+}) async {
+  try {
+    var response = await http.get(
+      Uri.parse("${dotenv.get('SERVER_URL')}/user/getbyemail?email=$email"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    if (response.statusCode == 200) {
+      var data = UserPicture.fromJson(jsonDecode(response.body));
+      globals.globalUserPicture = data.picture;
+      globals.username = data.username;
+      // print(response.body);
+      return UserPicture.fromJson(jsonDecode(response.body));
+    }
+    return UserPicture.fromJson(
+        {'message': 'Error : Failed to load process', 'response': null});
+  } catch (error) {
+    throw Exception('Failed to load Process');
+  }
+}
+
 class OngoingProcess {
   final String message;
   final response;
@@ -126,6 +166,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    getUserPicture(email: email);
     return Scaffold(
         key: _scaffoldKey,
         appBar: PreferredSize(
