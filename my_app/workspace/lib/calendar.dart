@@ -6,6 +6,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:my_app/global.dart' as globals;
 
+import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
+
 class Event {
   final DateTime date;
   final int userProcessId;
@@ -115,6 +117,7 @@ class _CalendarPageState extends State<CalendarPage> {
       TextEditingController(text: "10");
   late TextEditingController _minuteController =
       TextEditingController(text: "00");
+  late DateTime _dateTime = DateTime.now();
 
   @override
   void initState() {
@@ -208,12 +211,21 @@ class _CalendarPageState extends State<CalendarPage> {
                           TextFormField(
                             controller: _descriptionController,
                           ),
-                          TextFormField(
-                            controller: _hourController,
+                          TimePickerSpinner(
+                            spacing: 40,
+                            minutesInterval: 15,
+                            onTimeChange: (time) {
+                              setState(() {
+                                _dateTime = time;
+                              });
+                            },
                           ),
-                          TextFormField(
-                            controller: _minuteController,
-                          ),
+                          // TextFormField(
+                          //   controller: _hourController,
+                          // ),
+                          // TextFormField(
+                          //   controller: _minuteController,
+                          // ),
                         ],
                       ),
                       actions: [
@@ -226,8 +238,6 @@ class _CalendarPageState extends State<CalendarPage> {
                           onPressed: () {
                             if (_processController.text.isEmpty ||
                                 _descriptionController.text.isEmpty ||
-                                _hourController.text.isEmpty ||
-                                _minuteController.text.isEmpty ||
                                 _stepController.text.isEmpty) {
                               print("EMPTY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                             } else {
@@ -240,8 +250,8 @@ class _CalendarPageState extends State<CalendarPage> {
                                             _selectedDay!.year,
                                             _selectedDay!.month,
                                             _selectedDay!.day,
-                                            int.parse(_hourController.text),
-                                            int.parse(_minuteController.text)),
+                                            _dateTime.hour,
+                                            _dateTime.minute),
                                         stepDescription:
                                             _descriptionController.text,
                                         stepId: 5,
@@ -257,8 +267,8 @@ class _CalendarPageState extends State<CalendarPage> {
                                             _selectedDay!.year,
                                             _selectedDay!.month,
                                             _selectedDay!.day,
-                                            int.parse(_hourController.text),
-                                            int.parse(_minuteController.text)),
+                                            _dateTime.hour,
+                                            _dateTime.minute),
                                         stepDescription:
                                             _descriptionController.text,
                                         stepId: 5,
@@ -379,7 +389,7 @@ class _CalendarPageState extends State<CalendarPage> {
     var date = appointment.date;
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Modify appointment'),
