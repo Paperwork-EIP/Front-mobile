@@ -63,6 +63,7 @@ class Support extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 96, 128, 118),
       ),
       body: Container(
         alignment: Alignment.center,
