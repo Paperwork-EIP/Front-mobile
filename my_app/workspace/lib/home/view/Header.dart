@@ -10,7 +10,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:my_app/global.dart' as globals;
-
+import '../../Settings/settings.dart';
+import '../../lexique.dart';
 import '../../propal_add.dart';
 import '../../quizz/process/process.dart';
 
@@ -128,7 +129,7 @@ class NavBar extends StatelessWidget {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Ink.image(
-                                    image: NetworkImage(snapshot.data!.picture),
+                                    image: AssetImage('assets/makima.png'),
                                     // const AssetImage('assets/makima.png'),
                                     height: 75,
                                     width: 75,
@@ -191,6 +192,16 @@ class NavBar extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.book),
+            title: const Text('Lexique'),
+            onTap: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Lexique()),
+              );
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.file_upload_outlined),
             title: const Text('Suggest a process'),
             onTap: () {
@@ -212,7 +223,12 @@ class NavBar extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.settings),
                 title: const Text('Settings'),
-                onTap: () => null,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SettingsPage1()),
+                  );
+              },
               ),
               ListTile(
                 leading: const Icon(Icons.logout_outlined),
