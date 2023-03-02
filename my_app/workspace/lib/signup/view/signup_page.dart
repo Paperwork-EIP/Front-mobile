@@ -19,8 +19,8 @@ class SignupPage extends StatelessWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: const Color.fromARGB(255, 96, 128, 118),
+        // foregroundColor: Colors.black,
         elevation: 0,
         title: Center(
             child: Text(
@@ -41,7 +41,7 @@ class SignupPage extends StatelessWidget {
               style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF29C9B3)),
+                  color: const Color.fromARGB(255, 166, 221, 204)),
             ),
           ),
         ],

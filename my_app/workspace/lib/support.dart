@@ -62,13 +62,11 @@ class Support extends StatelessWidget {
     final _controller = TextEditingController();
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 96, 128, 118),
       ),
       body: Container(
         alignment: Alignment.center,
-        color: const Color.fromARGB(33, 124, 204, 160),
+        color: const Color.fromARGB(31, 98, 133, 114),
         child:
         ListView(
                 children: [ ConstrainedBox(

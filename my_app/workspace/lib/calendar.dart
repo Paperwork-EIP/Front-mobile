@@ -165,19 +165,15 @@ class _CalendarPageState extends State<CalendarPage> {
       });
 
       _selectedEvents.value = _getEventsForDay(selectedDay);
-      print("_selectedEvents - selectedDay : ");
-      print(_selectedEvents.value);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    print("select : " + _selectedDay.toString());
-    print(kEvents[_selectedDay]);
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xFF29C9B3),
+          backgroundColor: const Color.fromARGB(255, 96, 128, 118),
           title: const Text("Calendar"),
           actions: [
             IconButton(
@@ -214,6 +210,8 @@ class _CalendarPageState extends State<CalendarPage> {
                           TimePickerSpinner(
                             spacing: 40,
                             minutesInterval: 15,
+                            highlightedTextStyle: const TextStyle(color:Color.fromARGB(242, 211, 207, 210), fontWeight: FontWeight.bold, fontSize: 30),
+                            normalTextStyle: const TextStyle(color:Color.fromARGB(242, 211, 207, 210)),
                             onTimeChange: (time) {
                               setState(() {
                                 _dateTime = time;
@@ -230,16 +228,15 @@ class _CalendarPageState extends State<CalendarPage> {
                       ),
                       actions: [
                         TextButton(
-                          child: const Text("Cancel"),
+                          child: const Text("Cancel", style: TextStyle(color: Color.fromARGB(255, 228, 117, 126)),),
                           onPressed: () => Navigator.pop(context),
                         ),
                         TextButton(
-                          child: const Text("Ok"),
+                          child: const Text("Ok", style: TextStyle(color: Color.fromARGB(255, 166, 221, 204))),
                           onPressed: () {
                             if (_processController.text.isEmpty ||
                                 _descriptionController.text.isEmpty ||
                                 _stepController.text.isEmpty) {
-                              print("EMPTY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                             } else {
                               if (_selectedDay != null) {
                                 if (kEvents[_selectedDay!] != null) {
@@ -259,7 +256,6 @@ class _CalendarPageState extends State<CalendarPage> {
                                         userProcessId: 5),
                                   );
                                 } else {
-                                  print("objectAAAAAAAA");
                                   late List<Event> eventList = <Event>[
                                     Event(
                                         processTitle: _processController.text,
@@ -281,13 +277,11 @@ class _CalendarPageState extends State<CalendarPage> {
                                       _selectedDay!.day,
                                       int.parse(_hourController.text),
                                       int.parse(_minuteController.text));
-                                  print("DATE" + date.toString());
                                   var elem = <DateTime, List<Event>>{
                                     date: eventList
                                   };
                                   kEvents.addEntries(elem.entries);
                                   setAppointment(date);
-                                  print(kEvents[date]);
                                 }
                               } else {
                                 // kEvents[_selectedDay!] = [
@@ -332,9 +326,9 @@ class _CalendarPageState extends State<CalendarPage> {
                     fontWeight: FontWeight.w800)),
             calendarStyle: const CalendarStyle(
                 selectedDecoration: BoxDecoration(
-                    color: Color(0xFF29C9B3), shape: BoxShape.circle),
+                    color:  Color.fromARGB(255, 228, 117, 126), shape: BoxShape.circle),
                 todayDecoration: BoxDecoration(
-                    color: Color(0xFF29C9B3), shape: BoxShape.circle),
+                    color: Color.fromARGB(255, 166, 221, 204), shape: BoxShape.circle),
                 todayTextStyle: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -409,7 +403,6 @@ class _CalendarPageState extends State<CalendarPage> {
                       .indexWhere((element) => element.date == date);
                 }
                 deleteAppointment(process, step);
-                print("sucessfully deleted event");
                 const SnackBar(
                   content: Text('Successfully deleted.'),
                 );
@@ -436,7 +429,6 @@ class _CalendarPageState extends State<CalendarPage> {
     if (response.statusCode == 200) {
       return;
     } else {
-      print(response.body);
       throw Exception("Failed to delete calendar event");
     }
   }
@@ -456,7 +448,6 @@ Future<void> setAppointment(date) async {
   if (response.statusCode == 200) {
     return;
   } else {
-    print(response.body);
     throw Exception("Failed to set calendar event");
   }
 }
