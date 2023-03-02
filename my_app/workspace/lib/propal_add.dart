@@ -68,21 +68,23 @@ class AddPropal extends StatelessWidget {
       ),
       body: Container(
         alignment: Alignment.center,
-        child: ConstrainedBox(
+                    color: const Color.fromARGB(33, 124, 204, 160),
+        child: 
+        ListView(
+                children: [ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1200),
-          child: Column(
+          child:
+           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ListView(
-                children: [
               Container(
                 height: 600,
                 width: 420,
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(33, 124, 204, 160),
                     borderRadius: BorderRadius.circular(10)),
-                child: Column(
+                child: 
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -139,11 +141,12 @@ class AddPropal extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-            ],
           ),
-          ],
+            ],
               ),
+          
+              ),
+              ],
         ),
       ),
     );
