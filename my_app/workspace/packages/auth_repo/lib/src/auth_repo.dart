@@ -22,6 +22,7 @@ class AuthRepository {
   }) async {
     var response;
     globals.email = email;
+    globals.password = password;
     print(json.encode({
       'email': email,
       'password': password,

@@ -1,13 +1,13 @@
-import 'dart:html';
-
+// import 'dart:html';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:my_app/auth/auth.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:google_fonts/google_fonts.dart';
+// import 'package:my_app/auth/auth.dart';
 import 'package:my_app/home/view/Header.dart';
-import 'package:my_app/propal_add.dart';
-import 'package:my_app/calendar.dart';
-import 'package:my_app/profile/profile.dart';
+// import 'package:my_app/propal_add.dart';
+// import 'package:my_app/calendar.dart';
+// import 'package:my_app/profile/profile.dart';
+import 'package:my_app/quizz/process/process.dart';
 import 'package:intl/intl.dart';
 
 import 'dart:async';
@@ -17,158 +17,84 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:my_app/global.dart' as globals;
 
-// Widget build(BuildContext context) {
-//     return Scaffold(
-//       key: _scaffoldKey,
-//       appBar:  PreferredSize(
-//           preferredSize: Size.fromHeight(40.0),
-//           child: Header(closeDrawer: _closeDrawer, openDrawer:_openDrawer)),
-//       drawer: NavBar(closeDrawer: _closeDrawer),
-//       body: SingleChildScrollView(
-//         child: Container(
-//           color: Colors.white,
-//           child: Stack(
-//             alignment: Alignment.center,
-//             children: <Widget>[
-//               Column(
-//                 children: <Widget>[
-//                   Container(
-//                     margin: const EdgeInsets.only(top: 20),
-//                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//                     width: 325,
-//                     height: 200,
-//                     decoration: BoxDecoration(
-//                         borderRadius: BorderRadius.circular(18.0),
-//                         boxShadow: [
-//                           BoxShadow(
-//                             color: Colors.grey.withOpacity(0.5),
-//                             spreadRadius: 5,
-//                             blurRadius: 7,
-//                             offset: Offset(0, 3), // changes position of shadow
-//                           ),
-//                         ],
-//                         // border: Border.all(color: Colors.black),
-//                         color: Colors.white),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: <Widget>[
-//                         const Text(
-//                           'Ongoing process',
-//                           style: TextStyle(
-//                               fontWeight: FontWeight.bold,
-//                               fontSize: 32,
-//                               color: Color.fromARGB(255, 0, 0, 0)),
-//                         ),
-//                         Divider(color: Colors.black),
-//                       ],
-//                     ),
-//                   ),
-//                   Container(
-//                     margin: const EdgeInsets.only(top: 20),
-//                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//                     width: 325,
-//                     height: 200,
-//                     // decoration: const BoxDecoration(
-//                     //   image: DecorationImage(
-//                     //     image: AssetImage('assets/Calendar.png'),
-//                     //     fit: BoxFit.cover,
-//                     //   ),
-//                     // ),
-//                     decoration: BoxDecoration(
-//                         borderRadius: BorderRadius.circular(18.0),
-//                         boxShadow: [
-//                           BoxShadow(
-//                             color: Colors.grey.withOpacity(0.5),
-//                             spreadRadius: 5,
-//                             blurRadius: 7,
-//                             offset: Offset(0, 3), // changes position of shadow
-//                           ),
-//                         ],
-//                         // border: Border.all(color: Colors.black),
-//                         color: Colors.white),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: <Widget>[
-//                         const Text(
-//                           'Calendar',
-//                           style: TextStyle(
-//                               fontWeight: FontWeight.bold,
-//                               fontSize: 32,
-//                               color: Color.fromARGB(255, 0, 0, 0)),
-//                         ),
-//                         Divider(color: Colors.black)
-//                       ],
-//                     ),
-//                   ),
+class UserPicture {
+  final picture;
+  final String username;
+  final String password;
 
-//           ],
-//         ),
+  const UserPicture({required this.picture, required this.username, required this.password});
 
-//         ],
-//               ),
-//             ),
-//       ),
-//     );
-//   }
+  factory UserPicture.fromJson(Map<String, dynamic> json) {
+    return UserPicture(
+      picture: json['profile_picture'],
+      username: json['username'],
+      password: json['password'],
+    );
+  }
+}
 
-// SizedBox CreateInput(String name, String type, bool outline, double width,
-//     double height, TextEditingController _controller) {
-//   return SizedBox(
-//     width: width,
-//     height: height,
-//     child: TextField(
-//       controller: _controller,
-//       obscureText: (type == 'password') ? true : false,
-//       decoration: InputDecoration(
-//         border: outline ? const OutlineInputBorder() : null,
-//         labelText: name,
-//       ),
-//       style: const TextStyle(fontSize: 14),
-//     ),
-//   );
-// }
+Future<UserPicture> getUserPicture({
+  required String email,
+}) async {
+  try {
+    var response = await http.get(
+      Uri.parse("${dotenv.get('SERVER_URL')}/user/getbyemail?email=$email"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    if (response.statusCode == 200) {
+      var data = UserPicture.fromJson(jsonDecode(response.body));
+      globals.globalUserPicture = data.picture;
+      globals.username = data.username;
+      // print(response.body);
+      return UserPicture.fromJson(jsonDecode(response.body));
+    }
+    return UserPicture.fromJson(
+        {'message': 'Error : Failed to load process', 'response': null});
+  } catch (error) {
+    throw Exception('Failed to load Process');
+  }
+}
 
-class Process {
+class OngoingProcess {
   final String message;
   final response;
 
-  const Process({required this.message, required this.response});
+  const OngoingProcess({required this.message, required this.response});
 
-  factory Process.fromJson(Map<String, dynamic> json) {
-    return Process(
+  factory OngoingProcess.fromJson(Map<String, dynamic> json) {
+    return OngoingProcess(
       message: json['message'],
       response: json['response'],
     );
   }
 }
 
-Future<Process> getOngoingProcess({
+Future<OngoingProcess> getOngoingProcess({
   required String email,
 }) async {
-  var response;
-  // try {
-  response = await http.get(
-    Uri.parse(
-        "${dotenv.get('SERVER_URL')}/userProcess/getUserProcesses?user_email=$email"),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  );
-  print(response.statusCode);
-  if (response.statusCode == 200) {
-    print(response.body);
-    // var jsonData = jsonDecode(response.body);
-    // List<Process> process = [];
 
-    // for(var u in jsonData) {
-    //   Process processs = Process(u['message'], u['response']);
-    //   process.add(processs);
-    // }
+  try {
+    var response;
+    response = await http.get(
+      Uri.parse(
+          "${dotenv.get('SERVER_URL')}/userProcess/getUserProcesses?user_email=$email"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    
+    if (response.statusCode == 200) {
+      // print(response.body);
+      return OngoingProcess.fromJson(jsonDecode(response.body));
+    }
+    return OngoingProcess.fromJson({
+      'message': 'Failed to load Process',
+      'response': '',
+    });
+  } catch (error) {
 
-    return Process.fromJson(jsonDecode(response.body));
-  }
-  // } catch (e) {
-  else {
     throw Exception('Failed to load Process');
   }
 }
@@ -193,36 +119,26 @@ class Calendar {
 Future<Calendar> getCalendar({
   required String email,
 }) async {
-  var response;
-  // print(json.encode({
-  //   'email': email,
-  //   'password': password,
-  // }));
-  // try {
-  response = await http.get(
-    Uri.parse("${dotenv.get('SERVER_URL')}/calendar/getAll?email=$email"),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    // body: json.encode({"email": email, "password": password}),
-  );
-  if (response.statusCode == 200) {
-    print(response.body);
-    return Calendar.fromJson(jsonDecode(response.body));
-    // var jsonData = jsonDecode(response.body);
-    // print(jsonData);
-    // return(json);
-    // print(response.body);
-    // _controller.add(AuthStatus.authenticated);
-  }
-  // } catch (e) {
-  else {
+
+  try {
+    var response = await http.get(
+      Uri.parse("${dotenv.get('SERVER_URL')}/calendar/getAll?email=$email"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    if (response.statusCode == 200) {
+      // print(response.body);
+      return Calendar.fromJson(jsonDecode(response.body));
+    }
+    return Calendar.fromJson({
+      'message': 'Failed to load calendar',
+      'appoinment': '',
+    });
+  } catch (error) {
+
     throw Exception('Failed to load calendar');
   }
-
-  // print('r= $response');
-  // print(e);
-  // }
 }
 
 class HomePage extends StatefulWidget {
@@ -233,12 +149,11 @@ class HomePage extends StatefulWidget {
   }
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
+@visibleForTesting
 class _HomePageState extends State<HomePage> {
-  // final date = getCalendar(email: 'test@test.test');
-
   final String email = globals.email;
 
   final String finishedProcess = 'None';
@@ -255,27 +170,30 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    getUserPicture(email: email);
     return Scaffold(
         key: _scaffoldKey,
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(40.0),
-            child: Header(closeDrawer: _closeDrawer, openDrawer: _openDrawer)),
+            preferredSize: const Size.fromHeight(150.0),
+            child: SizedBox(
+                height: 150.0,
+                child: Header(
+                    closeDrawer: _closeDrawer, openDrawer: _openDrawer))),
         drawer: NavBar(closeDrawer: _closeDrawer),
         body: Container(
-          // padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
           alignment: Alignment.center,
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1200),
+            constraints: const BoxConstraints(maxWidth: 1200, maxHeight: 600),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  height: 800,
+                  height: 500,
                   width: 420,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         width: 400,
@@ -283,89 +201,89 @@ class _HomePageState extends State<HomePage> {
                         child: FutureBuilder<Calendar>(
                             future: getCalendar(email: email),
                             builder: (context, snapshot) {
-                              // print('length' + snapshot.data!.appoinment.length);
-                              // if (snapshot.data!)
-                              if (snapshot.hasData &&
-                                  snapshot.data!.appoinment.length != 0) {
-                                var date = snapshot.data!.appoinment[0]['date'];
-                                var title =
-                                    snapshot.data!.appoinment[0]['step_title'];
-                                date = DateTime.parse(date);
-                                var hours = DateFormat('jm').format(date);
-                                // DateFormat('yMMMMEEEEd').format(DateTime.now())
-                                date = DateFormat('MMMMEEEEd').format(date);
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: Offset(0,
-                                              3), // changes position of shadow
-                                        ),
-                                      ]),
-                                  child: Row(
-                                    // crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      // showDate
-                                      SizedBox(
-                                        width: 125,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10.0, vertical: 5.0),
-                                          child: Text(date,
-                                              softWrap: true,
-                                              maxLines: 2,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
-                                                color: Colors.black,
-                                              )),
-                                        ),
-                                      ),
-                                      const VerticalDivider(),
-                                      // showRDV
-                                      Column(
-                                        // crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
+                              if (snapshot.hasData) {
+                                if (snapshot.data!.appoinment.length != 0) {
+                                  var date = snapshot.data!.appoinment[0]['date'];
+                                  var title = snapshot.data!.appoinment[0]['step_title'];
+                                  date = DateTime.parse(date);
+                                  var hours = DateFormat('jm').format(date);
+                                  date = DateFormat('MMMMEEEEd').format(date);
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(18.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 5,
+                                            blurRadius: 7,
+                                            offset: const Offset(0,3), // changes position of shadow
+                                          ),
+                                        ]),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 109,
+                                          child: Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 15.0,
-                                                vertical: 15.0),
-                                            child: Text(title,
+                                                horizontal: 5.0,
+                                                vertical: 5.0),
+                                            child: Text(date,
+                                                softWrap: true,
+                                                maxLines: 2,
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 18,
                                                   color: Colors.black,
                                                 )),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 15.0,
-                                                vertical: 5.0),
-                                            child: Text(hours,
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                )),
-                                          )
-                                        ],
-                                      ),
-                                      const Icon(
-                                        Icons.insert_drive_file_outlined,
-                                        color: Color(0xFF29C9B3),
-                                        size: 100,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                              // Text(date);
-                              else {
+                                        ),
+                                        const VerticalDivider(),
+                                        // showRDV
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 4.0,
+                                                      vertical: 15.0),
+                                              child: Text(title,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18,
+                                                    color: Colors.black,
+                                                  )),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10.0,
+                                                      vertical: 5.0),
+                                              child: Text(hours,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18,
+                                                    color: Colors.black,
+                                                  )),
+                                            )
+                                          ],
+                                        ),
+                                        const Icon(
+                                          Icons.insert_drive_file_outlined,
+                                          color: Color(0xFF29C9B3),
+                                          size: 100,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return const Icon(
+                                    Icons.insert_drive_file_outlined,
+                                    color: Color(0xFF29C9B3),
+                                    size: 100,
+                                  );
+                                }
+                              } else {
                                 return Container(
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -375,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.grey.withOpacity(0.5),
                                           spreadRadius: 5,
                                           blurRadius: 7,
-                                          offset: Offset(0,
+                                          offset: const Offset(0,
                                               3), // changes position of shadow
                                         ),
                                       ]),
@@ -401,7 +319,7 @@ class _HomePageState extends State<HomePage> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 5,
                                     blurRadius: 7,
-                                    offset: Offset(
+                                    offset: const Offset(
                                         0, 3), // changes position of shadow
                                   ),
                                 ]),
@@ -419,36 +337,28 @@ class _HomePageState extends State<HomePage> {
                                       )),
                                 ),
                                 const Divider(),
-                                // SingleChildScrollView(
-                                //   child:
-                                FutureBuilder<Process>(
+                                FutureBuilder<OngoingProcess>(
                                     future: getOngoingProcess(email: email),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return (Column(children: [
-                                          for (var i = 0;
-                                              i <
-                                                  snapshot
-                                                      .data!.response.length;
-                                              i++)
-                                            if (snapshot.data!.response[i]
-                                                    ['is_done'] ==
-                                                false) ...{
+                                        return (Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                          for (var i = 0; i < snapshot.data!.response.length; i++)
+                                            if (snapshot.data!.response[i]['userProcess']['is_done'] == false) ...{
                                               Column(
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.symmetric(
-                                                            horizontal: 10.0,
-                                                            vertical: 10.0),
+                                                        horizontal: 10.0,
+                                                        vertical: 10.0),
                                                     child: Text(
-                                                        snapshot.data!
-                                                                .response[i]
-                                                            ['process_title'],
+                                                        snapshot.data!.response[i]['userProcess']['process_title'],
                                                         style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize: 20,
-                                                          color: Color(0xFF29C9B3),
+                                                          color:Color(0xFF29C9B3),
                                                         )),
                                                   )
                                                 ],
@@ -457,7 +367,7 @@ class _HomePageState extends State<HomePage> {
                                         ]));
                                       } else {
                                         return (const Text(
-                                            'no current process'));
+                                            'No current process'));
                                       }
                                     }),
                               ],
@@ -472,10 +382,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         onPressed: () {
-                          print(
-                              DateFormat('yMMMMEEEEd').format(DateTime.now()));
-                          // print(Date);
-                          // getCalendar(email: 'test@test.test');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Quizz()),
+                          );
                         },
                         child: const Text("Start a process"),
                       ),
