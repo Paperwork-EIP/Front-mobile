@@ -19,6 +19,7 @@ class ModifyProfile {
   }
 }
 
+
 Future<ModifyProfile> setModifyUser({
   required String email,
   required String newEmail,
@@ -38,7 +39,9 @@ Future<ModifyProfile> setModifyUser({
     }
     if (newPassword == "") {
       newPassword = globals.password;
+
     } else {
+
       globals.password = newPassword;
     }
     if (profilePicture == "") {
@@ -49,6 +52,7 @@ Future<ModifyProfile> setModifyUser({
     var response = await http.get(
       Uri.parse(
           "${dotenv.get('SERVER_URL')}/user//modifyDatas?email=$email&username=$newUsername&new_email=$newEmail&password=$newPassword&profile_picture=$profilePicture"),
+
       headers: {
         "Content-Type": "application/json",
       },
@@ -73,15 +77,6 @@ class Profile extends StatelessWidget {
     return Scaffold(
         // Drawer(
         backgroundColor: Colors.white,
-        // appBar: const PreferredSize(
-        //     preferredSize: Size.fromHeight(150.0),
-        //     child:
-        //     // SizedBox(
-        //     //     height: 150.0,
-        //     //     child: 
-        //         BackButton(
-        //       color: Color.fromRGBO(252, 105, 118, 1),
-        //     )),
         body: SingleChildScrollView(
             child: Stack(children: <Widget>[
           Row(children: const <Widget>[
@@ -209,6 +204,7 @@ class Profile extends StatelessWidget {
 }
 
 class MyForm extends StatefulWidget {
+
   @override
   MyFormState createState() {
     return MyFormState();
@@ -224,7 +220,6 @@ class MyFormState extends State<MyForm> {
   final _controllerUsername = TextEditingController();
   final _controllerEmail = TextEditingController();
   final _controllerPassword = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -268,7 +263,7 @@ class MyFormState extends State<MyForm> {
               //     labelText: 'Confirm Password',
               //   ),
               // ),
-
+              
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 ElevatedButton(
                   onPressed: () {

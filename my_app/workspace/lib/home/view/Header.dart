@@ -10,7 +10,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:my_app/global.dart' as globals;
-
+import '../../Settings/settings.dart';
+import '../../lexique.dart';
 import '../../propal_add.dart';
 import '../../quizz/process/process.dart';
 
@@ -50,6 +51,7 @@ import '../../quizz/process/process.dart';
 //     throw Exception('Failed to load Process');
 //   }
 // }
+
 
 class Header extends StatelessWidget {
   final void Function() closeDrawer;
@@ -163,6 +165,7 @@ class NavBar extends StatelessWidget {
                       // }
                     // }
                     // )
+
               ],
             ),
           ),
@@ -194,6 +197,16 @@ class NavBar extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.book),
+            title: const Text('Lexique'),
+            onTap: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Lexique()),
+              );
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.file_upload_outlined),
             title: const Text('Suggest a process'),
             onTap: () {
@@ -215,7 +228,12 @@ class NavBar extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.settings),
                 title: const Text('Settings'),
-                onTap: () => null,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SettingsPage1()),
+                  );
+              },
               ),
               ListTile(
                 leading: const Icon(Icons.logout_outlined),
