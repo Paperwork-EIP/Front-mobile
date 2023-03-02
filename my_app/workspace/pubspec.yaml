@@ -51,6 +51,7 @@ flutter:
 
     - assets/makima.png
     - assets/Calendar.png
+    - assets/images/profile.jpg
     - assets/ongoing_process.png
     - assets/start_new_process.png
     - assets/Bar Line.png
