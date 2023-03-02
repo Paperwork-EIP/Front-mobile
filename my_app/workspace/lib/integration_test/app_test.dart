@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import '../profil.dart' as app;
+import '../profile/profile.dart' as app;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -10,7 +10,7 @@ void main() {
   group('end-to-end test', () {
     testWidgets('tap on the profile',
         (tester) async {
-      app.main();
+      // app.main();
       await tester.pumpAndSettle();
 
       await tester.tap(find.byType(TextButton));

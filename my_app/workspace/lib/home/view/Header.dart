@@ -1,9 +1,57 @@
 // ignore_for_file: avoid_returning_null_for_void
 
 import 'package:flutter/material.dart';
+// import 'package:my_app/app.dart';
+// import 'package:my_app/integration_test/app_test.dart';
+import 'package:restart_app/restart_app.dart';
 
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:my_app/global.dart' as globals;
+import '../../Settings/settings.dart';
+import '../../lexique.dart';
 import '../../propal_add.dart';
 import '../../quizz/process/process.dart';
+
+// class UserPicture {
+//   final picture;
+//   final String username;
+//   final String password;
+
+//   const UserPicture({required this.picture, required this.username, required this.password});
+
+//   factory UserPicture.fromJson(Map<String, dynamic> json) {
+//     return UserPicture(
+//       picture: json['profile_picture'],
+//       username: json['username'],
+//       password: json['password'],
+//     );
+//   }
+// }
+
+// Future<UserPicture> getUserPicture({
+//   required String email,
+// }) async {
+//   try {
+//     var response = await http.get(
+//       Uri.parse("${dotenv.get('SERVER_URL')}/user/getbyemail?email=$email"),
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     );
+//     if (response.statusCode == 200) {
+//       // print(response.body);
+//       return UserPicture.fromJson(jsonDecode(response.body));
+//     }
+//     return UserPicture.fromJson(
+//         {'message': 'Error : Failed to load process', 'response': null});
+//   } catch (error) {
+//     throw Exception('Failed to load Process');
+//   }
+// }
+
 
 class Header extends StatelessWidget {
   final void Function() closeDrawer;
@@ -60,39 +108,64 @@ class NavBar extends StatelessWidget {
                     ),
                   ],
                 ),
-                Container(
-                  child: Material(
-                      color: Colors.blue,
-                      elevation: 8,
-                      shape: const CircleBorder(),
-                      // borderRadius: BorderRadius.circular(1000),
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: InkWell(
-                          splashColor: Colors.black26,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              border: Border.all(color: Colors.white, width: 3),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Ink.image(
-                              image: AssetImage('assets/makima.png'),
-                              height: 75,
-                              width: 75,
-                              fit: BoxFit.cover,
-                            ),
-                          ))),
-                )
-                //   margin: const EdgeInsets.only(top: 10),
-                //   height: 80,
-                //   width: 80,
-                //   decoration: const BoxDecoration(
-                //     image: DecorationImage(
-                //       image: AssetImage('assets/makima.png'),
-                //       fit: BoxFit.cover,
-                //     ),
-                //   ),
-                // ),
+                // Container(child:
+                // if()
+                // FutureBuilder<UserPicture>(
+                //     future: getUserPicture(email: globals.email),
+                //     builder: (context, snapshot) {
+                //       if (snapshot.hasData) {
+                //         // globals.userPicture = snapshot.data!.response;
+                //         globals.username = snapshot.data!.username;
+                //         return
+                 Material(
+                    color: Colors.white,
+                    elevation: 8,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: InkWell(
+                        splashColor: Colors.black26,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(color: Colors.white, width: 3),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Ink.image(
+                            image: NetworkImage(globals.globalUserPicture),
+                            // const AssetImage('assets/makima.png'),
+                            height: 75,
+                            width: 75,
+                            fit: BoxFit.cover,
+                          ),
+                        )))
+                      // }
+                      // else {
+                      //   return Material(
+                      //       color: Colors.white,
+                      //       elevation: 8,
+                      //       shape: const CircleBorder(),
+                      //       clipBehavior: Clip.antiAliasWithSaveLayer,
+                      //       child: InkWell(
+                      //           splashColor: Colors.black26,
+                      //           child: Container(
+                      //             decoration: BoxDecoration(
+                      //               color: Colors.transparent,
+                      //               border: Border.all(
+                      //                   color: Colors.white, width: 3),
+                      //               shape: BoxShape.circle,
+                      //             ),
+                      //             // child: Ink.image(
+                      //             //   image: const AssetImage('assets/makima.png'),
+                      //             //   height: 75,
+                      //             //   width: 75,
+                      //             //   fit: BoxFit.cover,
+                      //             // ),
+                      //           ))
+                      //           );
+                      // }
+                    // }
+                    // )
+
               ],
             ),
           ),
@@ -124,6 +197,16 @@ class NavBar extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.book),
+            title: const Text('Lexique'),
+            onTap: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Lexique()),
+              );
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.file_upload_outlined),
             title: const Text('Suggest a process'),
             onTap: () {
@@ -145,12 +228,19 @@ class NavBar extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.settings),
                 title: const Text('Settings'),
-                onTap: () => null,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SettingsPage1()),
+                  );
+              },
               ),
               ListTile(
                 leading: const Icon(Icons.logout_outlined),
                 title: const Text('Logout'),
-                onTap: () => null,
+                onTap: () {
+                  Restart.restartApp();
+                },
               ),
             ],
           ),

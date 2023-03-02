@@ -10,6 +10,7 @@ class SignupForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignupBloc, SignupState>(
+
       listener: (context, state) {
         if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
@@ -36,17 +37,19 @@ class SignupForm extends StatelessWidget {
             Wrap(
               spacing: 50,
               alignment: WrapAlignment.center,
-              children: [
-                _GoogleButton(),
-                _FacebookButton(),
+
+                  children: [
+                    _GoogleButton(),
+                    _FacebookButton(),
+                  ],
+                ),
+                const Padding(padding: EdgeInsets.all(30)),
+                _SignupButton(),
               ],
             ),
-            const Padding(padding: EdgeInsets.all(50)),
-            _SignupButton(),
-          ],
-        ),
-      ),
-    );
+          ),
+        )
+      );
   }
 }
 
@@ -101,7 +104,16 @@ class _EmailInput extends StatelessWidget {
   }
 }
 
-class _PasswordInput extends StatelessWidget {
+class _PasswordInput extends StatefulWidget {
+  const _PasswordInput({Key? key}) : super(key: key);
+
+  @override
+  State<_PasswordInput> createState() => _PasswordInputState();
+}
+
+class _PasswordInputState extends State<_PasswordInput> {
+
+  bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignupBloc, SignupState>(
@@ -117,12 +129,15 @@ class _PasswordInput extends StatelessWidget {
                   .add(SignupPasswordChanged(password)),
               obscureText: true,
               decoration: InputDecoration(
-                suffix: TextButton(
-                  child: const Text("Show"),
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                      foregroundColor: const Color(0xFF29C9B3)),
-                ),
+                suffixIcon: IconButton(
+                    icon: Icon(
+                        _isObscure ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        _isObscure = !_isObscure;
+                      });
+                    }),
+
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 labelText: 'Password',
@@ -134,8 +149,17 @@ class _PasswordInput extends StatelessWidget {
   }
 }
 
-class _ConfirmPasswordInput extends StatelessWidget {
+class _ConfirmPasswordInput extends StatefulWidget {
+  const _ConfirmPasswordInput({Key? key}) : super(key: key);
+
   @override
+  State<_ConfirmPasswordInput> createState() => _ConfirmPasswordInputState();
+}
+
+class _ConfirmPasswordInputState extends State<_ConfirmPasswordInput> {
+  bool _isObscure = true;
+  @override
+  
   Widget build(BuildContext context) {
     return BlocBuilder<SignupBloc, SignupState>(
       buildWhen: (previous, current) => previous.password != current.password,
@@ -150,12 +174,20 @@ class _ConfirmPasswordInput extends StatelessWidget {
                   .add(SignupPasswordChanged(password)),
               obscureText: true,
               decoration: InputDecoration(
-                suffix: TextButton(
-                  child: const Text("Show"),
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                      foregroundColor: const Color(0xFF29C9B3)),
-                ),
+                // suffix: TextButton(
+                //   child: const Text("Show"),
+                //   onPressed: () {},
+                //   style: TextButton.styleFrom(
+                //       foregroundColor: const Color(0xFF29C9B3)),
+                // ),
+                suffixIcon: IconButton(
+                    icon: Icon(
+                        _isObscure ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        _isObscure = !_isObscure;
+                      });
+                    }),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 labelText: 'Confirm Password',
@@ -211,7 +243,7 @@ class _SignupButton extends StatelessWidget {
                         borderRadius: BorderRadius.circular(40.0))),
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 150)),
+                            vertical: 20, horizontal: 130)),
                     foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
                     backgroundColor: MaterialStateProperty.all<Color>(

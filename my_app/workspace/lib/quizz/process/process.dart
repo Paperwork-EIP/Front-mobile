@@ -3,17 +3,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-var processList = [
-  'Vital card',
-  'Driver license',
-  'Visa',
-];
-
-var vitalQuestion = [
-  'Do you have your social security number ?',
-  'Do you have the french nationality or a resident permit ?',
-];
+import 'package:my_app/quizz/process/process_question.dart';
+import 'package:my_app/quizz/result/result_quizz.dart';
+import '../../global.dart';
 
 class Quizz extends StatelessWidget {
   const Quizz({super.key});
@@ -43,6 +35,39 @@ class Quizz extends StatelessWidget {
   }
 }
 
+List<int> listy = [];
+
+List<String> stepList(parsedJson) {
+  List<String> list = [];
+  ProcessQuestion obj = ProcessQuestion.fromJson(parsedJson);
+
+  for (var i in obj.question!) {
+    list.add(i[1]);
+    listy.add(i[0]);
+  }
+  return list;
+}
+
+Future<List<String>> fetchQuestions(processName) async {
+  List<String> parsedJson;
+
+  final response = await http.get(
+    Uri.parse(
+        "${dotenv.get('SERVER_URL')}/processQuestions/get?title=$processName&user_email=$email"),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  );
+  if (response.statusCode == 200) {
+    parsedJson = stepList(jsonDecode(response.body));
+    return parsedJson;
+  } else if (response.statusCode == 404) {
+    return ["404"];
+  } else {
+    throw Exception('Failed to load album');
+  }
+}
+
 class QuizzProcess extends StatefulWidget {
   final String? processName;
   const QuizzProcess({Key? key, required this.processName}) : super(key: key);
@@ -54,24 +79,35 @@ class QuizzProcess extends StatefulWidget {
 class _QuizzProcessState extends State<QuizzProcess> {
   var count = 0;
   var res = [];
+  late Future<List<String>> futureQuestion;
 
-  void increment(int id, bool value) {
-    if (count < vitalQuestion.length - 1) {
-      setState(() {
-        count = count + 1;
-        res.add({"id": id, "res": value});
-      });
-    } else {
-      res.add({"id": id, "res": value});
-
-      Navigator.pop(context);
-      // redirection vers l'autre page avec les données
-    }
+  @override
+  void initState() {
+    super.initState();
+    futureQuestion = fetchQuestions(widget.processName);
   }
 
   @override
   Widget build(BuildContext context) {
     String? processName = widget.processName;
+
+    void increment(int id, bool value) {
+      if (count < listy.length - 1) {
+        setState(() {
+          count = count + 1;
+          res.add([listy[count], value]);
+        });
+      } else {
+        res.add([listy[count], value]);
+        ProcessQuestion.fetchResultQuizz(res, processName, context);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ResultQuizz(processName: processName)),
+        );
+      }
+    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -88,8 +124,7 @@ class _QuizzProcessState extends State<QuizzProcess> {
               borderRadius: BorderRadius.circular(20),
             ),
             shadowColor: Colors.grey.shade200,
-            child: 
-              Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -99,25 +134,40 @@ class _QuizzProcessState extends State<QuizzProcess> {
                     Navigator.pop(context);
                   },
                 ),
-                // ignore: prefer_const_constructors
                 ListTile(
                   title: Text(processName!,
-                      style: TextStyle(fontSize: 22), textAlign: TextAlign.center),
+                      style: const TextStyle(fontSize: 22),
+                      textAlign: TextAlign.center),
                 ),
                 Center(
-                  child: Text(
-                    vitalQuestion[count],
-                    style:
-                        TextStyle(color: Colors.black.withOpacity(0.6), fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+                    child: FutureBuilder<List<String>>(
+                        future: futureQuestion,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data![0] == '404') {
+                              return const Text("Trouve un moyen c'est pas normal");
+                            } else {
+                              return Text(
+                                snapshot.data![count],
+                                style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    fontSize: 18),
+                                textAlign: TextAlign.center,
+                              );
+                            }
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+
+                          return const CircularProgressIndicator();
+                        })),
                 ButtonBar(
                   alignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(153, 252, 105, 117),
+                          backgroundColor:
+                              const Color.fromARGB(153, 252, 105, 117),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0),
                           )),
@@ -135,7 +185,8 @@ class _QuizzProcessState extends State<QuizzProcess> {
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(178, 41, 201, 180),
+                          backgroundColor:
+                              const Color.fromARGB(178, 41, 201, 180),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0),
                           )),
@@ -169,7 +220,15 @@ class StartProcess extends StatefulWidget {
 }
 
 class _StartProcessState extends State<StartProcess> {
-  late String? dropdownValue = null;
+  String? dropdownValue;
+
+  late Future<List<String>> futureProcess;
+
+  @override
+  void initState() {
+    super.initState();
+    futureProcess = ProcessName.fetchProcessName();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -193,8 +252,32 @@ class _StartProcessState extends State<StartProcess> {
           children: [
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child:
-                  SizedBox(width: 200, child: dropDown(context, processList)),
+              child: FutureBuilder<List<String>>(
+                  future: futureProcess,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data!.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            "No process available for now, Try later",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 98, 153, 141),
+                              fontSize: 30,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        );
+                      } else {
+                        return SizedBox(
+                            width: 200,
+                            child: dropDown(context, snapshot.data!));
+                      }
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+
+                    return const CircularProgressIndicator();
+                  }),
             ),
             Center(
               child: TextButton(
@@ -205,13 +288,14 @@ class _StartProcessState extends State<StartProcess> {
                       borderRadius: BorderRadius.circular(25.0),
                     )),
                 onPressed: () {
-                  //TODO : gestion d'erreur si no value
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            QuizzProcess(processName: dropdownValue)),
-                  );
+                  if (dropdownValue != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              QuizzProcess(processName: dropdownValue)),
+                    );
+                  }
                 },
                 child: const Text(
                   'Start',
@@ -260,25 +344,3 @@ class _StartProcessState extends State<StartProcess> {
     ));
   }
 }
-
-Future<void> sendResQuizz({
-  required List resQuizz,
-}) async {
-  var response;
-  try {
-    response = await http.post(
-      Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/add"),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: json.encode({"user_response": response}),
-    );
-    if (response.statusCode == 200) {
-      print("Success");
-    }
-  } catch (e) {
-    print(e);
-  }
-}
-
-
