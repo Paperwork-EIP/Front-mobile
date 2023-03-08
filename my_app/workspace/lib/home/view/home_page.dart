@@ -74,6 +74,7 @@ class OngoingProcess {
 Future<OngoingProcess> getOngoingProcess({
   required String email,
 }) async {
+
   try {
     var response;
     response = await http.get(
@@ -93,6 +94,7 @@ Future<OngoingProcess> getOngoingProcess({
       'response': '',
     });
   } catch (error) {
+
     throw Exception('Failed to load Process');
   }
 }
@@ -117,6 +119,7 @@ class Calendar {
 Future<Calendar> getCalendar({
   required String email,
 }) async {
+
   try {
     var response = await http.get(
       Uri.parse("${dotenv.get('SERVER_URL')}/calendar/getAll?email=$email"),
@@ -133,6 +136,7 @@ Future<Calendar> getCalendar({
       'appoinment': '',
     });
   } catch (error) {
+
     throw Exception('Failed to load calendar');
   }
 }

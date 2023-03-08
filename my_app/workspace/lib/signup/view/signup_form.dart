@@ -36,6 +36,7 @@ class SignupForm extends StatelessWidget {
                 Wrap(
                   spacing: 50,
                   alignment: WrapAlignment.center,
+
                   children: [
                     _GoogleButton(),
                     _FacebookButton(),

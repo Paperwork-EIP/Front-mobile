@@ -1,4 +1,5 @@
 import 'package:authentication_repository/auth_repo.dart';
+import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/auth/auth.dart';
@@ -29,7 +30,9 @@ class App extends StatelessWidget {
           authenticationRepository: authenticationRepository,
           userRepository: userRepository,
         ),
-        child: const AppView(),
+        child: EasyDynamicThemeWidget(
+            child: const AppView(),
+          ),
       ),
     );
   }
@@ -51,6 +54,9 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(), 
+      darkTheme: ThemeData.dark(), 
+      themeMode: EasyDynamicTheme.of(context).themeMode,
       home: HomePage(),
       navigatorKey: _navigatorKey,
       builder: (context, child) {

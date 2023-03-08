@@ -1,3 +1,4 @@
+import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +8,15 @@ import 'Content/log.dart';
 import 'Content/policy.dart';
 import 'Content/about.dart';
 
-class SettingsPage1 extends StatelessWidget {
+class SettingsPage1 extends StatefulWidget {
   const SettingsPage1({Key? key}) : super(key: key);
+
+  @override
+  State<SettingsPage1> createState() => _SettingsPage1State();
+}
+
+class _SettingsPage1State extends State<SettingsPage1> {
+  // late bool mode = Theme.of(context).brightness == Brightness.dark;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +25,6 @@ class SettingsPage1 extends StatelessWidget {
         title: const Text("Settings"),
         backgroundColor: const Color.fromARGB(255, 96, 128, 118),
       ),
-      backgroundColor: const Color(0xfff6f6f6),
       body: Center(
         child: Container(
           constraints: const BoxConstraints(maxWidth: 400),
@@ -29,19 +36,32 @@ class SettingsPage1 extends StatelessWidget {
                   _CustomListTile(
                       title: "Dark Mode",
                       icon: CupertinoIcons.moon,
-                      trailing:
-                          CupertinoSwitch(value: false, onChanged: (value) {})),
+                      trailing: CupertinoSwitch(
+                          value: Theme.of(context).brightness == Brightness.dark,
+                          onChanged: (value) {
+                            EasyDynamicTheme.of(context).changeTheme();
+                            // mode = !mode;
+                          })),
                   const _CustomListTile(
                     title: "Version",
                     icon: CupertinoIcons.device_phone_portrait,
                     trailing: Text("1.0"),
                   ),
                   const _CustomListTile(
-                      title: "Change Log", icon: CupertinoIcons.cloud_download, widget: SettingsLog(),),
+                    title: "Change Log",
+                    icon: CupertinoIcons.cloud_download,
+                    widget: SettingsLog(),
+                  ),
                   _CustomListTile(
-                      title: "Suport", icon: CupertinoIcons.lock_shield, widget: Support(),),
+                    title: "Suport",
+                    icon: CupertinoIcons.lock_shield,
+                    widget: Support(),
+                  ),
                   const _CustomListTile(
-                      title: "About", icon: CupertinoIcons.person_2, widget: SettingsAbout(),),
+                    title: "About",
+                    icon: CupertinoIcons.person_2,
+                    widget: SettingsAbout(),
+                  ),
                 ],
               ),
               const _SingleSection(
@@ -51,15 +71,16 @@ class SettingsPage1 extends StatelessWidget {
                       title: "Condition générale d'utilisation",
                       icon: CupertinoIcons.lock),
                   _CustomListTile(
-                      title: "Politique de confidentialité",
-                      icon: CupertinoIcons.lock,
-                      widget: SettingsPolicy(),),
+                    title: "Politique de confidentialité",
+                    icon: CupertinoIcons.lock,
+                    widget: SettingsPolicy(),
+                  ),
                   _CustomListTile(
                       title: "Terms et condition",
                       icon: CupertinoIcons.lock,
                       widget: SettingsTandC()),
                   _CustomListTile(
-                      title: "Supprimer le compte", 
+                      title: "Supprimer le compte",
                       icon: CupertinoIcons.delete),
                 ],
               ),
@@ -111,6 +132,14 @@ class _SingleSection extends StatelessWidget {
     required this.children,
   }) : super(key: key);
 
+  Color setColor(bool value) {
+    if (value) {
+      return  Color.fromARGB(166, 78, 80, 79);
+    } else {
+      return  Colors.white;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -130,7 +159,7 @@ class _SingleSection extends StatelessWidget {
         ),
         Container(
           width: double.infinity,
-          color: Colors.white,
+          color: setColor(Theme.of(context).brightness == Brightness.dark),
           child: Column(
             children: children,
           ),
