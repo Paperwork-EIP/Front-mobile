@@ -319,7 +319,8 @@ class _HomePageState extends State<HomePage> {
                                         0, 3), // changes position of shadow
                                   ),
                                 ]),
-                            child: Column(
+                            child: SingleChildScrollView(
+                                    child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Padding(
@@ -334,41 +335,59 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const Divider(),
                                 FutureBuilder<OngoingProcess>(
-                                    future: getOngoingProcess(email: email),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        return (Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                          for (var i = 0; i < snapshot.data!.response.length; i++)
-                                            if (snapshot.data!.response[i]['userProcess']['is_done'] == false) ...{
-                                              Column(
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.symmetric(
-                                                        horizontal: 10.0,
-                                                        vertical: 10.0),
-                                                    child: Text(
-                                                        snapshot.data!.response[i]['userProcess']['process_title'],
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 20,
-                                                          color:Color(0xFF29C9B3),
-                                                        )),
-                                                  )
-                                                ],
-                                              )
-                                            }
-                                        ]));
-                                      } else {
-                                        return (const Text(
-                                            'No current process'));
-                                      }
-                                    }),
+                                      future: getOngoingProcess(email: email),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                for (var i = 0; i < snapshot.data!.response.length; i++)
+                                                  if (snapshot.data!.response[i]['userProcess']['is_done'] == false) ...{
+                                                    Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                                                          child: Text(snapshot.data!.response[i]['userProcess']['process_title'],
+                                                              style: const TextStyle(
+                                                                // fontWeight: FontWeight.bold,
+                                                                fontSize: 20,
+                                                                color: Colors.black,
+                                                              )),
+                                                        ),
+                                                        const Spacer(),
+                                                        if(snapshot.data!.response[i]['pourcentage'] == null) 
+                                                          const Padding(
+                                                            padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 10.0),
+                                                            child: Text('0%',
+                                                              style: TextStyle(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 20,
+                                                                color: Color(0xFFFC6976),
+                                                              )),
+                                                        )
+                                                        else
+                                                        Padding(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10.0),
+                                                            child: Text(snapshot.data!.response[i]['pourcentage'].toString() + '%',
+                                                              style: const TextStyle(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 20,
+                                                                color: Color(0xFFFC6976),
+                                                              )),
+                                                        )
+                                                      ],
+                                                    )
+                                                  }
+                                              ]);
+                                        } else {
+                                          return (const Text(
+                                              'No current process'));
+                                        }
+                                      }),
+                                
                               ],
                             ),
-                          )),
+                          ))),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(300, 40),

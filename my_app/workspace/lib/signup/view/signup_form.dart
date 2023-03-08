@@ -125,7 +125,7 @@ class _PasswordInputState extends State<_PasswordInput> {
               onChanged: (password) => context
                   .read<SignupBloc>()
                   .add(SignupPasswordChanged(password)),
-              obscureText: true,
+              obscureText: _isObscure,
               decoration: InputDecoration(
                 // suffix: TextButton(
                 //   child: const Text("Show"),
@@ -175,7 +175,7 @@ class _ConfirmPasswordInputState extends State<_ConfirmPasswordInput> {
               onChanged: (password) => context
                   .read<SignupBloc>()
                   .add(SignupPasswordChanged(password)),
-              obscureText: true,
+              obscureText: _isObscure,
               decoration: InputDecoration(
                 // suffix: TextButton(
                 //   child: const Text("Show"),
@@ -246,7 +246,7 @@ class _SignupButton extends StatelessWidget {
                         borderRadius: BorderRadius.circular(40.0))),
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 130)),
+                            vertical: 20, horizontal: 120)),
                     foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
                     backgroundColor: MaterialStateProperty.all<Color>(

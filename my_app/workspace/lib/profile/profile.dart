@@ -227,7 +227,7 @@ class MyFormState extends State<MyForm> {
         key: _formKey,
         child: Container(
           margin: const EdgeInsets.only(left: 20),
-          // width: 300,
+          width: 300,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
