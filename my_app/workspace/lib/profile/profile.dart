@@ -233,7 +233,6 @@ class MyFormState extends State<MyForm> {
             children: <Widget>[
               TextFormField(
                 controller: _controllerUsername,
-                maxLength: 300,
                 decoration: InputDecoration(
                   icon: const Icon(Icons.person),
                   hintText: _username,
