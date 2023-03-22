@@ -10,33 +10,32 @@ class SignupForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignupBloc, SignupState>(
-
-      listener: (context, state) {
-        if (state.status.isSubmissionFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
-            );
-        }
-      },
-      child: Align(
-        alignment: const Alignment(0, -1 / 3),
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.all(15.0),
-          children: [
-            _UsernameInput(),
-            const Padding(padding: EdgeInsets.all(10)),
-            _EmailInput(),
-            const Padding(padding: EdgeInsets.all(10)),
-            _PasswordInput(),
-            const Padding(padding: EdgeInsets.all(10)),
-            _ConfirmPasswordInput(),
-            const Padding(padding: EdgeInsets.all(40)),
-            Wrap(
-              spacing: 50,
-              alignment: WrapAlignment.center,
+        listener: (context, state) {
+          if (state.status.isSubmissionFailure) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(content: Text('Authentication Failure')),
+              );
+          }
+        },
+        child: SingleChildScrollView(
+          child: Align(
+            alignment: const Alignment(0, -1 / 3),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _UsernameInput(),
+                const Padding(padding: EdgeInsets.all(10)),
+                _EmailInput(),
+                const Padding(padding: EdgeInsets.all(10)),
+                _PasswordInput(),
+                const Padding(padding: EdgeInsets.all(10)),
+                _ConfirmPasswordInput(),
+                const Padding(padding: EdgeInsets.all(30)),
+                Wrap(
+                  spacing: 50,
+                  alignment: WrapAlignment.center,
 
                   children: [
                     _GoogleButton(),
@@ -48,8 +47,8 @@ class SignupForm extends StatelessWidget {
               ],
             ),
           ),
-        );
-      // );
+        )
+      );
   }
 }
 
@@ -127,8 +126,14 @@ class _PasswordInputState extends State<_PasswordInput> {
               onChanged: (password) => context
                   .read<SignupBloc>()
                   .add(SignupPasswordChanged(password)),
-              obscureText: true,
+              obscureText: _isObscure,
               decoration: InputDecoration(
+                // suffix: TextButton(
+                //   child: const Text("Show"),
+                //   onPressed: () {},
+                //   style: TextButton.styleFrom(
+                //       foregroundColor: const Color(0xFF29C9B3)),
+                // ),
                 suffixIcon: IconButton(
                     icon: Icon(
                         _isObscure ? Icons.visibility : Icons.visibility_off),
@@ -137,7 +142,6 @@ class _PasswordInputState extends State<_PasswordInput> {
                         _isObscure = !_isObscure;
                       });
                     }),
-
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 labelText: 'Password',
@@ -172,7 +176,7 @@ class _ConfirmPasswordInputState extends State<_ConfirmPasswordInput> {
               onChanged: (password) => context
                   .read<SignupBloc>()
                   .add(SignupPasswordChanged(password)),
-              obscureText: true,
+              obscureText: _isObscure,
               decoration: InputDecoration(
                 // suffix: TextButton(
                 //   child: const Text("Show"),
@@ -243,7 +247,7 @@ class _SignupButton extends StatelessWidget {
                         borderRadius: BorderRadius.circular(40.0))),
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 130)),
+                            vertical: 20, horizontal: 120)),
                     foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
                     backgroundColor: MaterialStateProperty.all<Color>(

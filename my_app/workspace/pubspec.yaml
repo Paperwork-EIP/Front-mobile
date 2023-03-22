@@ -36,6 +36,7 @@ dependencies:
   mockito: ^5.3.2
   fluttertoast: ^8.1.2
   easy_dynamic_theme: ^2.2.0
+  intl: any
 
   
 dev_dependencies:
@@ -51,6 +52,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  generate: true
   assets:
     - .env
 

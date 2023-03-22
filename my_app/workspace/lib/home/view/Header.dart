@@ -20,9 +20,9 @@ class UserPicture {
   final String username;
   final String password;
 
-  const UserPicture({required this.picture, required this.username, required this.password});
+const UserPicture({required this.picture, required this.username, required this.password});
 
-  factory UserPicture.fromJson(Map<String, dynamic> json) {
+factory UserPicture.fromJson(Map<String, dynamic> json) {
     return UserPicture(
       picture: json['profile_picture'],
       username: json['username'],
@@ -37,7 +37,7 @@ Future<UserPicture> getUserPicture({
   try {
     var response = await http.get(
       Uri.parse("${dotenv.get('SERVER_URL')}/user/getbyemail?email=$email"),
-      headers: {
+       headers: {
         "Content-Type": "application/json",
       },
     );
@@ -51,6 +51,7 @@ Future<UserPicture> getUserPicture({
     throw Exception('Failed to load Process');
   }
 }
+
 
 
 class Header extends StatelessWidget {
@@ -111,6 +112,7 @@ class NavBar extends StatelessWidget {
                 ),
                 // Container(child:
                 // if()
+
                 FutureBuilder<UserPicture>(
                     future: getUserPicture(email: globals.email),
                     builder: (context, snapshot) {

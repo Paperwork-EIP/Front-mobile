@@ -323,7 +323,8 @@ class _HomePageState extends State<HomePage> {
                                         0, 3), // changes position of shadow
                                   ),
                                 ]),
-                            child: Column(
+                            child: SingleChildScrollView(
+                                    child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Padding(
@@ -337,11 +338,12 @@ class _HomePageState extends State<HomePage> {
                                       )),
                                 ),
                                 const Divider(),
-                                FutureBuilder<OngoingProcess>(
+                                SingleChildScrollView(
+                                          child: FutureBuilder<OngoingProcess>(
                                     future: getOngoingProcess(email: email),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return (Column(
+                                        return Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                           for (var i = 0; i < snapshot.data!.response.length; i++)
@@ -364,15 +366,14 @@ class _HomePageState extends State<HomePage> {
                                                 ],
                                               )
                                             }
-                                        ]));
+                                        ]);
                                       } else {
-                                        return (const Text(
-                                            'No current process'));
+                                        return (const Text('No current process'));
                                       }
-                                    }),
+                                    }),)
                               ],
                             ),
-                          )),
+                          ))),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(300, 40),
