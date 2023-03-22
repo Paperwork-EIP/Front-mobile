@@ -13,6 +13,9 @@ class ResultQuizz extends StatefulWidget {
 
 class _ResultQuizzState extends State<ResultQuizz> {
   late Future<List<ToDo>> futureToDoList;
+  var step = {'step_id': 'tom', 'is_done': 'pass@123'};
+  final List<Map> stepUpdate =
+      []; // remetre la liste à null une fois le call effectuer
 
   @override
   void initState() {
@@ -35,22 +38,21 @@ class _ResultQuizzState extends State<ResultQuizz> {
           child: Column(
             children: [
               Container(
-                      margin: const EdgeInsets.only(
-                        top: 20,
-                        bottom: 20,
-                      ),
-                      child: Text(
-                        'All ToDos -' + processName!,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+                margin: const EdgeInsets.only(
+                  top: 20,
+                  bottom: 20,
+                ),
+                child: Text(
+                  'All ToDos -' + processName!,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
               Expanded(
-                child: 
-                FutureBuilder<List<ToDo>>(
+                child: FutureBuilder<List<ToDo>>(
                     future: futureToDoList,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -107,8 +109,12 @@ class _ResultQuizzState extends State<ResultQuizz> {
   }
 
   void _handleToDoChange(ToDo todo) {
+    Map details = <String, String>{};
     setState(() {
       todo.isDone = !todo.isDone;
     });
+    details['step_id'] = todo.id; 
+    details['is_done'] = todo.isDone;
+    stepUpdate.add(details);
   }
 }
