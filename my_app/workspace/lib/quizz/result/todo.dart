@@ -50,4 +50,25 @@ class ToDo {
       throw Exception('Failed to load album');
     }
   }
+
+  static Future<bool> fetchUpdateData(
+      resStep, processName) async {
+    final response = await http.post(
+        Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/add"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "process_title": processName,
+          "user_email": email,
+          "step": resStep,
+        }));
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
 }

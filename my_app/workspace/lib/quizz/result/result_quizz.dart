@@ -94,6 +94,8 @@ class _ResultQuizzState extends State<ResultQuizz> {
                   ),
                 ),
                 onPressed: () {
+                  ToDo.fetchUpdateData(widget.processName, stepUpdate);
+                  stepUpdate.clear();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => HomePage()),
@@ -113,7 +115,7 @@ class _ResultQuizzState extends State<ResultQuizz> {
     setState(() {
       todo.isDone = !todo.isDone;
     });
-    details['step_id'] = todo.id; 
+    details['step_id'] = todo.id;
     details['is_done'] = todo.isDone;
     stepUpdate.add(details);
   }
