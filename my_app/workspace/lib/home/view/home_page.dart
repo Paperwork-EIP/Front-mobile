@@ -359,7 +359,7 @@ class _HomePageState extends State<HomePage> {
                                                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(300, 40),
-                          backgroundColor: const Color.fromRGBO(24,233, 111, 0),
+                          backgroundColor: Color.fromARGB(0, 201, 201, 201),
                           // shape: RoundedRectangleBorder(
                           //   borderRadius: BorderRadius.circular(30.0),
                           // ),

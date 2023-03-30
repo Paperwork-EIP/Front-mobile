@@ -50,15 +50,15 @@ class _UserProcessState extends State<UserProcess> {
                         Text(
                           'All ToDos - ' + processName!,
                           style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 30,
+                            // color: Colors.black,
+                            fontSize: 25,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         Tooltip(
                           message: 'See more details',
                           child: IconButton(
-                            iconSize: 25,
+                            iconSize: 20,
                             icon: const Icon(
                               Icons.link,
                             ),
