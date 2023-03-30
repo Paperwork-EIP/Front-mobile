@@ -115,8 +115,8 @@ class _ResultQuizzState extends State<ResultQuizz> {
     setState(() {
       todo.isDone = !todo.isDone;
     });
-    details['step_id'] = todo.id;
-    details['is_done'] = todo.isDone;
+    details['step_id'] = todo.id.toString();
+    details['is_done'] = todo.isDone.toString();
     stepUpdate.add(details);
   }
 }

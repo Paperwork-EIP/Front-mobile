@@ -17,6 +17,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:my_app/global.dart' as globals;
 
+import '../../quizz/result/user_process.dart';
+
 class UserPicture {
   final picture;
   final String username;
@@ -354,15 +356,29 @@ class _HomePageState extends State<HomePage> {
                                                     padding: const EdgeInsets.symmetric(
                                                         horizontal: 10.0,
                                                         vertical: 10.0),
-                                                    child: Text(
-                                                        snapshot.data!.response[i]['userProcess']['process_title'],
-                                                        style: const TextStyle(
+                                                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size(300, 40),
+                          backgroundColor: const Color.fromRGBO(24,233, 111, 0),
+                          // shape: RoundedRectangleBorder(
+                          //   borderRadius: BorderRadius.circular(30.0),
+                          // ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UserProcess(processName: snapshot.data!.response[i]['userProcess']['process_title'])),
+                          );
+                        },
+                        child: Text( snapshot.data!.response[i]['userProcess']['process_title'],  style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize: 20,
                                                           color:Color(0xFF29C9B3),
                                                         )),
-                                                  )
+                                                    ),
+                                                    ),
                                                 ],
                                               )
                                             }
