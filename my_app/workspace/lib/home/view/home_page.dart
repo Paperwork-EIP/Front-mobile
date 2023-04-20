@@ -376,7 +376,7 @@ class _HomePageState extends State<HomePage> {
                                                         const Spacer(),
                                                         if(snapshot.data!.response[i]['pourcentage'] == null) 
                                                           const Padding(
-                                                            padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 10.0),
+                                                            padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 6.0),
                                                             child: Text('0%',
                                                               style: TextStyle(
                                                                 fontWeight: FontWeight.bold,
@@ -394,41 +394,38 @@ class _HomePageState extends State<HomePage> {
                                                                 color: Colors.black,
                                                               )),
                                                         )]
-                                                        ))
-                                                        ],
-                                                      ),
-                                            },
-                                            Padding(
-                                                    padding: const EdgeInsets.symmetric(
-                                                        horizontal: 10.0,
-                                                        vertical: 10.0),
-                                                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(300, 40),
-                          backgroundColor: Color.fromARGB(0, 201, 201, 201),
-                          // shape: RoundedRectangleBorder(
-                          //   borderRadius: BorderRadius.circular(30.0),
-                          // ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => UserProcess(processName: snapshot.data!.response[i]['userProcess']['process_title'])),
-                          );
-                        },
-                        child: Text( snapshot.data!.response[i]['userProcess']['process_title'],  style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 20,
-                                                          color:Color(0xFF29C9B3),
                                                         )),
-                                                    ),
-                                                    ),
+                                                  //   Padding(
+                                                  //     padding: const EdgeInsets.symmetric(
+                                                  //       horizontal: 10.0,
+                                                  //       vertical: 10.0),
+                                                  //     child: ElevatedButton(
+                                                  //       style: ElevatedButton.styleFrom(
+                                                  //       fixedSize: const Size(300, 40),
+                                                  //       backgroundColor: Color.fromARGB(0, 201, 201, 201),
+                                                  //       // shape: RoundedRectangleBorder(
+                                                  //       //   borderRadius: BorderRadius.circular(30.0),
+                                                  //       // ),
+                                                  //     ),
+                                                  //     onPressed: () {
+                                                  //       Navigator.push(
+                                                  //         context,
+                                                  //         MaterialPageRoute(
+                                                  //             builder: (context) => UserProcess(processName: snapshot.data!.response[i]['userProcess']['process_title'])),
+                                                  //       );
+                                                  //     },
+                                                  //     child: Text( snapshot.data!.response[i]['userProcess']['process_title'],  style: const TextStyle(
+                                                  //         fontWeight:
+                                                  //             FontWeight.bold,
+                                                  //         fontSize: 20,
+                                                  //         color:Color(0xFF29C9B3),
+                                                  //       )),
+                                                  //   ),
+                                                  // ),
                                                 ],
                                               )
                                             }
-                              ]);
+                                          ]);
                                       } else {
                                         return (const Text('No current process'));
                                       }
