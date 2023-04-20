@@ -54,10 +54,10 @@ late Map<DateTime, List<Event>> kEventsSource = {};
 
 Future<List<Event>> fetchEvents() async {
   List<Event> events = [];
-  final email = globals.email;
+  final token = globals.token;
 
   final response = await http.get(
-    Uri.parse("${dotenv.get('SERVER_URL')}/calendar/getAll?email=$email"),
+    Uri.parse("${dotenv.get('SERVER_URL')}/calendar/getAll?token=$token"),
     headers: {
       "Content-Type": "application/json",
     },

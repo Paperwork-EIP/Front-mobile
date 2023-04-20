@@ -89,24 +89,24 @@ final List<Article> _articles = [
   ),
   Article(
     title:
-        "Justificatif de domicile",
+        "Proof of residence",
     author: "A proof of address is a document that verifies where you live. It is often required as a form of identification when you need to open a bank account, apply for credit, or get a government-issued ID card. A proof of address can take many forms, but it typically includes your name, your address, and a date",
   ),
-  Article(
-    title: "Vital card",
-    author: "Health insurance policies typically cover a wide range of medical expenses, such as hospitalization, surgical procedures, prescription drugs, laboratory tests, and doctor visits. Some policies may also cover specialized treatments such as dental, vision, or mental health care.",
-  ),
-  Article(
-      title: "Passeport",
-      author: "A passport is a travel document that is issued by a government to its citizens for the purpose of international travel. It is an official proof of identity and citizenship that allows the passport holder to enter and exit foreign countries, and to request assistance and protection from their government while abroad.",
-  ),
-  Article(
-    title: "Visa",
-    author: "A visa is an official document or endorsement placed in a passport that allows the passport holder to enter, stay, or exit a foreign country for a specific period of time and for a specific purpose. The purpose of a visa is to regulate and control the entry and stay of foreign visitors in a country.",
-  ),
-  Article(
-    title:
-        "Justificatif de domicile",
-    author: "A proof of address is a document that verifies where you live. It is often required as a form of identification when you need to open a bank account, apply for credit, or get a government-issued ID card. A proof of address can take many forms, but it typically includes your name, your address, and a date",
-  ),
+  // Article(
+  //   title: "Vital card",
+  //   author: "Health insurance policies typically cover a wide range of medical expenses, such as hospitalization, surgical procedures, prescription drugs, laboratory tests, and doctor visits. Some policies may also cover specialized treatments such as dental, vision, or mental health care.",
+  // ),
+  // Article(
+  //     title: "Passeport",
+  //     author: "A passport is a travel document that is issued by a government to its citizens for the purpose of international travel. It is an official proof of identity and citizenship that allows the passport holder to enter and exit foreign countries, and to request assistance and protection from their government while abroad.",
+  // ),
+  // Article(
+  //   title: "Visa",
+  //   author: "A visa is an official document or endorsement placed in a passport that allows the passport holder to enter, stay, or exit a foreign country for a specific period of time and for a specific purpose. The purpose of a visa is to regulate and control the entry and stay of foreign visitors in a country.",
+  // ),
+  // Article(
+  //   title:
+  //       "Justificatif de domicile",
+  //   author: "A proof of address is a document that verifies where you live. It is often required as a form of identification when you need to open a bank account, apply for credit, or get a government-issued ID card. A proof of address can take many forms, but it typically includes your name, your address, and a date",
+  // ),
 ];

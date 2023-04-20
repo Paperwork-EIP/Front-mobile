@@ -9,7 +9,7 @@ Future<void> submitProcessIdea(
     {required String title,
     required String description,
     required String content,
-    required String email}) async {
+    required String token}) async {
       
   var response;
   try {
@@ -22,7 +22,7 @@ Future<void> submitProcessIdea(
         "title": title,
         "description": description,
         "content": content,
-        "email": email,
+        "token": token,
       }),
     );
     if (response.statusCode == 200) {
@@ -123,7 +123,7 @@ class AddPropal extends StatelessWidget {
                             title: _controllerEmail.text,
                             description: _controllerPassword.text,
                             content: _controller.text,
-                            email: globals.email);
+                            token: globals.token);
                         _controllerEmail.clear();
                         _controllerPassword.clear();
                         _controller.clear();

@@ -23,10 +23,10 @@ class AuthRepository {
     var response;
     globals.email = email;
     globals.password = password;
-    print(json.encode({
-      'email': email,
-      'password': password,
-    }));
+    // print(json.encode({
+    //   'email': email,
+    //   'password': password,
+    // }));
     try {
       response = await http.post(
         Uri.parse("${dotenv.get('SERVER_URL')}/user/login"),
@@ -36,6 +36,10 @@ class AuthRepository {
         body: json.encode({"email": email, "password": password}),
       );
       if (response.statusCode == 200) {
+        print(response.body);
+        var token = jsonDecode(response.body);
+        // print("token = " + token["jwt"]);
+        globals.token = token["jwt"].toString();
         _controller.add(AuthStatus.authenticated);
       }
     } catch (e) {

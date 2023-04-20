@@ -19,30 +19,32 @@ class UserPicture {
   final String picture;
   final String username;
   final String password;
+  final String language;
 
-const UserPicture({required this.picture, required this.username, required this.password});
+const UserPicture({required this.picture, required this.username, required this.password, required this.language});
 
 factory UserPicture.fromJson(Map<String, dynamic> json) {
     return UserPicture(
       picture: json['profile_picture'],
       username: json['username'],
       password: json['password'],
+      language: json['language'],
     );
   }
 }
 
 Future<UserPicture> getUserPicture({
-  required String email,
+  required String token
 }) async {
   try {
     var response = await http.get(
-      Uri.parse("${dotenv.get('SERVER_URL')}/user/getbyemail?email=$email"),
+      Uri.parse("${dotenv.get('SERVER_URL')}/user/getbytoken?token=$token"),
        headers: {
         "Content-Type": "application/json",
       },
     );
     if (response.statusCode == 200) {
-      // print(response.body);
+      print(response.body);
       return UserPicture.fromJson(jsonDecode(response.body));
     }
     return UserPicture.fromJson(
@@ -114,11 +116,12 @@ class NavBar extends StatelessWidget {
                 // if()
 
                 FutureBuilder<UserPicture>(
-                    future: getUserPicture(email: globals.email),
+                    future: getUserPicture(token: globals.token),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         // globals.picture = snapshot.data!.response;
                         globals.username = snapshot.data!.username;
+                        globals.language = snapshot.data!.language;
                         if (snapshot.data!.picture != null) {
                                 return Material(
                             color: Colors.white,

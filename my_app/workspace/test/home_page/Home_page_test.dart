@@ -38,7 +38,7 @@ void main() {
     test('should throw an exception when invalid email is passed', () async {
       const invalidEmail = 'invalid@example';
 
-      expect(() => getOngoingProcess(email: invalidEmail), throwsException);
+      expect(() => getOngoingProcess(token: invalidEmail), throwsException);
     });
   });
   group('Calendar', () {
@@ -55,7 +55,7 @@ void main() {
     });
     test('should return a valid response data', () async {
       final response = await http.get(
-        Uri.parse("$url/calendar/getAll?email=$email"),
+        Uri.parse("$url/calendar/getAll?token=$email"),
         headers: headers,
       );
       final result = json.decode(response.body);
@@ -66,7 +66,7 @@ void main() {
     test('should throw an exception when invalid email is passed', () async {
       const invalidEmail = 'invalid@example';
 
-      expect(() => getCalendar(email: invalidEmail), throwsException);
+      expect(() => getCalendar(token: invalidEmail), throwsException);
     });
   });
 }

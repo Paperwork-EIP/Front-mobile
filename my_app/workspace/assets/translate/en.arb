@@ -20,5 +20,15 @@
     "headerSuggestProcess": "Suggest a process",
     "headerHelp": "Help",
     "headerSettings": "Settings",
-    "headerLogOut": "Logout"
+    "headerLogOut": "Logout",
+    "vitalCard": "Vital card",
+    "passport": "Passport",
+    "visa": "Visa",
+    "proofOfResidence": "Proof of residence",
+    "darkMode": "Dark mode",
+    "version": "Version",
+    "changeLog": "Change Log",
+    "support": "Support",
+    "about": "About"
+
 }

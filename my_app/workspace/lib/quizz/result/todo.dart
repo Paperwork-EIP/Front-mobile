@@ -37,7 +37,7 @@ class ToDo {
   static Future<List<ToDo>> fetchTodoList(processName) async {
     final response = await http.get(
       Uri.parse(
-          "${dotenv.get('SERVER_URL')}/userProcess/getUserSteps?user_email=$email&process_title=$processName"),
+          "${dotenv.get('SERVER_URL')}/userProcess/getUserSteps?user_token=$token&process_title=$processName"),
       headers: {
         "Content-Type": "application/json",
       },

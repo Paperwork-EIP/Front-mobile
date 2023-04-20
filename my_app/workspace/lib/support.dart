@@ -22,7 +22,7 @@ Future<void> submitProcessIdea(
         "title": title,
         "description": description,
         "content": content,
-        "email": email,
+        "token": email,
       }),
     );
     if (response.statusCode == 200) {

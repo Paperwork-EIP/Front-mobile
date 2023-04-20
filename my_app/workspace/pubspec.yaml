@@ -57,11 +57,8 @@ flutter:
     - .env
 
     - assets/makima.png
-    - assets/Calendar.png
+    - assets/images/profil_background.png
     - assets/images/profile.jpg
-    - assets/ongoing_process.png
-    - assets/start_new_process.png
-    - assets/Bar Line.png
     - assets/images/google_image.png
     - assets/images/facebook_image.png
   #   - images/a_dot_burr.jpeg
