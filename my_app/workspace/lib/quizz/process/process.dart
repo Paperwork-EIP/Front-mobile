@@ -35,21 +35,21 @@ class Quizz extends StatelessWidget {
   }
 }
 
-List<int> listy = [];
+List<Map> listy = [];
 
-List<String> stepList(parsedJson) {
-  List<String> list = [];
+List<Map> stepList(parsedJson) {
+  List<Map> list = [];
   ProcessQuestion obj = ProcessQuestion.fromJson(parsedJson);
 
   for (var i in obj.question!) {
-    list.add(i[1]);
-    listy.add(i[0]);
+    list.add(i);
+    listy.add(i);
   }
   return list;
 }
 
-Future<List<String>> fetchQuestions(processName) async {
-  List<String> parsedJson;
+Future<List<Map>> fetchQuestions(processName) async {
+  List<Map> parsedJson;
 
   final response = await http.get(
     Uri.parse(
@@ -62,7 +62,9 @@ Future<List<String>> fetchQuestions(processName) async {
     parsedJson = stepList(jsonDecode(response.body));
     return parsedJson;
   } else if (response.statusCode == 404) {
-    return ["404"];
+    return [
+      {"status": "404"}
+    ];
   } else {
     throw Exception('Failed to load album');
   }
@@ -79,7 +81,8 @@ class QuizzProcess extends StatefulWidget {
 class _QuizzProcessState extends State<QuizzProcess> {
   var count = 0;
   var res = [];
-  late Future<List<String>> futureQuestion;
+  Map resStep = {"step_id": "", "question": ""};
+  late Future<List<Map>> futureQuestion;
 
   @override
   void initState() {
@@ -91,16 +94,17 @@ class _QuizzProcessState extends State<QuizzProcess> {
   Widget build(BuildContext context) {
     String? processName = widget.processName;
 
-    void increment(int id, bool value) {
+    void increment(int nb, bool value) {
       if (count < listy.length - 1) {
-        setState(() {
-          count = count + 1;
-          res.add([listy[count], value]);
-        });
+        resStep["step_id"] = listy[count]["step_id"];
+        resStep["is_done"] = value;
+        res.add(resStep);
+        count = count + 1;
       } else {
-        res.add([listy[count], value]);
+        resStep["step_id"] = listy[count]["step_id"];
+        resStep["is_done"] = value;
+        res.add(resStep);
         ProcessQuestion.fetchResultQuizz(res, processName, context);
-
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -139,68 +143,73 @@ class _QuizzProcessState extends State<QuizzProcess> {
                       style: const TextStyle(fontSize: 22),
                       textAlign: TextAlign.center),
                 ),
-                Center(
-                    child: FutureBuilder<List<String>>(
-                        future: futureQuestion,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            if (snapshot.data![0] == '404') {
-                              return const Text("Trouve un moyen c'est pas normal");
-                            } else {
-                              return Text(
-                                snapshot.data![count],
-                                style: TextStyle(
-                                    // color: Colors.black.withOpacity(0.6),
-                                    fontSize: 18),
-                                textAlign: TextAlign.center,
-                              );
-                            }
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          }
+                FutureBuilder<List<Map>>(
+                    future: futureQuestion,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data![0]["status"] == '404') {
+                          return const Text("Trouve un moyen c'est pas normal");
+                        } else {
+                          return Stack(children: [
+                            Text(
+                              snapshot.data![count]["question"],
+                              style: const TextStyle(
+                                  // color: Colors.black.withOpacity(0.6),
+                                  fontSize: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                            ButtonBar(
+                              alignment: MainAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 228, 117, 126),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
+                                      )),
+                                  onPressed: () {
+                                    increment(count, false);
+                                  },
+                                  child: const Text(
+                                    'No',
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 166, 221, 204),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
+                                      )),
+                                  onPressed: () {
+                                    increment(count, true);
+                                  },
+                                  child: const Text(
+                                    'Yes',
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ]);
+                        }
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
 
-                          return const CircularProgressIndicator();
-                        })),
-                ButtonBar(
-                  alignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      style: TextButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 228, 117, 126),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          )),
-                      onPressed: () {
-                        increment(count, false);
-                      },
-                      child: const Text(
-                        'No',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 166, 221, 204),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          )),
-                      onPressed: () {
-                        increment(count, true);
-                      },
-                      child: const Text(
-                        'Yes',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
-                ),
+                      return const CircularProgressIndicator();
+                    })
               ],
             ),
           ),
@@ -299,7 +308,8 @@ class _StartProcessState extends State<StartProcess> {
                 },
                 child: const Text(
                   'Start',
-                  style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 255, 255, 255)),
+                  style: TextStyle(
+                      fontSize: 20, color: Color.fromARGB(255, 255, 255, 255)),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -311,8 +321,7 @@ class _StartProcessState extends State<StartProcess> {
   }
 
   Widget dropDown(BuildContext context, final List<String> items) {
-
-      Color setColor(bool value) {
+    Color setColor(bool value) {
       if (value) {
         return const Color.fromARGB(242, 211, 207, 210);
       } else {
@@ -346,12 +355,11 @@ class _StartProcessState extends State<StartProcess> {
       disabledHint: const Text("Disabled"),
       elevation: 4,
       style: TextStyle(
-          color: setColor(Theme.of(context).brightness == Brightness.dark), 
+          color: setColor(Theme.of(context).brightness == Brightness.dark),
           fontSize: 18),
       iconDisabledColor: Colors.grey[350],
       iconEnabledColor: Colors.green,
       isExpanded: true,
     ));
-    
   }
 }

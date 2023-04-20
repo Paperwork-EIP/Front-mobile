@@ -27,10 +27,10 @@ class ToDo {
     ToDo elem;
     List<ToDo> tab = [];
 
-      for (var i in res) {
-        elem = ToDo.fromJson(i);
-        tab.add(elem);
-      }
+    for (var i in res) {
+      elem = ToDo.fromJson(i);
+      tab.add(elem);
+    }
     return tab;
   }
 
@@ -47,6 +47,28 @@ class ToDo {
       var parsedJson = jsonDecode(response.body);
       return todoList(parsedJson);
     } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
+  static Future<bool> fetchUpdateData(resStep, processName) async {
+    final response = await http.post(
+        Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/add"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "process_title": processName,
+          "user_email": email,
+          "step": resStep,
+        }));
+
+    if (response.statusCode == 200) {
+      print("c'est good");
+      return true;
+    } else {
+      print("c'est pas bon je ne sais pas pk");
+      print(response);
       throw Exception('Failed to load album');
     }
   }
