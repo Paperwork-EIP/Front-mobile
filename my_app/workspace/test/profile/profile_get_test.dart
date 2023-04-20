@@ -31,7 +31,7 @@ void main() {
     test('should return a valid response data', () async {
       final response = await http.get(
         Uri.parse(
-            "$url/user//modifyDatas?email=$email&username=$newUsername&new_email=$newEmail&password=$newPassword&profile_picture=$newPicture"),
+            "$url/user//modifyDatas?token=$email&username=$newUsername&new_email=$newEmail&password=$newPassword&profile_picture=$newPicture"),
         headers: headers,
       );
       final result = json.decode(response.body);
@@ -43,7 +43,7 @@ void main() {
       const invalidEmail = 'invalid@example';
 
       expect(
-          () => setModifyUser(email: invalidEmail, newEmail: newEmail, newUsername: newUsername, newPassword: newPassword, profilePicture: newPicture), throwsException);
+          () => setModifyUser(token: "azertyuytfdsdrftyytrezzerty", email: invalidEmail, newEmail: newEmail, newUsername: newUsername, newPassword: newPassword, profilePicture: newPicture), throwsException);
     });
   });
 

@@ -21,5 +21,13 @@
     "headerHelp": "Aide",
     "headerSettings": "Paramètres",
     "headerLogOut": "Se déconnecter",
-    "": ""
+    "VitalCard": "Carte vital",
+    "Passport": "Passport",
+    "Visa": "Visa",
+    "ProofOfResidence": "Justificatif de domicile",
+    "DarkMode": "Version sombre",
+    "Version": "Version",
+    "ChangeLog": "Rapport de changement",
+    "Support": "Support",
+    "About": "A propos"
 }

@@ -19,8 +19,8 @@ class ModifyProfile {
   }
 }
 
-
 Future<ModifyProfile> setModifyUser({
+  required String token,
   required String email,
   required String newEmail,
   required String newUsername,
@@ -28,7 +28,6 @@ Future<ModifyProfile> setModifyUser({
   required profilePicture,
 }) async {
   try {
-    print(newEmail);
     if (newEmail == "") {
       newEmail = globals.email;
     } else {
@@ -39,9 +38,7 @@ Future<ModifyProfile> setModifyUser({
     }
     if (newPassword == "") {
       newPassword = globals.password;
-
     } else {
-
       globals.password = newPassword;
     }
     if (profilePicture == "") {
@@ -49,13 +46,21 @@ Future<ModifyProfile> setModifyUser({
     } else {
       globals.globalUserPicture = profilePicture;
     }
-    var response = await http.get(
+    var response = await http.post(
       Uri.parse(
-          "${dotenv.get('SERVER_URL')}/user//modifyDatas?email=$email&username=$newUsername&new_email=$newEmail&password=$newPassword&profile_picture=$profilePicture"),
+          "${dotenv.get('SERVER_URL')}/user/modifyDatas"),
+      //?token=$email&username=$newUsername&new_email=$newEmail&password=$newPassword&profile_picture=$profilePicture"
 
       headers: {
         "Content-Type": "application/json",
       },
+      body: json.encode({
+        "token": token,
+        "new_email": newEmail,
+        "username": newUsername,
+        "password": newPassword,
+        "profile_picture": profilePicture,
+      }),
     );
     if (response.statusCode == 200) {
       // print(response.body);
@@ -75,24 +80,28 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // Drawer(
+      appBar: AppBar(
+        title: const Text("Profil"),
+        backgroundColor: const Color(0xFF29C9B3),
+      ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
             child: Stack(children: <Widget>[
-          Row(children: const <Widget>[
-            SizedBox(
-                height: 150.0,
-                child: 
-            BackButton(
-              color: Color.fromRGBO(252, 105, 118, 1),
-            ))
-          ]),
+          Image.asset(
+            'assets/images/profil_background.png',
+            fit: BoxFit.cover,
+          ),
+          // const SizedBox(
+          //     height: 100.0,
+          //     child: BackButton(
+          //       color: Colors.white,
+          //     )),
           Column(children: <Widget>[
             Container(
-                margin: const EdgeInsets.only(top: 20),
+                margin: const EdgeInsets.only(top: 100),
                 padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                width: 325,
-                height: 200,
+                width: 350,
+                height: 100,
                 child:
                     // FutureBuilder<UserPicture>(
                     //     future: getUserPicture(email: globals.email),
@@ -139,14 +148,13 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.transparent,
                     elevation: 0,
                   ),
                   child: Material(
-                      color: Colors.white,
+                      color: Colors.transparent,
                       elevation: 8,
                       shape: const CircleBorder(),
-                      // borderRadius: BorderRadius.circular(1000),
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       child: InkWell(
                           splashColor: Colors.black26,
@@ -197,14 +205,16 @@ class Profile extends StatelessWidget {
                 // );
                 // }
                 ),
-            MyForm(),
+            SizedBox(
+              width: 300,
+              child: MyForm(),
+            ),
           ])
         ])));
   }
 }
 
 class MyForm extends StatefulWidget {
-
   @override
   MyFormState createState() {
     return MyFormState();
@@ -220,6 +230,18 @@ class MyFormState extends State<MyForm> {
   final _controllerUsername = TextEditingController();
   final _controllerEmail = TextEditingController();
   final _controllerPassword = TextEditingController();
+  String _dropDownValue = globals.language;
+
+  List<DropdownMenuItem<String>> get dropdownItems{
+    List<DropdownMenuItem<String>> menuItems = [
+      DropdownMenuItem(child: Text("English"), value: "english"),
+      DropdownMenuItem(child: Text("Français"), value: "french"),
+      DropdownMenuItem(child: Text("Español"), value: "Spanish"),
+      DropdownMenuItem(child: Text("Português"), value: "Portuguese"),
+    ];
+  return menuItems;
+  }
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -227,7 +249,8 @@ class MyFormState extends State<MyForm> {
         key: _formKey,
         child: Container(
           margin: const EdgeInsets.only(left: 20),
-          width: 300,
+          // padding: const EdgeInsets.only(bottom: 20),
+          // width: 300,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -262,40 +285,69 @@ class MyFormState extends State<MyForm> {
               //     labelText: 'Confirm Password',
               //   ),
               // ),
-              
+              SizedBox(
+                  width: 100,
+                  child: DropdownButton<String>(
+                    value: _dropDownValue,
+                    hint: const Text('Select Process'),
+                    icon: const Icon(
+                      Icons.arrow_downward,
+                      size: 20,
+                      color: Color.fromARGB(255, 166, 221, 204),
+                    ),
+                    underline: Container(
+                      height: 1,
+                      color: const Color.fromARGB(255, 228, 117, 126),
+                    ),
+                    items: dropdownItems,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _dropDownValue = newValue!;
+                      });
+                    },
+                    disabledHint: const Text("Disabled"),
+                    elevation: 4,
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18),
+                    iconDisabledColor: Colors.grey[350],
+                    iconEnabledColor: Colors.green,
+                    isExpanded: true,
+                  )),
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 ElevatedButton(
                   onPressed: () {
                     showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Your Modifications has been send'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context, 'Ok');
-                          },
-                          child: const Text('Ok'),
-                        ),
-                      ],
-                    ),
-                  );
-                  setModifyUser(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Your Modifications has been send'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, 'Ok');
+                            },
+                            child: const Text('Ok'),
+                          ),
+                        ],
+                      ),
+                    );
+                    setModifyUser(
+                      token: globals.token,
                       email: globals.email,
                       newEmail: _controllerEmail.text,
                       newUsername: _controllerUsername.text,
                       newPassword: _controllerPassword.text,
                       profilePicture: globals.tentativeLink,
                     );
-                  _controllerEmail.clear();
-                  _controllerUsername.clear();
-                  _controllerPassword.clear();
+                    _controllerEmail.clear();
+                    _controllerUsername.clear();
+                    _controllerPassword.clear();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF29C9B3),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          side: const BorderSide(color: Color(0xFF29C9B3))),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        side: const BorderSide(color: Color(0xFF29C9B3))),
                     elevation: 0,
                   ),
                   child: const Text(
@@ -303,32 +355,31 @@ class MyFormState extends State<MyForm> {
                     style: TextStyle(fontSize: 18, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
-                //   TextButton(
-                //   style: TextButton.styleFrom(
-                //       backgroundColor: const Color(0xFF29C9B3),
-                //       shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(25.0),
-                //           side: const BorderSide(color: Color(0xFF29C9B3)))),
-                //   onPressed: () {
-                //     // print(_controllerEmail.text);
-                //     // print(_controllerPassword.text);
-                //     // print(_controllerUsername.text);
-                //     setModifyUser(
-                //       email: globals.email,
-                //       newEmail: _controllerEmail.text,
-                //       newUsername: _controllerUsername.text,
-                //       newPassword: _controllerPassword.text,
-                //       profilePicture: globals.tentativeLink,
-                //     );
-                //   },
-                //   child: const Text(
-                //     'Submit',
-                //     style: TextStyle(fontSize: 18, color: Colors.white),
-                //     textAlign: TextAlign.center,
-                //   ),
-                // ),
+                  //   TextButton(
+                  //   style: TextButton.styleFrom(
+                  //       backgroundColor: const Color(0xFF29C9B3),
+                  //       shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(25.0),
+                  //           side: const BorderSide(color: Color(0xFF29C9B3)))),
+                  //   onPressed: () {
+                  //     // print(_controllerEmail.text);
+                  //     // print(_controllerPassword.text);
+                  //     // print(_controllerUsername.text);
+                  //     setModifyUser(
+                  //       email: globals.email,
+                  //       newEmail: _controllerEmail.text,
+                  //       newUsername: _controllerUsername.text,
+                  //       newPassword: _controllerPassword.text,
+                  //       profilePicture: globals.tentativeLink,
+                  //     );
+                  //   },
+                  //   child: const Text(
+                  //     'Submit',
+                  //     style: TextStyle(fontSize: 18, color: Colors.white),
+                  //     textAlign: TextAlign.center,
+                  //   ),
+                  // ),
                 )
-                
               ]),
             ],
           ),

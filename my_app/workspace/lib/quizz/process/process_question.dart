@@ -26,7 +26,7 @@ class ProcessQuestion {
         },
         body: jsonEncode({
           "process_title": processName,
-          "user_email": email,
+          "user_token": token,
           "questions": resQuestion,
         }));
 
@@ -66,7 +66,7 @@ class ProcessName {
   static Future<List<String>> fetchProcessName() async {
     List<String> list;
     final response = await http.get(
-      Uri.parse("${dotenv.get('SERVER_URL')}/process/getAll?user_email=$email"),
+      Uri.parse("${dotenv.get('SERVER_URL')}/process/getAll?user_token=$token"),
       headers: {
         "Content-Type": "application/json",
       },

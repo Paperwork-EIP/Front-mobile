@@ -53,7 +53,7 @@ Future<List<Map>> fetchQuestions(processName) async {
 
   final response = await http.get(
     Uri.parse(
-        "${dotenv.get('SERVER_URL')}/processQuestions/get?title=$processName&user_email=$email"),
+        "${dotenv.get('SERVER_URL')}/processQuestions/get?title=$processName&user_token=$token"),
     headers: {
       "Content-Type": "application/json",
     },

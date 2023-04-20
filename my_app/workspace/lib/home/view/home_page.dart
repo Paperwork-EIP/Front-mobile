@@ -8,6 +8,7 @@ import 'package:my_app/home/view/Header.dart';
 // import 'package:my_app/calendar.dart';
 // import 'package:my_app/profile/profile.dart';
 import 'package:my_app/quizz/process/process.dart';
+import 'package:my_app/quizz/result/result_quizz.dart';
 import 'package:intl/intl.dart';
 
 import 'dart:async';
@@ -36,11 +37,11 @@ class UserPicture {
 }
 
 Future<UserPicture> getUserPicture({
-  required String email,
+  required String token,
 }) async {
   try {
     var response = await http.get(
-      Uri.parse("${dotenv.get('SERVER_URL')}/user/getbyemail?email=$email"),
+      Uri.parse("${dotenv.get('SERVER_URL')}/user/getbytoken?token=$token"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -49,7 +50,7 @@ Future<UserPicture> getUserPicture({
       var data = UserPicture.fromJson(jsonDecode(response.body));
       globals.globalUserPicture = data.picture;
       globals.username = data.username;
-      // print(response.body);
+      print(response.body);
       return UserPicture.fromJson(jsonDecode(response.body));
     }
     return UserPicture.fromJson(
@@ -74,21 +75,21 @@ class OngoingProcess {
 }
 
 Future<OngoingProcess> getOngoingProcess({
-  required String email,
+  required String token,
 }) async {
 
   try {
     var response;
     response = await http.get(
       Uri.parse(
-          "${dotenv.get('SERVER_URL')}/userProcess/getUserProcesses?user_email=$email"),
+          "${dotenv.get('SERVER_URL')}/userProcess/getUserProcesses?user_token=$token"),
       headers: {
         "Content-Type": "application/json",
       },
     );
     
     if (response.statusCode == 200) {
-      // print(response.body);
+      print(response.body);
       return OngoingProcess.fromJson(jsonDecode(response.body));
     }
     return OngoingProcess.fromJson({
@@ -119,12 +120,12 @@ class Calendar {
 }
 
 Future<Calendar> getCalendar({
-  required String email,
+  required String token,
 }) async {
 
   try {
     var response = await http.get(
-      Uri.parse("${dotenv.get('SERVER_URL')}/calendar/getAll?email=$email"),
+      Uri.parse("${dotenv.get('SERVER_URL')}/calendar/getAll?token=$token"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -156,7 +157,7 @@ class HomePage extends StatefulWidget {
 
 @visibleForTesting
 class _HomePageState extends State<HomePage> {
-  final String email = globals.email;
+  final String token = globals.token;
 
   final String finishedProcess = 'None';
 
@@ -172,7 +173,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    getUserPicture(email: email);
+    getUserPicture(token: token);
     return Scaffold(
         key: _scaffoldKey,
         appBar: PreferredSize(
@@ -201,9 +202,9 @@ class _HomePageState extends State<HomePage> {
                         width: 400,
                         height: 100,
                         child: FutureBuilder<Calendar>(
-                            future: getCalendar(email: email),
+                            future: getCalendar(token: token),
                             builder: (context, snapshot) {
-                              if (snapshot.hasData) {
+                              if (snapshot.hasData && snapshot.data!.appoinment.length != 0) {
                                 if (snapshot.data!.appoinment.length != 0) {
                                   var date = snapshot.data!.appoinment[0]['date'];
                                   var title = snapshot.data!.appoinment[0]['step_title'];
@@ -342,9 +343,9 @@ class _HomePageState extends State<HomePage> {
                                 const Divider(),
                                 SingleChildScrollView(
                                           child: FutureBuilder<OngoingProcess>(
-                                    future: getOngoingProcess(email: email),
+                                    future: getOngoingProcess(token: token),
                                     builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
+                                      if (snapshot.hasData && snapshot.data!.response.length != 0) {
                                         return Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
@@ -352,7 +353,52 @@ class _HomePageState extends State<HomePage> {
                                             if (snapshot.data!.response[i]['userProcess']['is_done'] == false) ...{
                                               Column(
                                                 children: [
-                                                  Padding(
+                                                  // Padding(
+                                                    // padding: const EdgeInsets.symmetric(
+                                                    //     horizontal: 5.0,
+                                                    //     vertical: 5.0),
+                                                    // child: 
+                                                    TextButton(
+                                                      onPressed:() {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) => ResultQuizz(processName: snapshot.data!.response[i]['userProcess']['process_title'])),
+                                                      );},
+                                                      child: Row(
+                                                        children: [
+                                                          Text('   • ' + snapshot.data!.response[i]['userProcess']['process_title'],
+                                                        style: const TextStyle(
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 18,
+                                                          color:Colors.black,
+                                                        )),
+                                                        const Spacer(),
+                                                        if(snapshot.data!.response[i]['pourcentage'] == null) 
+                                                          const Padding(
+                                                            padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 10.0),
+                                                            child: Text('0%',
+                                                              style: TextStyle(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 20,
+                                                                color: Colors.black,
+                                                              )),
+                                                        )
+                                                        else
+                                                        Padding(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10.0),
+                                                            child: Text(snapshot.data!.response[i]['pourcentage'].toString() + '%',
+                                                              style: const TextStyle(
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 20,
+                                                                color: Colors.black,
+                                                              )),
+                                                        )]
+                                                        ))
+                                                        ],
+                                                      ),
+                                            },
+                                            Padding(
                                                     padding: const EdgeInsets.symmetric(
                                                         horizontal: 10.0,
                                                         vertical: 10.0),
@@ -382,12 +428,12 @@ class _HomePageState extends State<HomePage> {
                                                 ],
                                               )
                                             }
-                                        ]);
+                              ]);
                                       } else {
                                         return (const Text('No current process'));
                                       }
-                                    }),)
-                              ],
+                                    },)
+                                    )],
                             ),
                           ))),
                       ElevatedButton(
