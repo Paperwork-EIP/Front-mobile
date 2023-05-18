@@ -36,9 +36,8 @@ class AuthRepository {
         body: json.encode({"email": email, "password": password}),
       );
       if (response.statusCode == 200) {
-        print(response.body);
+        print("Status code 200  --- " + response.body);
         var token = jsonDecode(response.body);
-        // print("token = " + token["jwt"]);
         globals.token = token["jwt"].toString();
         _controller.add(AuthStatus.authenticated);
       }
@@ -68,9 +67,7 @@ class AuthRepository {
         body: json.encode(
             {"email": email, "password": password, 'username': username}),
       );
-      print(response.statusCode);
       if (response.statusCode == 200) {
-        print(response.statusCode);
         _controller.add(AuthStatus.authenticated);
       }
     } catch (e) {

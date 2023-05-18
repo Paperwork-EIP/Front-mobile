@@ -26,7 +26,6 @@ Future<void> submitProcessIdea(
       }),
     );
     if (response.statusCode == 200) {
-      // print(response.body);
       // _controller.add(AuthStatus.authenticated);
     }
   } catch (e) {

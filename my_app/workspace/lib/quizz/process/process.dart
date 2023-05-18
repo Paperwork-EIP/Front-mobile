@@ -43,7 +43,7 @@ List<Map> stepList(parsedJson) {
 
   for (var i in obj.question!) {
     list.add(i);
-    listy.add(i);
+    listy = list;
   }
   return list;
 }
@@ -81,7 +81,6 @@ class QuizzProcess extends StatefulWidget {
 class _QuizzProcessState extends State<QuizzProcess> {
   var count = 0;
   var res = [];
-  Map resStep = {"step_id": "", "question": ""};
   late Future<List<Map>> futureQuestion;
 
   @override
@@ -95,14 +94,14 @@ class _QuizzProcessState extends State<QuizzProcess> {
     String? processName = widget.processName;
 
     void increment(int nb, bool value) {
+      Map resStep = {"step_id": "", "response": ""};
       if (count < listy.length - 1) {
         resStep["step_id"] = listy[count]["step_id"];
-        resStep["is_done"] = value;
+        resStep["response"] = value;
         res.add(resStep);
-        count = count + 1;
       } else {
         resStep["step_id"] = listy[count]["step_id"];
-        resStep["is_done"] = value;
+        resStep["response"] = value;
         res.add(resStep);
         ProcessQuestion.fetchResultQuizz(res, processName, context);
         Navigator.push(
@@ -171,6 +170,11 @@ class _QuizzProcessState extends State<QuizzProcess> {
                                       )),
                                   onPressed: () {
                                     increment(count, false);
+                                    setState(() {
+                                      if (count < listy.length - 1) {
+                                        count = count + 1;
+                                      }
+                                    });
                                   },
                                   child: const Text(
                                     'No',
@@ -192,6 +196,11 @@ class _QuizzProcessState extends State<QuizzProcess> {
                                       )),
                                   onPressed: () {
                                     increment(count, true);
+                                    setState(() {
+                                      if (count < listy.length - 1) {
+                                        count = count + 1;
+                                      }
+                                    });
                                   },
                                   child: const Text(
                                     'Yes',

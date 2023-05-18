@@ -14,8 +14,7 @@ class UserProcess extends StatefulWidget {
 class _UserProcessState extends State<UserProcess> {
   late Future<List<ToDo>> futureToDoList;
   // var step = {'step_id': 'tom', 'is_done': 'pass@123'};
-  final List<Map> stepUpdate =
-      []; // remetre la liste à null une fois le call effectuer
+  List<Map> stepUpdate = []; // remetre la liste à null une fois le call effectuer
 
   @override
   void initState() {
@@ -129,7 +128,7 @@ class _UserProcessState extends State<UserProcess> {
       todo.isDone = !todo.isDone;
     });
     details['step_id'] = todo.id;
-    details['is_done'] = todo.isDone;
+    details['response'] = todo.isDone;
     stepUpdate.add(details);
     print(stepUpdate);
   }

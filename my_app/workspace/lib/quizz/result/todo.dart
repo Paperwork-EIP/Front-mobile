@@ -47,28 +47,25 @@ class ToDo {
       var parsedJson = jsonDecode(response.body);
       return todoList(parsedJson);
     } else {
-      throw Exception('Failed to load album');
+      throw Exception('Failed to get process');
     }
   }
 
-  static Future<bool> fetchUpdateData(resStep, processName) async {
+  static Future<bool> fetchUpdateData(processName, resStep) async {
     final response = await http.post(
-        Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/add"),
+        Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/update"),
         headers: {
           "Content-Type": "application/json",
         },
         body: jsonEncode({
           "process_title": processName,
-          "user_email": email,
+          "user_token": token,
           "step": resStep,
-        }));
+          }));
 
     if (response.statusCode == 200) {
-      print("c'est good");
       return true;
     } else {
-      print("c'est pas bon je ne sais pas pk");
-      print(response);
       throw Exception('Failed to load album');
     }
   }

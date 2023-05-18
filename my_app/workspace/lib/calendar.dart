@@ -446,6 +446,7 @@ Future<void> setAppointment(date) async {
           {"user_process_id": "5", "step_id": "24", "date": date.toString()}));
 
   if (response.statusCode == 200) {
+    print('calendar set');
     return;
   } else {
     throw Exception("Failed to set calendar event");

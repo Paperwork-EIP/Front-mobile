@@ -165,7 +165,8 @@ class Profile extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             child: Ink.image(
-                              image: NetworkImage(globals.globalUserPicture),
+                              image: const AssetImage('assets/images/profile.jpg'),
+                              // NetworkImage(globals.globalUserPicture),
                               // image: NetworkImage(snapshot.data!.picture),
                               // const AssetImage('assets/makima.png'),
 
@@ -288,7 +289,7 @@ class MyFormState extends State<MyForm> {
               SizedBox(
                   width: 100,
                   child: DropdownButton<String>(
-                    value: _dropDownValue,
+                    value: "english",
                     hint: const Text('Select Process'),
                     icon: const Icon(
                       Icons.arrow_downward,

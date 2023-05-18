@@ -131,7 +131,7 @@ Future<Calendar> getCalendar({
       },
     );
     if (response.statusCode == 200) {
-      // print(response.body);
+      print('get calendar response = ${response.body}');
       return Calendar.fromJson(jsonDecode(response.body));
     }
     return Calendar.fromJson({
@@ -300,13 +300,15 @@ class _HomePageState extends State<HomePage> {
                                               3), // changes position of shadow
                                         ),
                                       ]),
-                                  child: const Text('Loading',
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 35.0),
+                                    child: Text('No appointement planned',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20,
                                         color: Colors.black,
                                       )),
-                                );
+                                ));
                               }
                             }),
                       ),
@@ -363,6 +365,7 @@ class _HomePageState extends State<HomePage> {
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
+                                                            // builder: (context) => UserProcess(processName: snapshot.data!.response[i]['userProcess']['process_title'])),
                                                             builder: (context) => ResultQuizz(processName: snapshot.data!.response[i]['userProcess']['process_title'])),
                                                       );},
                                                       child: Row(

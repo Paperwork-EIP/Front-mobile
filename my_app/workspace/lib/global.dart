@@ -8,3 +8,4 @@ dynamic language = "";
 dynamic globalUserPicture;
 dynamic tentativeLink = "";
 
+// dynamic todo = [];
