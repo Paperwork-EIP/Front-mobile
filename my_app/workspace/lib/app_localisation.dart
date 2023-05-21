@@ -22,8 +22,8 @@ class AppLocalizations {
 
   Future<bool> load() async {
     // Load the language JSON file from the "lang" folder
-    String jsonString =
-        await rootBundle.loadString('assets/translate/${locale.languageCode}.json');
+    String jsonString = await rootBundle
+        .loadString('assets/translate/${locale.languageCode}.json');
     Map<String, dynamic> jsonMap = json.decode(jsonString);
 
     _localizedStrings = jsonMap.map((key, value) {
@@ -37,9 +37,10 @@ class AppLocalizations {
   String translate(String key) {
     return _localizedStrings[key].toString();
   }
-} 
+}
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -55,7 +56,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
     await localizations.load();
     return localizations;
   }
-  
+
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }

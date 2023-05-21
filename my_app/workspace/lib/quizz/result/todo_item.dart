@@ -14,7 +14,7 @@ class ToDoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: ListTile(
         onTap: () {
@@ -24,7 +24,6 @@ class ToDoItem extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         tileColor: const Color.fromARGB(255, 255, 249, 253),
         leading: Icon(
@@ -40,7 +39,6 @@ class ToDoItem extends StatelessWidget {
           ),
         ),
       ),
-
     );
   }
 }
