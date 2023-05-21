@@ -5,6 +5,8 @@ import 'package:my_app/login/login.dart';
 import 'package:my_app/signup/signup.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../app_localisation.dart';
+
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -24,7 +26,7 @@ class LoginPage extends StatelessWidget {
         elevation: 0,
         title: Center(
             child: Text(
-          'Log in',
+          AppLocalizations.of(context).translate('Log_in'),
           style: GoogleFonts.inter(fontSize: 22, fontWeight: FontWeight.w700),
         )),
         actions: <Widget>[
@@ -37,7 +39,7 @@ class LoginPage extends StatelessWidget {
               );
             },
             child: Text(
-              'Sign Up',
+              AppLocalizations.of(context).translate('Sign_up'),
               style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,

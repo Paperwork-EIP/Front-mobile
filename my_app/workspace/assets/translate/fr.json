@@ -1,0 +1,13 @@
+{
+    "Log_in": "Connexion",
+    "Sign_up": "S'inscrire",
+    "Password": "Mot de passe",
+    "Authentication_failure": "Authentification",
+    "Invalid_email": "Email invalide",
+    "Invalid_password": "Mot de passe invalide",
+    "Forgot_password": "Mot de passe oublié",
+    "Confirm_password": "Confirmer le mot de passe",
+    "Username": "Nom d'utilisateur",
+    "Invalid_username": "Nom d'utilisateur invalide"
+
+}

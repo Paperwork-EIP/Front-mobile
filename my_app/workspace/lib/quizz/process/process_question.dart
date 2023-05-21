@@ -44,6 +44,8 @@ class ProcessQuestion {
 class ProcessName {
   List<dynamic>? title;
 
+  List<dynamic>? stockedTitle;
+
   ProcessName({
     required this.title,
   });
@@ -69,7 +71,7 @@ class ProcessName {
   static Future<List<String>> fetchProcessName() async {
     List<String> list;
     final response = await http.get(
-      Uri.parse("${dotenv.get('SERVER_URL')}/process/getAll?user_token=$token"),
+      Uri.parse("${dotenv.get('SERVER_URL')}/process/getAll?language=$language"),
       headers: {
         "Content-Type": "application/json",
       },

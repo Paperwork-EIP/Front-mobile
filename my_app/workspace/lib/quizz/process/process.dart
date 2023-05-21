@@ -53,7 +53,7 @@ Future<List<Map>> fetchQuestions(processName) async {
 
   final response = await http.get(
     Uri.parse(
-        "${dotenv.get('SERVER_URL')}/processQuestions/get?title=$processName&user_token=$token"),
+        "${dotenv.get('SERVER_URL')}/processQuestions/get?process_title=$processName&language=$language"),
     headers: {
       "Content-Type": "application/json",
     },
@@ -94,14 +94,14 @@ class _QuizzProcessState extends State<QuizzProcess> {
     String? processName = widget.processName;
 
     void increment(int nb, bool value) {
-      Map resStep = {"step_id": "", "response": ""};
+      Map resStep = {"step_id": "", "question": ""};
       if (count < listy.length - 1) {
         resStep["step_id"] = listy[count]["step_id"];
-        resStep["response"] = value;
+        resStep["question"] = value;
         res.add(resStep);
       } else {
         resStep["step_id"] = listy[count]["step_id"];
-        resStep["response"] = value;
+        resStep["question"] = value;
         res.add(resStep);
         ProcessQuestion.fetchResultQuizz(res, processName, context);
         Navigator.push(

@@ -14,46 +14,7 @@ import '../../Settings/settings.dart';
 import '../../lexique.dart';
 import '../../propal_add.dart';
 import '../../quizz/process/process.dart';
-
-class UserPicture {
-  final String picture;
-  final String username;
-  final String password;
-  final String language;
-
-const UserPicture({required this.picture, required this.username, required this.password, required this.language});
-
-factory UserPicture.fromJson(Map<String, dynamic> json) {
-    return UserPicture(
-      picture: json['profile_picture'],
-      username: json['username'],
-      password: json['password'],
-      language: json['language'],
-    );
-  }
-}
-
-Future<UserPicture> getUserPicture({
-  required String token
-}) async {
-  try {
-    var response = await http.get(
-      Uri.parse("${dotenv.get('SERVER_URL')}/user/getbytoken?token=$token"),
-       headers: {
-        "Content-Type": "application/json",
-      },
-    );
-    if (response.statusCode == 200) {
-      // print(response.body);
-      return UserPicture.fromJson(jsonDecode(response.body));
-    }
-    return UserPicture.fromJson(
-        {'message': 'Error : Failed to load process', 'response': null});
-  } catch (error) {
-    throw Exception('Failed to load Process');
-  }
-}
-
+import '../../help/help.dart';
 
 
 class Header extends StatelessWidget {
@@ -89,6 +50,14 @@ class NavBar extends StatelessWidget {
 
   const NavBar({super.key, required this.closeDrawer});
 
+  imageDefault () {
+    if (globals.globalUserPicture == null) {
+      return const AssetImage('assets/avatar/NoAvatar.png');
+    } else {
+      return NetworkImage(globals.globalUserPicture);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -112,92 +81,29 @@ class NavBar extends StatelessWidget {
                     ),
                   ],
                 ),
-                // Container(child:
-                // if()
-
-                FutureBuilder<UserPicture>(
-                    future: getUserPicture(token: globals.token),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        // globals.picture = snapshot.data!.response;
-                        globals.username = snapshot.data!.username;
-                        globals.language = snapshot.data!.language;
-                        if (snapshot.data!.picture != null) {
-                                return Material(
-                            color: Colors.white,
-                            elevation: 8,
-                            shape: const CircleBorder(),
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            child: InkWell(
-                                splashColor: Colors.black26,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    border: Border.all(color: Colors.white, width: 3),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Ink.image(
-                                    image: NetworkImage(snapshot.data!.picture),
-                                    // const AssetImage('assets/makima.png'),
-                                    height: 75,
-                                    width: 75,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )));
-                              }
-                              else {
-                                return Material(
-                                    color: Colors.white,
-                                    elevation: 8,
-                                    shape: const CircleBorder(),
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    child: InkWell(
-                                        splashColor: Colors.black26,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.transparent,
-                                            border: Border.all(
-                                                color: Colors.white, width: 3),
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Ink.image(
-                                            image: const AssetImage('assets/images/profile.jpg'),
-                                            height: 75,
-                                            width: 75,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ))
-                                        );
-                              }
-                      }
-                      return Material(
-                                    color: Colors.white,
-                                    elevation: 8,
-                                    shape: const CircleBorder(),
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    child: InkWell(
-                                        splashColor: Colors.black26,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.transparent,
-                                            border: Border.all(
-                                                color: Colors.white, width: 3),
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Ink.image(
-                                            image: const AssetImage('assets/images/profile.jpg'),
-                                            height: 75,
-                                            width: 75,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ))
-                                        );
-                    }
+                  Material(
+                    color: Colors.white,
+                    elevation: 8,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: InkWell(
+                      splashColor: Colors.black26,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          border: Border.all(color: Colors.white, width: 3),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Ink.image(
+                          image: imageDefault(),
+                          height: 75,
+                          width: 75,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    )
                   )
-
-              ],
-            ),
-          ),
+                ,])),
           ListTile(
             leading: const Icon(Icons.create),
             title: const Text('Start a new Process'),
@@ -252,7 +158,12 @@ class NavBar extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.help_outline),
                 title: const Text('Help'),
-                onTap: () => null,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Help()),
+                  );
+              },
               ),
               ListTile(
                 leading: const Icon(Icons.settings),

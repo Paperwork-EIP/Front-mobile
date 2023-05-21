@@ -24,14 +24,16 @@ class UserPicture {
   final picture;
   final String username;
   final String password;
+  final String language;
 
-  const UserPicture({required this.picture, required this.username, required this.password});
+  const UserPicture({required this.picture, required this.username, required this.password, required this.language});
 
   factory UserPicture.fromJson(Map<String, dynamic> json) {
     return UserPicture(
       picture: json['profile_picture'],
       username: json['username'],
       password: json['password'],
+      language: json['language'],
     );
   }
 }
@@ -50,7 +52,9 @@ Future<UserPicture> getUserPicture({
       var data = UserPicture.fromJson(jsonDecode(response.body));
       globals.globalUserPicture = data.picture;
       globals.username = data.username;
+      globals.language = data.language;
       print(response.body);
+      print('globals.globalUserPicture = ${globals.globalUserPicture}');
       return UserPicture.fromJson(jsonDecode(response.body));
     }
     return UserPicture.fromJson(

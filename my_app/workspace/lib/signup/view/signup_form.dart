@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/signup/signup.dart';
 import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../app_localisation.dart';
 
 class SignupForm extends StatelessWidget {
   const SignupForm({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class SignupForm extends StatelessWidget {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
-                const SnackBar(content: Text('Authentication Failure')),
+                SnackBar(content: Text(AppLocalizations.of(context).translate('Authentication_failure'))),
               );
           }
         },
@@ -69,8 +70,8 @@ class _UsernameInput extends StatelessWidget {
               decoration: InputDecoration(
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                labelText: 'Username',
-                errorText: state.username.invalid ? 'invalid username' : null,
+                labelText: AppLocalizations.of(context).translate('Username'),
+                errorText: state.username.invalid ? AppLocalizations.of(context).translate('Invalid_username') : null,
               ),
             ));
       },
@@ -95,7 +96,7 @@ class _EmailInput extends StatelessWidget {
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 labelText: 'Email',
-                errorText: state.email.invalid ? 'invalid email' : null,
+                errorText: state.email.invalid ? AppLocalizations.of(context).translate('Invalid_email') : null,
               ),
             ));
       },
@@ -144,8 +145,8 @@ class _PasswordInputState extends State<_PasswordInput> {
                     }),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                labelText: 'Password',
-                errorText: state.password.invalid ? 'invalid password' : null,
+                labelText: AppLocalizations.of(context).translate('Password'),
+                errorText: state.password.invalid ? AppLocalizations.of(context).translate('Invalid_password') : null,
               ),
             ));
       },
@@ -194,8 +195,8 @@ class _ConfirmPasswordInputState extends State<_ConfirmPasswordInput> {
                     }),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                labelText: 'Confirm Password',
-                errorText: state.password.invalid ? 'invalid password' : null,
+                labelText: AppLocalizations.of(context).translate('Confirm_password'),
+                errorText: state.password.invalid ? AppLocalizations.of(context).translate('Invalid_password') : null,
               ),
             ));
       },
@@ -254,7 +255,7 @@ class _SignupButton extends StatelessWidget {
                         const Color(0xFF29C9B3))),
                 key: const Key('signupForm_continue_raisedButton'),
                 child: Text(
-                  'Sign up',
+                  AppLocalizations.of(context).translate('Sign_up'),
                   style: GoogleFonts.inter(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,

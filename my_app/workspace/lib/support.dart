@@ -64,6 +64,7 @@ class Support extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 96, 128, 118),
+        title: const Text("Contact us"),
       ),
       body: Container(
         alignment: Alignment.center,

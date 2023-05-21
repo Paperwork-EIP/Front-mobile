@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/login/login.dart';
 import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../app_localisation.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class LoginForm extends StatelessWidget {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
-                const SnackBar(content: Text('Authentication Failure')),
+                SnackBar(content: Text(AppLocalizations.of(context).translate('Authentication_failure'))),
               );
           }
         },
@@ -67,7 +68,7 @@ class _UsernameInput extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 labelText: 'Email',
-                errorText: state.username.invalid ? 'invalid email' : null,
+                errorText: state.username.invalid ? AppLocalizations.of(context).translate('Invalid_email') : null,
               ),
             ));
       },
@@ -119,8 +120,8 @@ class _PasswordInputState extends State<_PasswordInput> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                labelText: 'Password',
-                errorText: state.password.invalid ? 'invalid password' : null,
+                labelText: AppLocalizations.of(context).translate('Password'),
+                errorText: state.password.invalid ? AppLocalizations.of(context).translate('Invalid_password') : null,
               ),
             ));
       },
@@ -172,14 +173,14 @@ class _LoginButton extends StatelessWidget {
                         borderRadius: BorderRadius.circular(40.0))),
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 140)),
+                            vertical: 20, horizontal: 100)),
                     foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
                     backgroundColor: MaterialStateProperty.all<Color>(
                         const Color(0xFF29C9B3))),
                 key: const Key('loginForm_continue_raisedButton'),
                 child: Text(
-                  'Log in',
+                  AppLocalizations.of(context).translate('Log_in'),
                   style: GoogleFonts.inter(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -211,7 +212,7 @@ class _ForgotButton extends StatelessWidget {
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.white)),
             child: Text(
-              'Forgot your password ?',
+              AppLocalizations.of(context).translate('Forgot_password'),
               style: GoogleFonts.inter(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
