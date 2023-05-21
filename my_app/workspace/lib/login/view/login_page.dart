@@ -16,22 +16,18 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style = ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-    );
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 96, 128, 118),
+        centerTitle: true,
+        backgroundColor: const Color.fromRGBO(41, 201, 179, 1),
         // foregroundColor: Colors.black,
         elevation: 0,
-        title: Center(
-            child: Text(
+        title: Text(
           AppLocalizations.of(context).translate('Log_in'),
           style: GoogleFonts.inter(fontSize: 22, fontWeight: FontWeight.w700),
-        )),
+        ),
         actions: <Widget>[
           TextButton(
-            style: style,
             onPressed: () {
               Navigator.push(
                 context,
@@ -43,7 +39,7 @@ class LoginPage extends StatelessWidget {
               style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
-                  color: const Color.fromARGB(255, 166, 221, 204)),
+                  color: const Color.fromARGB(255, 255, 255, 255)),
             ),
           ),
         ],

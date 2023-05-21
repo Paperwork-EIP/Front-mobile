@@ -15,12 +15,9 @@ class SignupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style = ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-    );
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 96, 128, 118),
+        backgroundColor: const Color.fromRGBO(41, 201, 179, 1),
         // foregroundColor: Colors.black,
         elevation: 0,
         title: Center(
@@ -30,7 +27,6 @@ class SignupPage extends StatelessWidget {
         )),
         actions: <Widget>[
           TextButton(
-            style: style,
             onPressed: () {
               Navigator.push(
                 context,
@@ -42,7 +38,7 @@ class SignupPage extends StatelessWidget {
               style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
-                  color: const Color.fromARGB(255, 166, 221, 204)),
+                  color: const Color.fromARGB(255, 255, 255, 255)),
             ),
           ),
         ],
