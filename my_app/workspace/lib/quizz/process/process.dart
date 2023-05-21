@@ -53,11 +53,12 @@ Future<List<Map>> fetchQuestions(processName) async {
 
   final response = await http.get(
     Uri.parse(
-        "${dotenv.get('SERVER_URL')}/processQuestions/get?process_title=$processName&language=$language"),
+        "${dotenv.get('SERVER_URL')}/processQuestions/get?title=$processName&language=$language"),
     headers: {
       "Content-Type": "application/json",
     },
   );
+  print(response.statusCode);
   if (response.statusCode == 200) {
     parsedJson = stepList(jsonDecode(response.body));
     return parsedJson;
@@ -128,7 +129,7 @@ class _QuizzProcessState extends State<QuizzProcess> {
             ),
             shadowColor: Colors.grey.shade200,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 IconButton(
@@ -142,6 +143,7 @@ class _QuizzProcessState extends State<QuizzProcess> {
                       style: const TextStyle(fontSize: 22),
                       textAlign: TextAlign.center),
                 ),
+                Padding(padding: EdgeInsets.only(top: 50)),
                 FutureBuilder<List<Map>>(
                     future: futureQuestion,
                     builder: (context, snapshot) {
@@ -157,6 +159,7 @@ class _QuizzProcessState extends State<QuizzProcess> {
                                   fontSize: 18),
                               textAlign: TextAlign.center,
                             ),
+                            // Padding(padding: EdgeInsets.only(top: 50)),
                             ButtonBar(
                               alignment: MainAxisAlignment.center,
                               children: [
@@ -240,7 +243,7 @@ class StartProcess extends StatefulWidget {
 class _StartProcessState extends State<StartProcess> {
   String? dropdownValue;
 
-  late Future<List<String>> futureProcess;
+  late Future<List<List <String>>> futureProcess;
 
   @override
   void initState() {
@@ -270,7 +273,7 @@ class _StartProcessState extends State<StartProcess> {
           children: [
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: FutureBuilder<List<String>>(
+              child: FutureBuilder<List<List <String>>>(
                   future: futureProcess,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
@@ -329,7 +332,7 @@ class _StartProcessState extends State<StartProcess> {
     );
   }
 
-  Widget dropDown(BuildContext context, final List<String> items) {
+  Widget dropDown(BuildContext context, final List<List <String>> items) {
     Color setColor(bool value) {
       if (value) {
         return const Color.fromARGB(242, 211, 207, 210);
@@ -350,12 +353,19 @@ class _StartProcessState extends State<StartProcess> {
         height: 1,
         color: const Color.fromARGB(255, 228, 117, 126),
       ),
-      items: items.map((String item) {
+      //how can I fix the for loop here
+      items: items.map((List<String> item) {
         return DropdownMenuItem(
-          value: item,
-          child: Text(item),
+          value: item[1],
+          child: Text(item[0]),
         );
       }).toList(),
+      // items.map((String item) {
+      //   return DropdownMenuItem(
+      //     value: item,
+      //     child: Text(item),
+      //   );
+      // }).toList(),
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;

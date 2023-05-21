@@ -44,8 +44,6 @@ class ProcessQuestion {
 class ProcessName {
   List<dynamic>? title;
 
-  List<dynamic>? stockedTitle;
-
   ProcessName({
     required this.title,
   });
@@ -56,20 +54,22 @@ class ProcessName {
     );
   }
 
-  static List<String> processList(parsedJson) {
+  static List<List <String>> processList(parsedJson) {
     var res = parsedJson['response'];
     String elem;
-    List<String> tab = [];
+    String elem2;
+    List<List <String>> tab = [];
 
     for (var i in res) {
       elem = i['title'];
-      tab.add(elem);
+      elem2 = i['stocked_title'];
+      tab.add([elem, elem2]);
     }
     return tab;
   }
 
-  static Future<List<String>> fetchProcessName() async {
-    List<String> list;
+  static Future<List<List <String>>> fetchProcessName() async {
+    List<List <String>> list;
     final response = await http.get(
       Uri.parse("${dotenv.get('SERVER_URL')}/process/getAll?language=$language"),
       headers: {
