@@ -10,6 +10,8 @@ import 'package:my_app/login/login.dart';
 import 'package:my_app/signup/signup.dart';
 import 'package:my_app/splash/splash.dart';
 import 'package:user_repository/user_repo.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'app_localisation.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -57,6 +59,26 @@ class _AppViewState extends State<AppView> {
       theme: ThemeData.light(), 
       darkTheme: ThemeData.dark(), 
       themeMode: EasyDynamicTheme.of(context).themeMode,
+      supportedLocales: const [
+        Locale('en', 'US'), // English
+        Locale('fr', 'FR'), // French
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        // GlobalCupertinoLocalizations.delegate,
+      //   // DefaultCupertinoLocalizations.delegate,
+        AppLocalizations.delegate,
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale!.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+        return supportedLocales.first;
+      },
       home: HomePage(),
       navigatorKey: _navigatorKey,
       builder: (context, child) {

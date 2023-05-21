@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
+import 'dart:core';
+// import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:my_app/global.dart' as globals;
-
-import 'package:my_app/home/view/home_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ModifyProfile {
   final String message;
@@ -21,11 +21,11 @@ class ModifyProfile {
 
 Future<ModifyProfile> setModifyUser({
   required String token,
-  required String email,
   required String newEmail,
   required String newUsername,
   required String newPassword,
   required profilePicture,
+  required String language,
 }) async {
   try {
     if (newEmail == "") {
@@ -49,7 +49,6 @@ Future<ModifyProfile> setModifyUser({
     var response = await http.post(
       Uri.parse(
           "${dotenv.get('SERVER_URL')}/user/modifyDatas"),
-      //?token=$email&username=$newUsername&new_email=$newEmail&password=$newPassword&profile_picture=$profilePicture"
 
       headers: {
         "Content-Type": "application/json",
@@ -60,6 +59,7 @@ Future<ModifyProfile> setModifyUser({
         "username": newUsername,
         "password": newPassword,
         "profile_picture": profilePicture,
+        "language": language,
       }),
     );
     if (response.statusCode == 200) {
@@ -73,12 +73,104 @@ Future<ModifyProfile> setModifyUser({
   }
 }
 
-class Profile extends StatelessWidget {
-  // late String profilePicture;
-  final _controllerPicture = TextEditingController();
+class UserProcess {
+  final String message;
+  final response;
 
+  const UserProcess({required this.message, required this.response});
+
+  factory UserProcess.fromJson(Map<String, dynamic> json) {
+    return UserProcess(
+      message: json['message'],
+      response: json['response'],
+    );
+  }
+}
+
+Future<UserProcess> getUserProcess({
+  required String token,
+}) async {
+
+  try {
+    var response;
+    response = await http.get(
+      Uri.parse(
+          "${dotenv.get('SERVER_URL')}/userProcess/getUserProcesses?user_token=$token"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    
+    if (response.statusCode == 200) {
+      print(response.body);
+      return UserProcess.fromJson(jsonDecode(response.body));
+    }
+    return UserProcess.fromJson({
+      'message': 'Failed to load Process',
+      'response': '',
+    });
+  } catch (error) {
+
+    throw Exception('Failed to load Process');
+  }
+}
+
+
+// ignore: use_key_in_widget_constructors
+class Profile extends StatefulWidget {
+  @override
+  ProfileState createState() => ProfileState();
+}
+
+// ignore: use_key_in_widget_constructors
+class ProfileState extends State<Profile> {
+
+  imageDefault () {
+    if (globals.tentativeLink == null) {
+      return const AssetImage('assets/avatar/NoAvatar.png');
+    } else {
+      return NetworkImage(globals.tentativeLink);
+    }
+  }
+
+  createAvatartButton(pathAvatar) {
+    return Material(
+          color: Colors.transparent,
+          elevation: 8,
+          shape: const CircleBorder(),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: InkWell(
+              splashColor: Colors.blue,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border.all(color: Colors.white, width: 3),
+                  shape: BoxShape.circle,
+                ),
+                child: Ink.image(
+                  image: AssetImage(pathAvatar),
+                  height: 75,
+                  width: 75,
+                  fit: BoxFit.cover,
+                ),
+              )),
+    );
+  }
+
+  List<bool> _isSelected = [false, false, false, false, false, false, false, false];
+  final List<String> _avatarPath = [
+    "assets/avatar/Avatar01.png",
+    "assets/avatar/Avatar02.png",
+    "assets/avatar/Avatar03.png",
+    "assets/avatar/Avatar04.png",
+    "assets/avatar/Avatar05.png",
+    "assets/avatar/Avatar06.png",
+    "assets/avatar/Avatar07.png",
+    "assets/avatar/Avatar08.png",
+  ];
   @override
   Widget build(BuildContext context) {
+    globals.tentativeLink = globals.globalUserPicture;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profil"),
@@ -91,56 +183,125 @@ class Profile extends StatelessWidget {
             'assets/images/profil_background.png',
             fit: BoxFit.cover,
           ),
-          // const SizedBox(
-          //     height: 100.0,
-          //     child: BackButton(
-          //       color: Colors.white,
-          //     )),
           Column(children: <Widget>[
             Container(
                 margin: const EdgeInsets.only(top: 100),
                 padding: const EdgeInsets.symmetric(horizontal: 50.0),
                 width: 350,
                 height: 100,
-                child:
-                    // FutureBuilder<UserPicture>(
-                    //     future: getUserPicture(email: globals.email),
-                    //     builder: (context, snapshot) {
-                    //       if (snapshot.hasData) {
-                    //         // globals.globalUserPicture = snapshot.data!.picture;
-                    //         return
-                    ElevatedButton(
+                child: ElevatedButton(
                   onPressed: () => showDialog<String>(
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Insert the link of your new picture'),
-                      content: SizedBox(
-                        // width: width,
-                        // height: height,
-                        child: TextField(
-                          controller: _controllerPicture,
-                          obscureText: false,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Your link',
-                          ),
-                          style: const TextStyle(fontSize: 14),
-                        ),
+                      backgroundColor: Colors.white,
+                      title: const Text('Choose avatar'),
+                      content: StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                    return Ink(
+      height: 500, 
+      color: Colors.white,
+      child: GridView.count(
+        primary: true,
+        scrollDirection: Axis.vertical,
+        crossAxisCount: 2, 
+        crossAxisSpacing: 8, 
+        childAspectRatio: 1,
+        mainAxisSpacing: 5,
+        children: List.generate(_isSelected.length, (index) {
+          //using Inkwell widget to create a button
+          return InkWell( 
+              splashColor: Colors.blue, //the default splashColor is grey
+              onTap: () {
+                //set the toggle logic
+                setState(() { 
+                  for (int indexBtn = 0;
+                      indexBtn < _isSelected.length;
+                      indexBtn++) {
+                    if (indexBtn == index) {
+                      _isSelected[indexBtn] = true;
+                    } else {
+                      _isSelected[indexBtn] = false;
+                    }
+                  }
+                });
+              },
+              child: Ink(
+                decoration: BoxDecoration(
+                  color: _isSelected[index] ? Colors.blue : Colors.white,
+                  borderRadius: BorderRadius.circular(30), 
+                ),
+                child: createAvatartButton(_avatarPath[index]), 
+              ));
+        }),
+      ),
+    );
+                    // SizedBox(
+                    //     height: 360,
+                    //     child: ToggleButtons(
+                    //     // Row(
+                    //       direction: Axis.vertical,
+                    //     children: [
+                    //       // Column(
+                    //       // children: [
+                    //         createAvatartButton("assets/avatar/Avatar01.png"),
+                    //         // const Padding(padding: EdgeInsets.only(top: 10)),
+                    //         createAvatartButton("assets/avatar/Avatar02.png"),
+                    //         // const Padding(padding: EdgeInsets.only(top: 10)),
+                    //         createAvatartButton("assets/avatar/Avatar03.png"),
+                    //         // const Padding(padding: EdgeInsets.only(top: 10)),
+                    //         createAvatartButton("assets/avatar/Avatar04.png"),
+                    //     //   ],
+                    //     // ),
+                    //     // Column(
+                    //     //   children: [
+                    //         createAvatartButton("assets/avatar/Avatar05.png"),
+                    //         // const Padding(padding: EdgeInsets.only(top: 10)),
+                    //         createAvatartButton("assets/avatar/Avatar06.png"),
+                    //         // const Padding(padding: EdgeInsets.only(top: 10)),
+                    //         createAvatartButton("assets/avatar/Avatar07.png"),
+                    //         // const Padding(padding: EdgeInsets.only(top: 10)),
+                    //         createAvatartButton("assets/avatar/Avatar08.png"),
+                    //     //   ],
+                    //     // )
+                    //   ],
+                    //   isSelected: _isSelected,
+                    //   onPressed: (int index) {
+                    //     setState(() {
+                    //       for (int i = 0; i < _isSelected.length; i++) {
+                    //         _isSelected[i] = i == index;
+                    //       }
+                    //     });
+                    //    },
+                    //   selectedColor: Colors.blue,
+                    //   ));
+                      }
                       ),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () {
-                            _controllerPicture.clear();
+                            _isSelected = [false, false, false, false, false, false, false, false];
                             Navigator.pop(context, 'Cancel');
                           },
                           child: const Text('Cancel'),
                         ),
                         TextButton(
                           onPressed: () {
-                            globals.tentativeLink = _controllerPicture.text;
-                            // profilePicture = globals.tentativeLink;
-                            // print(_controllerPicture.text);
-                            Navigator.pop(context, 'Submit');
+                            for (int index = 0; index < _isSelected.length; index++) {
+                              if (_isSelected[index] == true) {
+                                globals.tentativeLink = _avatarPath[index];
+                                _isSelected = [false, false, false, false, false, false, false, false];
+                                Navigator.pop(context, 'Submit');
+                              }
+                            }
+                            Fluttertoast.showToast(
+                                msg: "Select an avatar",
+                                toastLength: Toast.LENGTH_SHORT,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor:
+                                    const Color.fromARGB(255, 178, 255, 191),
+                                textColor: const Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 16.0,
+                              );
                           },
                           child: const Text('Submit'),
                         ),
@@ -165,51 +326,49 @@ class Profile extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             child: Ink.image(
-                              image: const AssetImage('assets/images/profile.jpg'),
-                              // NetworkImage(globals.globalUserPicture),
-                              // image: NetworkImage(snapshot.data!.picture),
-                              // const AssetImage('assets/makima.png'),
-
+                              image: imageDefault(),
                               height: 75,
                               width: 75,
                               fit: BoxFit.cover,
                             ),
                           ))),
                 )
-                // } else {
-                //   return
-                //   // ElevatedButton(
-                //   //   onPressed: () {},
-                //   //   child:
-                //     Material(
-                //         color: Colors.white,
-                //         elevation: 8,
-                //         shape: const CircleBorder(),
-                //         // borderRadius: BorderRadius.circular(1000),
-                //         clipBehavior: Clip.antiAliasWithSaveLayer,
-                //         child: InkWell(
-                //             splashColor: Colors.black26,
-                //             child: Container(
-                //               decoration: BoxDecoration(
-                //                 color: Colors.transparent,
-                //                 border: Border.all(
-                //                     color: Colors.white, width: 3),
-                //                 shape: BoxShape.circle,
-                //               ),
-                //               child: Ink.image(
-                //                 image: const AssetImage('assets/makima.png'),
-                //                 height: 75,
-                //                 width: 75,
-                //                 fit: BoxFit.cover,
-                //               ),
-                //             )));
-                // );
-                // }
                 ),
             SizedBox(
               width: 300,
               child: MyForm(),
             ),
+            SizedBox(
+              child: FutureBuilder<UserProcess>(
+                future: getUserProcess(token: globals.token),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.response.isEmpty) {
+                      return const Center(
+                            child: Text(
+                              "No requirement to get this process",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 98, 153, 141),
+                                fontSize: 30,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return ListView.builder(
+                            itemCount: snapshot.data!.response.length,
+                            itemBuilder: (context, index) {
+                              return Text(snapshot.data!.response[index].name);
+                            },
+                          );
+                        }
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+
+                      return const CircularProgressIndicator();
+                    }),
+                                    )
           ])
         ])));
   }
@@ -235,10 +394,10 @@ class MyFormState extends State<MyForm> {
 
   List<DropdownMenuItem<String>> get dropdownItems{
     List<DropdownMenuItem<String>> menuItems = [
-      DropdownMenuItem(child: Text("English"), value: "english"),
-      DropdownMenuItem(child: Text("Français"), value: "french"),
-      DropdownMenuItem(child: Text("Español"), value: "Spanish"),
-      DropdownMenuItem(child: Text("Português"), value: "Portuguese"),
+      const DropdownMenuItem(child: Text("English"), value: "english"),
+      const DropdownMenuItem(child: Text("Français"), value: "french"),
+      // DropdownMenuItem(child: Text("Español"), value: "Spanish"),
+      // DropdownMenuItem(child: Text("Português"), value: "Portuguese"),
     ];
   return menuItems;
   }
@@ -278,6 +437,9 @@ class MyFormState extends State<MyForm> {
                   hintText: _changePassword,
                   labelText: 'Change Password',
                 ),
+                validator: (value) {
+                  value!.length < 8 && value.isNotEmpty ? 'Minimum character length is 8' : null;
+                }
               ),
               // TextFormField(
               //   decoration: const InputDecoration(
@@ -289,7 +451,7 @@ class MyFormState extends State<MyForm> {
               SizedBox(
                   width: 100,
                   child: DropdownButton<String>(
-                    value: "english",
+                    value: _dropDownValue,
                     hint: const Text('Select Process'),
                     icon: const Icon(
                       Icons.arrow_downward,
@@ -318,6 +480,7 @@ class MyFormState extends State<MyForm> {
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 ElevatedButton(
                   onPressed: () {
+                    if (_formKey.currentState!.validate()) {
                     showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
@@ -334,16 +497,16 @@ class MyFormState extends State<MyForm> {
                     );
                     setModifyUser(
                       token: globals.token,
-                      email: globals.email,
                       newEmail: _controllerEmail.text,
                       newUsername: _controllerUsername.text,
                       newPassword: _controllerPassword.text,
                       profilePicture: globals.tentativeLink,
+                      language: _dropDownValue,
                     );
                     _controllerEmail.clear();
                     _controllerUsername.clear();
                     _controllerPassword.clear();
-                  },
+                  }},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF29C9B3),
                     shape: RoundedRectangleBorder(

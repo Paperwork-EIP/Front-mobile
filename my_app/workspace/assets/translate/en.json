@@ -1,0 +1,12 @@
+{
+    "Log_in": "Log in",
+    "Sign_up": "Sign up",
+    "Password": "Password",
+    "Authentication_failure": "Authentication",
+    "Invalid_email": "Invalid email",
+    "Invalid_password": "Invalid password",
+    "Forgot_password": "Forgot password",
+    "Confirm_password": "Confirm password",
+    "Username": "Username",
+    "Invalid_username": "Invalid username"
+}
