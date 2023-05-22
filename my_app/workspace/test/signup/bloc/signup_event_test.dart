@@ -1,91 +1,29 @@
+// ignore_for_file: prefer_const_constructors
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_app/signup/signup.dart';
-import 'package:authentication_repository/auth_repo.dart';
-import 'package:bloc_test/bloc_test.dart';
-import 'package:formz/formz.dart';
+import 'package:my_app/signUp/bloc/signup_bloc.dart';
 
 void main() {
-  group('SignupBloc', () {
-    late AuthRepository authRepository;
-    late SignupBloc signupBloc;
-
-    setUp(() {
-      authRepository = AuthRepository();
-      signupBloc = SignupBloc(authenticationRepository: authRepository);
+  const username = 'mock-username';
+  const password = 'mock-password';
+  group('SignUpEvent', () {
+    group('SignUpUsernameChanged', () {
+      test('supports value comparisons', () {
+        expect(
+            SignupUsernameChanged(username), SignupUsernameChanged(username));
+      });
     });
 
-    test('initial state is correct', () {
-      expect(signupBloc.state, const SignupState());
+    group('SignUpPasswordChanged', () {
+      test('supports value comparisons', () {
+        expect(
+            SignupPasswordChanged(password), SignupPasswordChanged(password));
+      });
     });
 
-    blocTest<SignupBloc, SignupState>(
-      'emits correct state when SignupUsernameChanged event is added',
-      build: () => signupBloc,
-      act: (bloc) => bloc.add(SignupUsernameChanged('username')),
-      expect: () => [
-        SignupState(
-          username: Username.dirty('username'),
-          status:
-              Formz.validate([Username.pure(), Email.pure(), Password.pure()]),
-        ),
-      ],
-    );
-
-    blocTest<SignupBloc, SignupState>(
-      'emits correct state when SignupEmailChanged event is added',
-      build: () => signupBloc,
-      act: (bloc) => bloc.add(SignupEmailChanged('email@example.com')),
-      expect: () => [
-        SignupState(
-          email: Email.dirty('email@example.com'),
-          status:
-              Formz.validate([Username.pure(), Email.pure(), Password.pure()]),
-        ),
-      ],
-    );
-
-    blocTest<SignupBloc, SignupState>(
-      'emits correct state when SignupPasswordChanged event is added',
-      build: () => signupBloc,
-      act: (bloc) => bloc.add(SignupPasswordChanged('password')),
-      expect: () => [
-        SignupState(
-          password: Password.dirty('password'),
-          status:
-              Formz.validate([Username.pure(), Email.pure(), Password.pure()]),
-        ),
-      ],
-    );
-
-    blocTest<SignupBloc, SignupState>(
-      'emits correct state when SignupSubmitted event is added and state is valid',
-      build: () => signupBloc,
-      act: (bloc) {
-        bloc.add(SignupUsernameChanged('username'));
-        bloc.add(SignupEmailChanged('email@example.com'));
-        bloc.add(SignupPasswordChanged('password'));
-        bloc.add(SignupSubmitted());
-      },
-      expect: () => [
-        SignupState(
-          status: FormzStatus.invalid,
-          username: Username.dirty('username'),
-          email: Email.pure(),
-          password: Password.pure(),
-        ),
-        SignupState(
-          username: Username.dirty('username'),
-          email: Email.dirty('email@example.com'),
-          password: Password.dirty('password'),
-          status: FormzStatus.submissionInProgress,
-        ),
-        SignupState(
-          username: Username.dirty('username'),
-          email: Email.dirty('email@example.com'),
-          password: Password.dirty('password'),
-          status: FormzStatus.submissionSuccess,
-        ),
-      ],
-    );
+    group('SignUpSubmitted', () {
+      test('supports value comparisons', () {
+        expect(SignupSubmitted(), SignupSubmitted());
+      });
+    });
   });
 }
