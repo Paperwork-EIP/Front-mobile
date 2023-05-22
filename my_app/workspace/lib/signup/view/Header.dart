@@ -14,7 +14,43 @@ import '../../Settings/settings.dart';
 import '../../lexique.dart';
 import '../../propal_add.dart';
 import '../../quizz/process/process.dart';
-import '../../help/help.dart';
+
+// class UserPicture {
+//   final picture;
+//   final String username;
+//   final String password;
+
+//   const UserPicture({required this.picture, required this.username, required this.password});
+
+//   factory UserPicture.fromJson(Map<String, dynamic> json) {
+//     return UserPicture(
+//       picture: json['profile_picture'],
+//       username: json['username'],
+//       password: json['password'],
+//     );
+//   }
+// }
+
+// Future<UserPicture> getUserPicture({
+//   required String email,
+// }) async {
+//   try {
+//     var response = await http.get(
+//       Uri.parse("${dotenv.get('SERVER_URL')}/user/getbyemail?email=$email"),
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     );
+//     if (response.statusCode == 200) {
+//       // print(response.body);
+//       return UserPicture.fromJson(jsonDecode(response.body));
+//     }
+//     return UserPicture.fromJson(
+//         {'message': 'Error : Failed to load process', 'response': null});
+//   } catch (error) {
+//     throw Exception('Failed to load Process');
+//   }
+// }
 
 class Header extends StatelessWidget {
   final void Function() closeDrawer;
@@ -31,7 +67,7 @@ class Header extends StatelessWidget {
       children: <Widget>[
         IconButton(
           icon: const Icon(Icons.menu, size: 35.0),
-          color: const Color.fromARGB(255, 96, 128, 118),
+          color: const Color(0xFF29C9B3),
           onPressed: openDrawer,
         ),
         IconButton(
@@ -49,14 +85,6 @@ class NavBar extends StatelessWidget {
 
   const NavBar({super.key, required this.closeDrawer});
 
-  imageDefault() {
-    if (globals.globalUserPicture == null) {
-      return const AssetImage('assets/avatar/NoAvatar.png');
-    } else {
-      return NetworkImage(globals.globalUserPicture);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -64,21 +92,30 @@ class NavBar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-              ),
-              child:
-                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
                       icon: const Icon(Icons.close),
                       onPressed: closeDrawer,
-                      color: Color.fromARGB(185, 41, 41, 41),
                     ),
                   ],
                 ),
+                // Container(child:
+                // if()
+                // FutureBuilder<UserPicture>(
+                //     future: getUserPicture(email: globals.email),
+                //     builder: (context, snapshot) {
+                //       if (snapshot.hasData) {
+                //         // globals.userPicture = snapshot.data!.response;
+                //         globals.username = snapshot.data!.username;
+                //         return
                 Material(
                     color: Colors.white,
                     elevation: 8,
@@ -93,13 +130,43 @@ class NavBar extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                           child: Ink.image(
-                            image: imageDefault(),
+                            image: NetworkImage(globals.globalUserPicture),
+                            // const AssetImage('assets/makima.png'),
                             height: 75,
                             width: 75,
                             fit: BoxFit.cover,
                           ),
-                        ))),
-              ])),
+                        )))
+                // }
+                // else {
+                //   return Material(
+                //       color: Colors.white,
+                //       elevation: 8,
+                //       shape: const CircleBorder(),
+                //       clipBehavior: Clip.antiAliasWithSaveLayer,
+                //       child: InkWell(
+                //           splashColor: Colors.black26,
+                //           child: Container(
+                //             decoration: BoxDecoration(
+                //               color: Colors.transparent,
+                //               border: Border.all(
+                //                   color: Colors.white, width: 3),
+                //               shape: BoxShape.circle,
+                //             ),
+                //             // child: Ink.image(
+                //             //   image: const AssetImage('assets/makima.png'),
+                //             //   height: 75,
+                //             //   width: 75,
+                //             //   fit: BoxFit.cover,
+                //             // ),
+                //           ))
+                //           );
+                // }
+                // }
+                // )
+              ],
+            ),
+          ),
           ListTile(
             leading: const Icon(Icons.create),
             title: const Text('Start a new Process'),
@@ -128,7 +195,7 @@ class NavBar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.menu_book),
+            leading: const Icon(Icons.book),
             title: const Text('Lexique'),
             onTap: () {
               Navigator.push(
@@ -154,12 +221,7 @@ class NavBar extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.help_outline),
                 title: const Text('Help'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Help()),
-                  );
-                },
+                onTap: () => null,
               ),
               ListTile(
                 leading: const Icon(Icons.settings),

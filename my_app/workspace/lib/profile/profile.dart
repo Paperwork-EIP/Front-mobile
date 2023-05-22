@@ -47,9 +47,7 @@ Future<ModifyProfile> setModifyUser({
       globals.globalUserPicture = profilePicture;
     }
     var response = await http.post(
-      Uri.parse(
-          "${dotenv.get('SERVER_URL')}/user/modifyDatas"),
-
+      Uri.parse("${dotenv.get('SERVER_URL')}/user/modifyDatas"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -90,7 +88,6 @@ class UserProcess {
 Future<UserProcess> getUserProcess({
   required String token,
 }) async {
-
   try {
     var response;
     response = await http.get(
@@ -100,7 +97,7 @@ Future<UserProcess> getUserProcess({
         "Content-Type": "application/json",
       },
     );
-    
+
     if (response.statusCode == 200) {
       print(response.body);
       return UserProcess.fromJson(jsonDecode(response.body));
@@ -110,11 +107,9 @@ Future<UserProcess> getUserProcess({
       'response': '',
     });
   } catch (error) {
-
     throw Exception('Failed to load Process');
   }
 }
-
 
 // ignore: use_key_in_widget_constructors
 class Profile extends StatefulWidget {
@@ -124,8 +119,7 @@ class Profile extends StatefulWidget {
 
 // ignore: use_key_in_widget_constructors
 class ProfileState extends State<Profile> {
-
-  imageDefault () {
+  imageDefault() {
     if (globals.tentativeLink == null) {
       return const AssetImage('assets/avatar/NoAvatar.png');
     } else {
@@ -135,29 +129,38 @@ class ProfileState extends State<Profile> {
 
   createAvatartButton(pathAvatar) {
     return Material(
-          color: Colors.transparent,
-          elevation: 8,
-          shape: const CircleBorder(),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: InkWell(
-              splashColor: Colors.blue,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  border: Border.all(color: Colors.white, width: 3),
-                  shape: BoxShape.circle,
-                ),
-                child: Ink.image(
-                  image: AssetImage(pathAvatar),
-                  height: 75,
-                  width: 75,
-                  fit: BoxFit.cover,
-                ),
-              )),
+      color: Colors.transparent,
+      elevation: 8,
+      shape: const CircleBorder(),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: InkWell(
+          splashColor: Colors.blue,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              border: Border.all(color: Colors.white, width: 3),
+              shape: BoxShape.circle,
+            ),
+            child: Ink.image(
+              image: AssetImage(pathAvatar),
+              height: 75,
+              width: 75,
+              fit: BoxFit.cover,
+            ),
+          )),
     );
   }
 
-  List<bool> _isSelected = [false, false, false, false, false, false, false, false];
+  List<bool> _isSelected = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
   final List<String> _avatarPath = [
     "assets/avatar/Avatar01.png",
     "assets/avatar/Avatar02.png",
@@ -172,10 +175,10 @@ class ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     globals.tentativeLink = globals.globalUserPicture;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Profil"),
-        backgroundColor: const Color(0xFF29C9B3),
-      ),
+        appBar: AppBar(
+          title: const Text("Profil"),
+          backgroundColor: const Color(0xFF29C9B3),
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
             child: Stack(children: <Widget>[
@@ -195,113 +198,137 @@ class ProfileState extends State<Profile> {
                     builder: (BuildContext context) => AlertDialog(
                       backgroundColor: Colors.white,
                       title: const Text('Choose avatar'),
-                      content: StatefulBuilder(
-                    builder: (BuildContext context, StateSetter setState) {
-                    return Ink(
-      height: 500, 
-      color: Colors.white,
-      child: GridView.count(
-        primary: true,
-        scrollDirection: Axis.vertical,
-        crossAxisCount: 2, 
-        crossAxisSpacing: 8, 
-        childAspectRatio: 1,
-        mainAxisSpacing: 5,
-        children: List.generate(_isSelected.length, (index) {
-          //using Inkwell widget to create a button
-          return InkWell( 
-              splashColor: Colors.blue, //the default splashColor is grey
-              onTap: () {
-                //set the toggle logic
-                setState(() { 
-                  for (int indexBtn = 0;
-                      indexBtn < _isSelected.length;
-                      indexBtn++) {
-                    if (indexBtn == index) {
-                      _isSelected[indexBtn] = true;
-                    } else {
-                      _isSelected[indexBtn] = false;
-                    }
-                  }
-                });
-              },
-              child: Ink(
-                decoration: BoxDecoration(
-                  color: _isSelected[index] ? Colors.blue : Colors.white,
-                  borderRadius: BorderRadius.circular(30), 
-                ),
-                child: createAvatartButton(_avatarPath[index]), 
-              ));
-        }),
-      ),
-    );
-                    // SizedBox(
-                    //     height: 360,
-                    //     child: ToggleButtons(
-                    //     // Row(
-                    //       direction: Axis.vertical,
-                    //     children: [
-                    //       // Column(
-                    //       // children: [
-                    //         createAvatartButton("assets/avatar/Avatar01.png"),
-                    //         // const Padding(padding: EdgeInsets.only(top: 10)),
-                    //         createAvatartButton("assets/avatar/Avatar02.png"),
-                    //         // const Padding(padding: EdgeInsets.only(top: 10)),
-                    //         createAvatartButton("assets/avatar/Avatar03.png"),
-                    //         // const Padding(padding: EdgeInsets.only(top: 10)),
-                    //         createAvatartButton("assets/avatar/Avatar04.png"),
-                    //     //   ],
-                    //     // ),
-                    //     // Column(
-                    //     //   children: [
-                    //         createAvatartButton("assets/avatar/Avatar05.png"),
-                    //         // const Padding(padding: EdgeInsets.only(top: 10)),
-                    //         createAvatartButton("assets/avatar/Avatar06.png"),
-                    //         // const Padding(padding: EdgeInsets.only(top: 10)),
-                    //         createAvatartButton("assets/avatar/Avatar07.png"),
-                    //         // const Padding(padding: EdgeInsets.only(top: 10)),
-                    //         createAvatartButton("assets/avatar/Avatar08.png"),
-                    //     //   ],
-                    //     // )
-                    //   ],
-                    //   isSelected: _isSelected,
-                    //   onPressed: (int index) {
-                    //     setState(() {
-                    //       for (int i = 0; i < _isSelected.length; i++) {
-                    //         _isSelected[i] = i == index;
-                    //       }
-                    //     });
-                    //    },
-                    //   selectedColor: Colors.blue,
-                    //   ));
-                      }
-                      ),
+                      content: StatefulBuilder(builder:
+                          (BuildContext context, StateSetter setState) {
+                        return Ink(
+                          height: 500,
+                          color: Colors.white,
+                          child: GridView.count(
+                            primary: true,
+                            scrollDirection: Axis.vertical,
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 8,
+                            childAspectRatio: 1,
+                            mainAxisSpacing: 5,
+                            children:
+                                List.generate(_isSelected.length, (index) {
+                              //using Inkwell widget to create a button
+                              return InkWell(
+                                  splashColor: Colors
+                                      .blue, //the default splashColor is grey
+                                  onTap: () {
+                                    //set the toggle logic
+                                    setState(() {
+                                      for (int indexBtn = 0;
+                                          indexBtn < _isSelected.length;
+                                          indexBtn++) {
+                                        if (indexBtn == index) {
+                                          _isSelected[indexBtn] = true;
+                                        } else {
+                                          _isSelected[indexBtn] = false;
+                                        }
+                                      }
+                                    });
+                                  },
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      color: _isSelected[index]
+                                          ? Colors.blue
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child:
+                                        createAvatartButton(_avatarPath[index]),
+                                  ));
+                            }),
+                          ),
+                        );
+                        // SizedBox(
+                        //     height: 360,
+                        //     child: ToggleButtons(
+                        //     // Row(
+                        //       direction: Axis.vertical,
+                        //     children: [
+                        //       // Column(
+                        //       // children: [
+                        //         createAvatartButton("assets/avatar/Avatar01.png"),
+                        //         // const Padding(padding: EdgeInsets.only(top: 10)),
+                        //         createAvatartButton("assets/avatar/Avatar02.png"),
+                        //         // const Padding(padding: EdgeInsets.only(top: 10)),
+                        //         createAvatartButton("assets/avatar/Avatar03.png"),
+                        //         // const Padding(padding: EdgeInsets.only(top: 10)),
+                        //         createAvatartButton("assets/avatar/Avatar04.png"),
+                        //     //   ],
+                        //     // ),
+                        //     // Column(
+                        //     //   children: [
+                        //         createAvatartButton("assets/avatar/Avatar05.png"),
+                        //         // const Padding(padding: EdgeInsets.only(top: 10)),
+                        //         createAvatartButton("assets/avatar/Avatar06.png"),
+                        //         // const Padding(padding: EdgeInsets.only(top: 10)),
+                        //         createAvatartButton("assets/avatar/Avatar07.png"),
+                        //         // const Padding(padding: EdgeInsets.only(top: 10)),
+                        //         createAvatartButton("assets/avatar/Avatar08.png"),
+                        //     //   ],
+                        //     // )
+                        //   ],
+                        //   isSelected: _isSelected,
+                        //   onPressed: (int index) {
+                        //     setState(() {
+                        //       for (int i = 0; i < _isSelected.length; i++) {
+                        //         _isSelected[i] = i == index;
+                        //       }
+                        //     });
+                        //    },
+                        //   selectedColor: Colors.blue,
+                        //   ));
+                      }),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () {
-                            _isSelected = [false, false, false, false, false, false, false, false];
+                            _isSelected = [
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                              false
+                            ];
                             Navigator.pop(context, 'Cancel');
                           },
                           child: const Text('Cancel'),
                         ),
                         TextButton(
                           onPressed: () {
-                            for (int index = 0; index < _isSelected.length; index++) {
+                            for (int index = 0;
+                                index < _isSelected.length;
+                                index++) {
                               if (_isSelected[index] == true) {
                                 globals.tentativeLink = _avatarPath[index];
-                                _isSelected = [false, false, false, false, false, false, false, false];
+                                _isSelected = [
+                                  false,
+                                  false,
+                                  false,
+                                  false,
+                                  false,
+                                  false,
+                                  false,
+                                  false
+                                ];
                                 Navigator.pop(context, 'Submit');
                               }
                             }
                             Fluttertoast.showToast(
-                                msg: "Select an avatar",
-                                toastLength: Toast.LENGTH_SHORT,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor:
-                                    const Color.fromARGB(255, 178, 255, 191),
-                                textColor: const Color.fromARGB(255, 0, 0, 0),
-                                fontSize: 16.0,
-                              );
+                              msg: "Select an avatar",
+                              toastLength: Toast.LENGTH_SHORT,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 178, 255, 191),
+                              textColor: const Color.fromARGB(255, 0, 0, 0),
+                              fontSize: 16.0,
+                            );
                           },
                           child: const Text('Submit'),
                         ),
@@ -332,43 +359,42 @@ class ProfileState extends State<Profile> {
                               fit: BoxFit.cover,
                             ),
                           ))),
-                )
-                ),
+                )),
             SizedBox(
               width: 300,
               child: MyForm(),
             ),
             SizedBox(
               child: FutureBuilder<UserProcess>(
-                future: getUserProcess(token: globals.token),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.response.isEmpty) {
-                      return const Center(
-                            child: Text(
-                              "No requirement to get this process",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 98, 153, 141),
-                                fontSize: 30,
-                                fontWeight: FontWeight.w500,
-                              ),
+                  future: getUserProcess(token: globals.token),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data!.response.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            "No requirement to get this process",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 98, 153, 141),
+                              fontSize: 30,
+                              fontWeight: FontWeight.w500,
                             ),
-                          );
-                        } else {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.response.length,
-                            itemBuilder: (context, index) {
-                              return Text(snapshot.data!.response[index].name);
-                            },
-                          );
-                        }
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
+                          ),
+                        );
+                      } else {
+                        return ListView.builder(
+                          itemCount: snapshot.data!.response.length,
+                          itemBuilder: (context, index) {
+                            return Text(snapshot.data!.response[index].name);
+                          },
+                        );
                       }
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
 
-                      return const CircularProgressIndicator();
-                    }),
-                                    )
+                    return const CircularProgressIndicator();
+                  }),
+            )
           ])
         ])));
   }
@@ -392,14 +418,14 @@ class MyFormState extends State<MyForm> {
   final _controllerPassword = TextEditingController();
   String _dropDownValue = globals.language;
 
-  List<DropdownMenuItem<String>> get dropdownItems{
+  List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
       const DropdownMenuItem(child: Text("English"), value: "english"),
       const DropdownMenuItem(child: Text("Français"), value: "french"),
       // DropdownMenuItem(child: Text("Español"), value: "Spanish"),
       // DropdownMenuItem(child: Text("Português"), value: "Portuguese"),
     ];
-  return menuItems;
+    return menuItems;
   }
 
   @override
@@ -431,16 +457,17 @@ class MyFormState extends State<MyForm> {
                 ),
               ),
               TextFormField(
-                controller: _controllerPassword,
-                decoration: InputDecoration(
-                  icon: const Icon(Icons.password),
-                  hintText: _changePassword,
-                  labelText: 'Change Password',
-                ),
-                validator: (value) {
-                  value!.length < 8 && value.isNotEmpty ? 'Minimum character length is 8' : null;
-                }
-              ),
+                  controller: _controllerPassword,
+                  decoration: InputDecoration(
+                    icon: const Icon(Icons.password),
+                    hintText: _changePassword,
+                    labelText: 'Change Password',
+                  ),
+                  validator: (value) {
+                    value!.length < 8 && value.isNotEmpty
+                        ? 'Minimum character length is 8'
+                        : null;
+                  }),
               // TextFormField(
               //   decoration: const InputDecoration(
               //     icon: const Icon(Icons.password_outlined),
@@ -470,9 +497,7 @@ class MyFormState extends State<MyForm> {
                     },
                     disabledHint: const Text("Disabled"),
                     elevation: 4,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 18),
+                    style: const TextStyle(color: Colors.black, fontSize: 18),
                     iconDisabledColor: Colors.grey[350],
                     iconEnabledColor: Colors.green,
                     isExpanded: true,
@@ -481,32 +506,33 @@ class MyFormState extends State<MyForm> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                    showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        title: const Text('Your Modifications has been send'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context, 'Ok');
-                            },
-                            child: const Text('Ok'),
-                          ),
-                        ],
-                      ),
-                    );
-                    setModifyUser(
-                      token: globals.token,
-                      newEmail: _controllerEmail.text,
-                      newUsername: _controllerUsername.text,
-                      newPassword: _controllerPassword.text,
-                      profilePicture: globals.tentativeLink,
-                      language: _dropDownValue,
-                    );
-                    _controllerEmail.clear();
-                    _controllerUsername.clear();
-                    _controllerPassword.clear();
-                  }},
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Your Modifications has been send'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, 'Ok');
+                              },
+                              child: const Text('Ok'),
+                            ),
+                          ],
+                        ),
+                      );
+                      setModifyUser(
+                        token: globals.token,
+                        newEmail: _controllerEmail.text,
+                        newUsername: _controllerUsername.text,
+                        newPassword: _controllerPassword.text,
+                        profilePicture: globals.tentativeLink,
+                        language: _dropDownValue,
+                      );
+                      _controllerEmail.clear();
+                      _controllerUsername.clear();
+                      _controllerPassword.clear();
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF29C9B3),
                     shape: RoundedRectangleBorder(

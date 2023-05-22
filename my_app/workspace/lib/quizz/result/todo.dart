@@ -61,7 +61,7 @@ class ToDo {
           "process_title": processName,
           "user_token": token,
           "step": resStep,
-          }));
+        }));
 
     if (response.statusCode == 200) {
       return true;

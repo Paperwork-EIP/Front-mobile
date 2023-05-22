@@ -19,7 +19,7 @@ class ProcessQuestion {
 
   static Future<bool> fetchResultQuizz(
       resQuestion, processName, context) async {
-        print('resQuestion of the quizz = $resQuestion');
+    print('resQuestion of the quizz = $resQuestion');
     final response = await http.post(
         Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/add"),
         headers: {
@@ -54,11 +54,11 @@ class ProcessName {
     );
   }
 
-  static List<List <String>> processList(parsedJson) {
+  static List<List<String>> processList(parsedJson) {
     var res = parsedJson['response'];
     String elem;
     String elem2;
-    List<List <String>> tab = [];
+    List<List<String>> tab = [];
 
     for (var i in res) {
       elem = i['title'];
@@ -68,10 +68,11 @@ class ProcessName {
     return tab;
   }
 
-  static Future<List<List <String>>> fetchProcessName() async {
-    List<List <String>> list;
+  static Future<List<List<String>>> fetchProcessName() async {
+    List<List<String>> list;
     final response = await http.get(
-      Uri.parse("${dotenv.get('SERVER_URL')}/process/getAll?language=$language"),
+      Uri.parse(
+          "${dotenv.get('SERVER_URL')}/process/getAll?language=$language"),
       headers: {
         "Content-Type": "application/json",
       },

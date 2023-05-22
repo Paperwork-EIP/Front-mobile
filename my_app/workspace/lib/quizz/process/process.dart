@@ -243,7 +243,7 @@ class StartProcess extends StatefulWidget {
 class _StartProcessState extends State<StartProcess> {
   String? dropdownValue;
 
-  late Future<List<List <String>>> futureProcess;
+  late Future<List<List<String>>> futureProcess;
 
   @override
   void initState() {
@@ -273,7 +273,7 @@ class _StartProcessState extends State<StartProcess> {
           children: [
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: FutureBuilder<List<List <String>>>(
+              child: FutureBuilder<List<List<String>>>(
                   future: futureProcess,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
@@ -332,7 +332,7 @@ class _StartProcessState extends State<StartProcess> {
     );
   }
 
-  Widget dropDown(BuildContext context, final List<List <String>> items) {
+  Widget dropDown(BuildContext context, final List<List<String>> items) {
     Color setColor(bool value) {
       if (value) {
         return const Color.fromARGB(242, 211, 207, 210);

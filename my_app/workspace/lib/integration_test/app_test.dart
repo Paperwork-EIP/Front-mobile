@@ -8,8 +8,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('end-to-end test', () {
-    testWidgets('tap on the profile',
-        (tester) async {
+    testWidgets('tap on the profile', (tester) async {
       // app.main();
       await tester.pumpAndSettle();
 

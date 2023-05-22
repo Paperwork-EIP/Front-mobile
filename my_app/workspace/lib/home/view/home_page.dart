@@ -26,7 +26,11 @@ class UserPicture {
   final String password;
   final String language;
 
-  const UserPicture({required this.picture, required this.username, required this.password, required this.language});
+  const UserPicture(
+      {required this.picture,
+      required this.username,
+      required this.password,
+      required this.language});
 
   factory UserPicture.fromJson(Map<String, dynamic> json) {
     return UserPicture(
@@ -81,7 +85,6 @@ class OngoingProcess {
 Future<OngoingProcess> getOngoingProcess({
   required String token,
 }) async {
-
   try {
     var response;
     response = await http.get(
@@ -91,7 +94,7 @@ Future<OngoingProcess> getOngoingProcess({
         "Content-Type": "application/json",
       },
     );
-    
+
     if (response.statusCode == 200) {
       print(response.body);
       return OngoingProcess.fromJson(jsonDecode(response.body));
@@ -101,7 +104,6 @@ Future<OngoingProcess> getOngoingProcess({
       'response': '',
     });
   } catch (error) {
-
     throw Exception('Failed to load Process');
   }
 }
@@ -126,7 +128,6 @@ class Calendar {
 Future<Calendar> getCalendar({
   required String token,
 }) async {
-
   try {
     var response = await http.get(
       Uri.parse("${dotenv.get('SERVER_URL')}/calendar/getAll?token=$token"),
@@ -143,7 +144,6 @@ Future<Calendar> getCalendar({
       'appoinment': '',
     });
   } catch (error) {
-
     throw Exception('Failed to load calendar');
   }
 }
@@ -208,23 +208,28 @@ class _HomePageState extends State<HomePage> {
                         child: FutureBuilder<Calendar>(
                             future: getCalendar(token: token),
                             builder: (context, snapshot) {
-                              if (snapshot.hasData && snapshot.data!.appoinment.length != 0) {
+                              if (snapshot.hasData &&
+                                  snapshot.data!.appoinment.length != 0) {
                                 if (snapshot.data!.appoinment.length != 0) {
-                                  var date = snapshot.data!.appoinment[0]['date'];
-                                  var title = snapshot.data!.appoinment[0]['step_title'];
+                                  var date =
+                                      snapshot.data!.appoinment[0]['date'];
+                                  var title = snapshot.data!.appoinment[0]
+                                      ['step_title'];
                                   date = DateTime.parse(date);
                                   var hours = DateFormat('jm').format(date);
                                   date = DateFormat('MMMMEEEEd').format(date);
                                   return Container(
                                     decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(18.0),
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
                                         boxShadow: [
                                           BoxShadow(
                                             color: Colors.grey.withOpacity(0.5),
                                             spreadRadius: 5,
                                             blurRadius: 7,
-                                            offset: const Offset(0,3), // changes position of shadow
+                                            offset: const Offset(0,
+                                                3), // changes position of shadow
                                           ),
                                         ]),
                                     child: Row(
@@ -233,8 +238,7 @@ class _HomePageState extends State<HomePage> {
                                           width: 109,
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 5.0,
-                                                vertical: 5.0),
+                                                horizontal: 5.0, vertical: 5.0),
                                             child: Text(date,
                                                 softWrap: true,
                                                 maxLines: 2,
@@ -292,27 +296,29 @@ class _HomePageState extends State<HomePage> {
                                 }
                               } else {
                                 return Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: const Offset(0,
-                                              3), // changes position of shadow
-                                        ),
-                                      ]),
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 35.0),
-                                    child: Text('No appointement planned',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                        color: Colors.black,
-                                      )),
-                                ));
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 5,
+                                            blurRadius: 7,
+                                            offset: const Offset(0,
+                                                3), // changes position of shadow
+                                          ),
+                                        ]),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 50.0, vertical: 35.0),
+                                      child: Text('No appointement planned',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                          )),
+                                    ));
                               }
                             }),
                       ),
@@ -320,126 +326,173 @@ class _HomePageState extends State<HomePage> {
                           width: 400,
                           height: 300,
                           child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(18.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: const Offset(
-                                        0, 3), // changes position of shadow
-                                  ),
-                                ]),
-                            child: SingleChildScrollView(
-                                    child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10.0, vertical: 5.0),
-                                  child: Text('Ongoing process',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                        color: Colors.black,
-                                      )),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: const Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ]),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.0, vertical: 5.0),
+                                      child: Text('Ongoing process',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                          )),
+                                    ),
+                                    const Divider(),
+                                    SingleChildScrollView(
+                                        child: FutureBuilder<OngoingProcess>(
+                                      future: getOngoingProcess(token: token),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData &&
+                                            snapshot.data!.response.length !=
+                                                0) {
+                                          return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                for (var i = 0;
+                                                    i <
+                                                        snapshot.data!.response
+                                                            .length;
+                                                    i++)
+                                                  if (snapshot.data!.response[i]
+                                                              ['userProcess']
+                                                          ['is_done'] ==
+                                                      false) ...{
+                                                    Column(
+                                                      children: [
+                                                        // Padding(
+                                                        // padding: const EdgeInsets.symmetric(
+                                                        //     horizontal: 5.0,
+                                                        //     vertical: 5.0),
+                                                        // child:
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    // builder: (context) => UserProcess(processName: snapshot.data!.response[i]['userProcess']['process_title'])),
+                                                                    builder: (context) => ResultQuizz(
+                                                                        processName: snapshot
+                                                                            .data!
+                                                                            .response[i]['userProcess']['process_title'])),
+                                                              );
+                                                            },
+                                                            child: Row(
+                                                                children: [
+                                                                  Text(
+                                                                      '   • ' +
+                                                                          snapshot.data!.response[i]['userProcess']
+                                                                              [
+                                                                              'process_title'],
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        fontSize:
+                                                                            18,
+                                                                        color: Colors
+                                                                            .black,
+                                                                      )),
+                                                                  const Spacer(),
+                                                                  if (snapshot
+                                                                          .data!
+                                                                          .response[i]['pourcentage'] ==
+                                                                      null)
+                                                                    const Padding(
+                                                                      padding: EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              50.0,
+                                                                          vertical:
+                                                                              6.0),
+                                                                      child: Text(
+                                                                          '0%',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontSize:
+                                                                                20,
+                                                                            color:
+                                                                                Colors.black,
+                                                                          )),
+                                                                    )
+                                                                  else
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                          horizontal:
+                                                                              50.0,
+                                                                          vertical:
+                                                                              10.0),
+                                                                      child: Text(
+                                                                          snapshot.data!.response[i]['pourcentage'].toString() +
+                                                                              '%',
+                                                                          style:
+                                                                              const TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontSize:
+                                                                                20,
+                                                                            color:
+                                                                                Colors.black,
+                                                                          )),
+                                                                    )
+                                                                ])),
+                                                        //   Padding(
+                                                        //     padding: const EdgeInsets.symmetric(
+                                                        //       horizontal: 10.0,
+                                                        //       vertical: 10.0),
+                                                        //     child: ElevatedButton(
+                                                        //       style: ElevatedButton.styleFrom(
+                                                        //       fixedSize: const Size(300, 40),
+                                                        //       backgroundColor: Color.fromARGB(0, 201, 201, 201),
+                                                        //       // shape: RoundedRectangleBorder(
+                                                        //       //   borderRadius: BorderRadius.circular(30.0),
+                                                        //       // ),
+                                                        //     ),
+                                                        //     onPressed: () {
+                                                        //       Navigator.push(
+                                                        //         context,
+                                                        //         MaterialPageRoute(
+                                                        //             builder: (context) => UserProcess(processName: snapshot.data!.response[i]['userProcess']['process_title'])),
+                                                        //       );
+                                                        //     },
+                                                        //     child: Text( snapshot.data!.response[i]['userProcess']['process_title'],  style: const TextStyle(
+                                                        //         fontWeight:
+                                                        //             FontWeight.bold,
+                                                        //         fontSize: 20,
+                                                        //         color:Color(0xFF29C9B3),
+                                                        //       )),
+                                                        //   ),
+                                                        // ),
+                                                      ],
+                                                    )
+                                                  }
+                                              ]);
+                                        } else {
+                                          return (const Text(
+                                              'No current process'));
+                                        }
+                                      },
+                                    ))
+                                  ],
                                 ),
-                                const Divider(),
-                                SingleChildScrollView(
-                                          child: FutureBuilder<OngoingProcess>(
-                                    future: getOngoingProcess(token: token),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData && snapshot.data!.response.length != 0) {
-                                        return Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                          for (var i = 0; i < snapshot.data!.response.length; i++)
-                                            if (snapshot.data!.response[i]['userProcess']['is_done'] == false) ...{
-                                              Column(
-                                                children: [
-                                                  // Padding(
-                                                    // padding: const EdgeInsets.symmetric(
-                                                    //     horizontal: 5.0,
-                                                    //     vertical: 5.0),
-                                                    // child: 
-                                                    TextButton(
-                                                      onPressed:() {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            // builder: (context) => UserProcess(processName: snapshot.data!.response[i]['userProcess']['process_title'])),
-                                                            builder: (context) => ResultQuizz(processName: snapshot.data!.response[i]['userProcess']['process_title'])),
-                                                      );},
-                                                      child: Row(
-                                                        children: [
-                                                          Text('   • ' + snapshot.data!.response[i]['userProcess']['process_title'],
-                                                        style: const TextStyle(
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: 18,
-                                                          color:Colors.black,
-                                                        )),
-                                                        const Spacer(),
-                                                        if(snapshot.data!.response[i]['pourcentage'] == null) 
-                                                          const Padding(
-                                                            padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 6.0),
-                                                            child: Text('0%',
-                                                              style: TextStyle(
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 20,
-                                                                color: Colors.black,
-                                                              )),
-                                                        )
-                                                        else
-                                                        Padding(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10.0),
-                                                            child: Text(snapshot.data!.response[i]['pourcentage'].toString() + '%',
-                                                              style: const TextStyle(
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 20,
-                                                                color: Colors.black,
-                                                              )),
-                                                        )]
-                                                        )),
-                                                  //   Padding(
-                                                  //     padding: const EdgeInsets.symmetric(
-                                                  //       horizontal: 10.0,
-                                                  //       vertical: 10.0),
-                                                  //     child: ElevatedButton(
-                                                  //       style: ElevatedButton.styleFrom(
-                                                  //       fixedSize: const Size(300, 40),
-                                                  //       backgroundColor: Color.fromARGB(0, 201, 201, 201),
-                                                  //       // shape: RoundedRectangleBorder(
-                                                  //       //   borderRadius: BorderRadius.circular(30.0),
-                                                  //       // ),
-                                                  //     ),
-                                                  //     onPressed: () {
-                                                  //       Navigator.push(
-                                                  //         context,
-                                                  //         MaterialPageRoute(
-                                                  //             builder: (context) => UserProcess(processName: snapshot.data!.response[i]['userProcess']['process_title'])),
-                                                  //       );
-                                                  //     },
-                                                  //     child: Text( snapshot.data!.response[i]['userProcess']['process_title'],  style: const TextStyle(
-                                                  //         fontWeight:
-                                                  //             FontWeight.bold,
-                                                  //         fontSize: 20,
-                                                  //         color:Color(0xFF29C9B3),
-                                                  //       )),
-                                                  //   ),
-                                                  // ),
-                                                ],
-                                              )
-                                            }
-                                          ]);
-                                      } else {
-                                        return (const Text('No current process'));
-                                      }
-                                    },)
-                                    )],
-                            ),
-                          ))),
+                              ))),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(300, 40),
