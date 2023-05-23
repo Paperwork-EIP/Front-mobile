@@ -24,10 +24,7 @@ Future<void> submitProcessIdea(
         "token": email,
       }),
     );
-    if (response.statusCode == 200) {
-      // print(response.body);
-      // _controller.add(AuthStatus.authenticated);
-    }
+    if (response.statusCode == 200) {}
   } catch (e) {
     print('r= ${response}');
     print(e);
@@ -96,7 +93,6 @@ class Support extends StatelessWidget {
                             _controllerPassword),
                         SizedBox(
                           width: 335,
-                          // height: height,
                           child: TextField(
                             controller: _controller,
                             obscureText: false,
@@ -114,7 +110,6 @@ class Support extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               fixedSize: const Size(130, 40),
                               backgroundColor: const Color(0xFFFC6976)),
-                          // ),
                           onPressed: () {
                             // submitProcessIdea(
                             //     title: _controllerEmail.text,

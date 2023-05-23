@@ -19,7 +19,6 @@ class ProcessQuestion {
 
   static Future<bool> fetchResultQuizz(
       resQuestion, processName, context) async {
-    print('resQuestion of the quizz = $resQuestion');
     final response = await http.post(
         Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/add"),
         headers: {
@@ -30,12 +29,11 @@ class ProcessQuestion {
           "user_token": token,
           "questions": resQuestion,
         }));
-
+    print(response.statusCode);
     if (response.statusCode == 200) {
       print('response.body creation du process = ${response.body}');
       return true;
     } else {
-      // print('resQuestion = $resQuestion');
       throw Exception('Failed to load album');
     }
   }
@@ -70,6 +68,7 @@ class ProcessName {
 
   static Future<List<List<String>>> fetchProcessName() async {
     List<List<String>> list;
+
     final response = await http.get(
       Uri.parse(
           "${dotenv.get('SERVER_URL')}/process/getAll?language=$language"),
@@ -77,9 +76,11 @@ class ProcessName {
         "Content-Type": "application/json",
       },
     );
+    print(response.statusCode);
     list = processList(jsonDecode(response.body));
 
     if (response.statusCode == 200) {
+      print(list);
       return list;
     } else {
       throw Exception('Failed to load album');

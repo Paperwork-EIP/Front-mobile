@@ -48,8 +48,7 @@ void main() {
               newEmail: newEmail,
               newUsername: newUsername,
               newPassword: newPassword,
-              profilePicture: newPicture,
-              language: ''),
+              profilePicture: newPicture),
           throwsException);
     });
   });

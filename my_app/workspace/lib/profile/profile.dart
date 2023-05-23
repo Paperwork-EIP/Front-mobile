@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
-// import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -61,7 +60,6 @@ Future<ModifyProfile> setModifyUser({
       }),
     );
     if (response.statusCode == 200) {
-      // print(response.body);
       return ModifyProfile.fromJson(jsonDecode(response.body));
     }
     return ModifyProfile.fromJson(
@@ -99,7 +97,6 @@ Future<UserProcess> getUserProcess({
     );
 
     if (response.statusCode == 200) {
-      print(response.body);
       return UserProcess.fromJson(jsonDecode(response.body));
     }
     return UserProcess.fromJson({
@@ -123,7 +120,7 @@ class ProfileState extends State<Profile> {
     if (globals.tentativeLink == null) {
       return const AssetImage('assets/avatar/NoAvatar.png');
     } else {
-      return NetworkImage(globals.tentativeLink);
+      return AssetImage(globals.tentativeLink);
     }
   }
 
@@ -150,6 +147,122 @@ class ProfileState extends State<Profile> {
           )),
     );
   }
+  Future openDialog() => showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+            backgroundColor: Colors.white,
+            title: const Text('Choose avatar'),
+            content: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+              return Ink(
+                height: 500,
+                color: Colors.white,
+                child: GridView.count(
+                  primary: true,
+                  scrollDirection: Axis.vertical,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8,
+                  childAspectRatio: 1,
+                  mainAxisSpacing: 5,
+                  children: List.generate(_isSelected.length, (index) {
+                    return InkWell(
+                        splashColor: Colors.blue,
+                        onTap: () {
+                          setState(() {
+                            for (int indexBtn = 0;
+                                indexBtn < _isSelected.length;
+                                indexBtn++) {
+                              if (indexBtn == index) {
+                                _isSelected[indexBtn] = true;
+                              } else {
+                                _isSelected[indexBtn] = false;
+                              }
+                            }
+                          });
+                        },
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            color:
+                                _isSelected[index] ? Colors.blue : Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: createAvatartButton(_avatarPath[index]),
+                        ));
+                  }),
+                ),
+              );
+            }),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  _isSelected = [
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                  ];
+                  Navigator.pop(context, 'Cancel');
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  print(_isSelected.length);
+                  for (int index = 0; index < _isSelected.length; index++) {
+                    if (_isSelected[index] == true) {
+                      globals.tentativeLink = _avatarPath[index];
+                      _isSelected = [
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false
+                      ];
+                      Navigator.pop(context, 'Submit');
+                    }
+                  }
+                  Fluttertoast.showToast(
+                    msg: "Avatar selected",
+                    toastLength: Toast.LENGTH_SHORT,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: const Color.fromARGB(255, 178, 255, 191),
+                    textColor: const Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 16.0,
+                  );
+                },
+                child: const Text('Submit'),
+              ),
+            ],
+          ));
+
+  List<bool> _isSelected = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
+
+  final List<String> _avatarPath = [
+    "assets/avatar/Avatar01.png",
+    "assets/avatar/Avatar02.png",
+    "assets/avatar/Avatar03.png",
+    "assets/avatar/Avatar04.png",
+    "assets/avatar/Avatar05.png",
+    "assets/avatar/Avatar06.png",
+    "assets/avatar/Avatar07.png",
+    "assets/avatar/Avatar08.png",
+  ];
 
   List<bool> _isSelected = [
     false,
@@ -173,7 +286,7 @@ class ProfileState extends State<Profile> {
   ];
   @override
   Widget build(BuildContext context) {
-    globals.tentativeLink = globals.globalUserPicture;
+    // globals.tentativeLink = globals.globalUserPicture;
     return Scaffold(
         appBar: AppBar(
           title: const Text("Profil"),
@@ -193,148 +306,10 @@ class ProfileState extends State<Profile> {
                 width: 350,
                 height: 100,
                 child: ElevatedButton(
-                  onPressed: () => showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      backgroundColor: Colors.white,
-                      title: const Text('Choose avatar'),
-                      content: StatefulBuilder(builder:
-                          (BuildContext context, StateSetter setState) {
-                        return Ink(
-                          height: 500,
-                          color: Colors.white,
-                          child: GridView.count(
-                            primary: true,
-                            scrollDirection: Axis.vertical,
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 8,
-                            childAspectRatio: 1,
-                            mainAxisSpacing: 5,
-                            children:
-                                List.generate(_isSelected.length, (index) {
-                              //using Inkwell widget to create a button
-                              return InkWell(
-                                  splashColor: Colors
-                                      .blue, //the default splashColor is grey
-                                  onTap: () {
-                                    //set the toggle logic
-                                    setState(() {
-                                      for (int indexBtn = 0;
-                                          indexBtn < _isSelected.length;
-                                          indexBtn++) {
-                                        if (indexBtn == index) {
-                                          _isSelected[indexBtn] = true;
-                                        } else {
-                                          _isSelected[indexBtn] = false;
-                                        }
-                                      }
-                                    });
-                                  },
-                                  child: Ink(
-                                    decoration: BoxDecoration(
-                                      color: _isSelected[index]
-                                          ? Colors.blue
-                                          : Colors.white,
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    child:
-                                        createAvatartButton(_avatarPath[index]),
-                                  ));
-                            }),
-                          ),
-                        );
-                        // SizedBox(
-                        //     height: 360,
-                        //     child: ToggleButtons(
-                        //     // Row(
-                        //       direction: Axis.vertical,
-                        //     children: [
-                        //       // Column(
-                        //       // children: [
-                        //         createAvatartButton("assets/avatar/Avatar01.png"),
-                        //         // const Padding(padding: EdgeInsets.only(top: 10)),
-                        //         createAvatartButton("assets/avatar/Avatar02.png"),
-                        //         // const Padding(padding: EdgeInsets.only(top: 10)),
-                        //         createAvatartButton("assets/avatar/Avatar03.png"),
-                        //         // const Padding(padding: EdgeInsets.only(top: 10)),
-                        //         createAvatartButton("assets/avatar/Avatar04.png"),
-                        //     //   ],
-                        //     // ),
-                        //     // Column(
-                        //     //   children: [
-                        //         createAvatartButton("assets/avatar/Avatar05.png"),
-                        //         // const Padding(padding: EdgeInsets.only(top: 10)),
-                        //         createAvatartButton("assets/avatar/Avatar06.png"),
-                        //         // const Padding(padding: EdgeInsets.only(top: 10)),
-                        //         createAvatartButton("assets/avatar/Avatar07.png"),
-                        //         // const Padding(padding: EdgeInsets.only(top: 10)),
-                        //         createAvatartButton("assets/avatar/Avatar08.png"),
-                        //     //   ],
-                        //     // )
-                        //   ],
-                        //   isSelected: _isSelected,
-                        //   onPressed: (int index) {
-                        //     setState(() {
-                        //       for (int i = 0; i < _isSelected.length; i++) {
-                        //         _isSelected[i] = i == index;
-                        //       }
-                        //     });
-                        //    },
-                        //   selectedColor: Colors.blue,
-                        //   ));
-                      }),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            _isSelected = [
-                              false,
-                              false,
-                              false,
-                              false,
-                              false,
-                              false,
-                              false,
-                              false
-                            ];
-                            Navigator.pop(context, 'Cancel');
-                          },
-                          child: const Text('Cancel'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            for (int index = 0;
-                                index < _isSelected.length;
-                                index++) {
-                              if (_isSelected[index] == true) {
-                                globals.tentativeLink = _avatarPath[index];
-                                _isSelected = [
-                                  false,
-                                  false,
-                                  false,
-                                  false,
-                                  false,
-                                  false,
-                                  false,
-                                  false
-                                ];
-                                Navigator.pop(context, 'Submit');
-                              }
-                            }
-                            Fluttertoast.showToast(
-                              msg: "Select an avatar",
-                              toastLength: Toast.LENGTH_SHORT,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor:
-                                  const Color.fromARGB(255, 178, 255, 191),
-                              textColor: const Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 16.0,
-                            );
-                          },
-                          child: const Text('Submit'),
-                        ),
-                      ],
-                    ),
-                  ),
+                  onPressed: () async {
+                    await openDialog();
+                    setState(() {});
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     elevation: 0,
@@ -365,35 +340,53 @@ class ProfileState extends State<Profile> {
               child: MyForm(),
             ),
             SizedBox(
-              child: FutureBuilder<UserProcess>(
-                  future: getUserProcess(token: globals.token),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data!.response.isEmpty) {
-                        return const Center(
-                          child: Text(
-                            "No requirement to get this process",
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 98, 153, 141),
-                              fontSize: 30,
-                              fontWeight: FontWeight.w500,
+              height: 200,
+              child: Column(children: [
+                const Text(
+                  "Your current process",
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 98, 153, 141),
+                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                FutureBuilder<UserProcess>(
+                    future: getUserProcess(token: globals.token),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data!.response.isEmpty) {
+                          return const Center(
+                            child: Text(
+                              "No current process",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                        );
-                      } else {
-                        return ListView.builder(
-                          itemCount: snapshot.data!.response.length,
-                          itemBuilder: (context, index) {
-                            return Text(snapshot.data!.response[index].name);
-                          },
-                        );
+                          );
+                        } else {
+                          return ListView.builder(
+                            itemCount: snapshot.data!.response.length,
+                            shrinkWrap: true,
+                            prototypeItem: ListTile(
+                              title: Text(snapshot.data!.response
+                                  .first['userProcess']['title']),
+                            ),
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                  title: Text(snapshot.data!.response[index]
+                                      ['userProcess']['title']));
+                            },
+                          );
+                        }
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
                       }
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
 
-                    return const CircularProgressIndicator();
-                  }),
+                      return const CircularProgressIndicator();
+                    })
+              ]),
             )
           ])
         ])));
@@ -422,21 +415,16 @@ class MyFormState extends State<MyForm> {
     List<DropdownMenuItem<String>> menuItems = [
       const DropdownMenuItem(child: Text("English"), value: "english"),
       const DropdownMenuItem(child: Text("Français"), value: "french"),
-      // DropdownMenuItem(child: Text("Español"), value: "Spanish"),
-      // DropdownMenuItem(child: Text("Português"), value: "Portuguese"),
     ];
     return menuItems;
   }
 
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
     return Form(
         key: _formKey,
         child: Container(
           margin: const EdgeInsets.only(left: 20),
-          // padding: const EdgeInsets.only(bottom: 20),
-          // width: 300,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -545,30 +533,6 @@ class MyFormState extends State<MyForm> {
                     style: TextStyle(fontSize: 18, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
-                  //   TextButton(
-                  //   style: TextButton.styleFrom(
-                  //       backgroundColor: const Color(0xFF29C9B3),
-                  //       shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(25.0),
-                  //           side: const BorderSide(color: Color(0xFF29C9B3)))),
-                  //   onPressed: () {
-                  //     // print(_controllerEmail.text);
-                  //     // print(_controllerPassword.text);
-                  //     // print(_controllerUsername.text);
-                  //     setModifyUser(
-                  //       email: globals.email,
-                  //       newEmail: _controllerEmail.text,
-                  //       newUsername: _controllerUsername.text,
-                  //       newPassword: _controllerPassword.text,
-                  //       profilePicture: globals.tentativeLink,
-                  //     );
-                  //   },
-                  //   child: const Text(
-                  //     'Submit',
-                  //     style: TextStyle(fontSize: 18, color: Colors.white),
-                  //     textAlign: TextAlign.center,
-                  //   ),
-                  // ),
                 )
               ]),
             ],

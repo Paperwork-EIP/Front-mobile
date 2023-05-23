@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:my_app/quizz/process/process_question.dart';
 import 'package:my_app/quizz/result/result_quizz.dart';
 import '../../global.dart';
+import 'dart:io';
 
 class Quizz extends StatelessWidget {
   const Quizz({super.key});
@@ -105,6 +106,7 @@ class _QuizzProcessState extends State<QuizzProcess> {
         resStep["question"] = value;
         res.add(resStep);
         ProcessQuestion.fetchResultQuizz(res, processName, context);
+        sleep(const Duration(seconds: 2, milliseconds: 500));
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -129,7 +131,6 @@ class _QuizzProcessState extends State<QuizzProcess> {
             ),
             shadowColor: Colors.grey.shade200,
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 IconButton(
@@ -155,11 +156,9 @@ class _QuizzProcessState extends State<QuizzProcess> {
                             Text(
                               snapshot.data![count]["question"],
                               style: const TextStyle(
-                                  // color: Colors.black.withOpacity(0.6),
                                   fontSize: 18),
                               textAlign: TextAlign.center,
                             ),
-                            // Padding(padding: EdgeInsets.only(top: 50)),
                             ButtonBar(
                               alignment: MainAxisAlignment.center,
                               children: [
@@ -294,6 +293,7 @@ class _StartProcessState extends State<StartProcess> {
                             child: dropDown(context, snapshot.data!));
                       }
                     } else if (snapshot.hasError) {
+                      print(snapshot.hasData);
                       return Text('${snapshot.error}');
                     }
 
@@ -353,19 +353,12 @@ class _StartProcessState extends State<StartProcess> {
         height: 1,
         color: const Color.fromARGB(255, 228, 117, 126),
       ),
-      //how can I fix the for loop here
       items: items.map((List<String> item) {
         return DropdownMenuItem(
           value: item[1],
           child: Text(item[0]),
         );
       }).toList(),
-      // items.map((String item) {
-      //   return DropdownMenuItem(
-      //     value: item,
-      //     child: Text(item),
-      //   );
-      // }).toList(),
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;

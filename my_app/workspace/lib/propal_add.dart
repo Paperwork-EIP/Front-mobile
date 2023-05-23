@@ -13,7 +13,7 @@ Future<void> submitProcessIdea(
   var response;
   try {
     response = await http.post(
-      Uri.parse("${dotenv.get('SERVER_URL')}/process/add"),
+      Uri.parse("${dotenv.get('SERVER_URL')}/processProposal/add"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -21,11 +21,11 @@ Future<void> submitProcessIdea(
         "title": title,
         "description": description,
         "content": content,
-        "token": token,
+        "user_token": token,
       }),
     );
     if (response.statusCode == 200) {
-      // _controller.add(AuthStatus.authenticated);
+      return;
     }
   } catch (e) {
     print('r= ${response}');
@@ -94,7 +94,6 @@ class AddPropal extends StatelessWidget {
                             _controllerPassword),
                         SizedBox(
                           width: 335,
-                          // height: height,
                           child: TextField(
                             controller: _controller,
                             obscureText: false,
@@ -113,7 +112,6 @@ class AddPropal extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               fixedSize: const Size(130, 40),
                               backgroundColor: const Color(0xFFFC6976)),
-                          // ),
                           onPressed: () {
                             submitProcessIdea(
                                 title: _controllerEmail.text,

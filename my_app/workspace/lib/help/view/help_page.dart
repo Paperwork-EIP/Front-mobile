@@ -33,18 +33,7 @@ class Help extends StatefulWidget {
 
 // ignore: use_key_in_widget_constructors
 class HelpState extends State<Help> {
-  // List<String> attachments = [];
   final bool isHTML = false;
-
-  // final _recipientController = TextEditingController(
-  //   text: 'example@example.com',
-  // );
-
-  // final _subjectController = TextEditingController(text: 'The subject');
-
-  // final _bodyController = TextEditingController(
-  //   text: 'Mail body.',
-  // );
 
   late String platformResponse;
 
@@ -53,7 +42,6 @@ class HelpState extends State<Help> {
       body: _body,
       subject: _subject,
       recipients: ['paperwork_2024@labeip.epitech.eu'],
-      // attachmentPaths: attachments,
       isHTML: isHTML,
     );
 
@@ -61,7 +49,6 @@ class HelpState extends State<Help> {
       await FlutterEmailSender.send(email);
       platformResponse = 'success';
     } catch (error) {
-      print(error);
       platformResponse = error.toString();
     }
   }
@@ -108,13 +95,10 @@ class HelpState extends State<Help> {
                           style: TextStyle(
                               fontSize: 28, fontWeight: FontWeight.bold),
                         ),
-                        // CreateInput(
-                        //     'Email', 'email', true, 335, 60, _controllerEmail),
                         CreateInput('Subject', 'subject', true, 335, 60,
                             _controllerSubject),
                         SizedBox(
                           width: 335,
-                          // height: height,
                           child: TextField(
                             controller: _controllerBody,
                             obscureText: false,
@@ -133,7 +117,6 @@ class HelpState extends State<Help> {
                               fixedSize: const Size(130, 40),
                               backgroundColor: const Color(0xFFFC6976)),
                           onPressed: () {
-                            // print(_controllerBody.text);
                             send(_controllerBody.text, _controllerSubject.text);
                             if (platformResponse == 'success') {
                               Fluttertoast.showToast(
@@ -145,7 +128,6 @@ class HelpState extends State<Help> {
                                 textColor: const Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 16.0,
                               );
-                              // _controllerEmail.clear();
                               _controllerSubject.clear();
                               _controllerBody.clear();
                               platformResponse = '';

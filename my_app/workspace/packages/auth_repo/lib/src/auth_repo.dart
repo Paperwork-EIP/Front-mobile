@@ -23,10 +23,6 @@ class AuthRepository {
     var response;
     globals.email = email;
     globals.password = password;
-    // print(json.encode({
-    //   'email': email,
-    //   'password': password,
-    // }));
     try {
       response = await http.post(
         Uri.parse("${dotenv.get('SERVER_URL')}/user/login"),

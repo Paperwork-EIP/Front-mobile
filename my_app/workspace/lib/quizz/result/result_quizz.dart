@@ -117,7 +117,7 @@ class _ResultQuizzState extends State<ResultQuizz> {
       todo.isDone = !todo.isDone;
     });
     details['step_id'] = todo.id.toString();
-    details['is_done'] = todo.isDone.toString();
+    details['response'] = todo.isDone.toString();
     stepUpdate.add(details);
     print(stepUpdate);
   }
