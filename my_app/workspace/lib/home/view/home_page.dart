@@ -302,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                                 }
                               } else {
                                 return const CircularProgressIndicator();
-                            }),
+                            }}),
                       ),
                       SizedBox(
                           width: 400,

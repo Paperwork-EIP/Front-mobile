@@ -264,26 +264,6 @@ class ProfileState extends State<Profile> {
     "assets/avatar/Avatar08.png",
   ];
 
-  List<bool> _isSelected = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
-  final List<String> _avatarPath = [
-    "assets/avatar/Avatar01.png",
-    "assets/avatar/Avatar02.png",
-    "assets/avatar/Avatar03.png",
-    "assets/avatar/Avatar04.png",
-    "assets/avatar/Avatar05.png",
-    "assets/avatar/Avatar06.png",
-    "assets/avatar/Avatar07.png",
-    "assets/avatar/Avatar08.png",
-  ];
   @override
   Widget build(BuildContext context) {
     // globals.tentativeLink = globals.globalUserPicture;
