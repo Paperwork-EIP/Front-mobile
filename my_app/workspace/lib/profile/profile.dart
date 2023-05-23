@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
-// import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -118,7 +117,6 @@ class Profile extends StatefulWidget {
 // ignore: use_key_in_widget_constructors
 class ProfileState extends State<Profile> {
   imageDefault() {
-    print('global ' + globals.tentativeLink);
     if (globals.tentativeLink == null) {
       return const AssetImage('assets/avatar/NoAvatar.png');
     } else {
@@ -149,7 +147,6 @@ class ProfileState extends State<Profile> {
           )),
     );
   }
-
   Future openDialog() => showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -217,13 +214,7 @@ class ProfileState extends State<Profile> {
                   print(_isSelected.length);
                   for (int index = 0; index < _isSelected.length; index++) {
                     if (_isSelected[index] == true) {
-                      // setState(() {
-                      //   globals.tentativeLink = _avatarPath[index];
-                      // });
-                      print(index);
                       globals.tentativeLink = _avatarPath[index];
-                      print(globals.tentativeLink);
-                      print(_avatarPath[index]);
                       _isSelected = [
                         false,
                         false,
@@ -273,6 +264,26 @@ class ProfileState extends State<Profile> {
     "assets/avatar/Avatar08.png",
   ];
 
+  List<bool> _isSelected = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
+  final List<String> _avatarPath = [
+    "assets/avatar/Avatar01.png",
+    "assets/avatar/Avatar02.png",
+    "assets/avatar/Avatar03.png",
+    "assets/avatar/Avatar04.png",
+    "assets/avatar/Avatar05.png",
+    "assets/avatar/Avatar06.png",
+    "assets/avatar/Avatar07.png",
+    "assets/avatar/Avatar08.png",
+  ];
   @override
   Widget build(BuildContext context) {
     // globals.tentativeLink = globals.globalUserPicture;
@@ -297,7 +308,6 @@ class ProfileState extends State<Profile> {
                 child: ElevatedButton(
                   onPressed: () async {
                     await openDialog();
-
                     setState(() {});
                   },
                   style: ElevatedButton.styleFrom(
@@ -405,21 +415,16 @@ class MyFormState extends State<MyForm> {
     List<DropdownMenuItem<String>> menuItems = [
       const DropdownMenuItem(child: Text("English"), value: "english"),
       const DropdownMenuItem(child: Text("Français"), value: "french"),
-      // DropdownMenuItem(child: Text("Español"), value: "Spanish"),
-      // DropdownMenuItem(child: Text("Português"), value: "Portuguese"),
     ];
     return menuItems;
   }
 
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
     return Form(
         key: _formKey,
         child: Container(
           margin: const EdgeInsets.only(left: 20),
-          // padding: const EdgeInsets.only(bottom: 20),
-          // width: 300,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

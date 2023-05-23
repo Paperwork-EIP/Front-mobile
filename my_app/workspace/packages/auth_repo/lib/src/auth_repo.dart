@@ -63,8 +63,21 @@ class AuthRepository {
         body: json.encode(
             {"email": email, "password": password, 'username': username}),
       );
+      print("status code : ${response.statusCode}");
       if (response.statusCode == 200) {
-        _controller.add(AuthStatus.authenticated);
+        globals.token = jsonDecode(response.body)["jwt"].toString();
+        print(globals.token);
+        try {
+          response = await http.get(Uri.parse(
+              "${dotenv.get('SERVER_URL')}/user/sendVerificationEmail?token=${globals.token}"));
+          if (response.statusCode == 200) {
+            print("verification email sent");
+            _controller.add(AuthStatus.authenticated);
+          }
+        } catch (e) {
+          print('r= ${response}');
+          print(e);
+        }
       }
     } catch (e) {
       print('r= ${response}');

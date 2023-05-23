@@ -216,7 +216,8 @@ class _HomePageState extends State<HomePage> {
                                             color: Colors.grey.withOpacity(0.5),
                                             spreadRadius: 5,
                                             blurRadius: 7,
-                                            offset: const Offset(0, 3),
+                                            offset: const Offset(0,
+                                                3),
                                           ),
                                         ]),
                                     child: Row(
@@ -301,7 +302,6 @@ class _HomePageState extends State<HomePage> {
                                 }
                               } else {
                                 return const CircularProgressIndicator();
-                              }
                             }),
                       ),
                       SizedBox(
@@ -316,7 +316,8 @@ class _HomePageState extends State<HomePage> {
                                       color: Colors.grey.withOpacity(0.5),
                                       spreadRadius: 5,
                                       blurRadius: 7,
-                                      offset: const Offset(0, 3),
+                                      offset: const Offset(
+                                          0, 3),
                                     ),
                                   ]),
                               child: SingleChildScrollView(

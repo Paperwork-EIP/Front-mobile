@@ -19,8 +19,6 @@ class ProcessQuestion {
 
   static Future<bool> fetchResultQuizz(
       resQuestion, processName, context) async {
-    print('processName of the quizz = $processName');
-    print('resQuestion of the quizz = $resQuestion');
     final response = await http.post(
         Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/add"),
         headers: {
@@ -70,7 +68,7 @@ class ProcessName {
 
   static Future<List<List<String>>> fetchProcessName() async {
     List<List<String>> list;
-    print("${dotenv.get('SERVER_URL')}/process/getAll?language=$language");
+
     final response = await http.get(
       Uri.parse(
           "${dotenv.get('SERVER_URL')}/process/getAll?language=$language"),

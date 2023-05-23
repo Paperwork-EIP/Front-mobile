@@ -219,7 +219,7 @@ class _GoogleButton extends StatelessWidget {
       builder: (context, state) {
         return IconButton(
             icon: Image.asset('assets/images/google_image.png'),
-            iconSize: 70,
+            iconSize: 50,
             onPressed: () {});
       },
     );
@@ -234,7 +234,7 @@ class _FacebookButton extends StatelessWidget {
       builder: (context, state) {
         return IconButton(
             icon: Image.asset('assets/images/facebook_image.png'),
-            iconSize: 70,
+            iconSize: 50,
             onPressed: () {});
       },
     );

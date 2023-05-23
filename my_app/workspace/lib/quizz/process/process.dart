@@ -59,7 +59,6 @@ Future<List<Map>> fetchQuestions(processName) async {
       "Content-Type": "application/json",
     },
   );
-  print('response.statusCode of processQuestiion');
   print(response.statusCode);
   if (response.statusCode == 200) {
     parsedJson = stepList(jsonDecode(response.body));
@@ -97,14 +96,14 @@ class _QuizzProcessState extends State<QuizzProcess> {
     String? processName = widget.processName;
 
     void increment(int nb, bool value) {
-      Map resStep = {"step_id": "", "response": ""};
+      Map resStep = {"step_id": "", "question": ""};
       if (count < listy.length - 1) {
         resStep["step_id"] = listy[count]["step_id"];
-        resStep["response"] = value;
+        resStep["question"] = value;
         res.add(resStep);
       } else {
         resStep["step_id"] = listy[count]["step_id"];
-        resStep["response"] = value;
+        resStep["question"] = value;
         res.add(resStep);
         ProcessQuestion.fetchResultQuizz(res, processName, context);
         sleep(const Duration(seconds: 2, milliseconds: 500));
@@ -132,7 +131,6 @@ class _QuizzProcessState extends State<QuizzProcess> {
             ),
             shadowColor: Colors.grey.shade200,
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 IconButton(
@@ -158,11 +156,9 @@ class _QuizzProcessState extends State<QuizzProcess> {
                             Text(
                               snapshot.data![count]["question"],
                               style: const TextStyle(
-                                  // color: Colors.black.withOpacity(0.6),
                                   fontSize: 18),
                               textAlign: TextAlign.center,
                             ),
-                            // Padding(padding: EdgeInsets.only(top: 50)),
                             ButtonBar(
                               alignment: MainAxisAlignment.center,
                               children: [
@@ -357,19 +353,12 @@ class _StartProcessState extends State<StartProcess> {
         height: 1,
         color: const Color.fromARGB(255, 228, 117, 126),
       ),
-      //how can I fix the for loop here
       items: items.map((List<String> item) {
         return DropdownMenuItem(
           value: item[1],
           child: Text(item[0]),
         );
       }).toList(),
-      // items.map((String item) {
-      //   return DropdownMenuItem(
-      //     value: item,
-      //     child: Text(item),
-      //   );
-      // }).toList(),
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;
