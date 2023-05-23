@@ -19,7 +19,8 @@ class ProcessQuestion {
 
   static Future<bool> fetchResultQuizz(
       resQuestion, processName, context) async {
-        print('resQuestion of the quizz = $resQuestion');
+    print('processName of the quizz = $processName');
+    print('resQuestion of the quizz = $resQuestion');
     final response = await http.post(
         Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/add"),
         headers: {
@@ -30,12 +31,11 @@ class ProcessQuestion {
           "user_token": token,
           "questions": resQuestion,
         }));
-
+    print(response.statusCode);
     if (response.statusCode == 200) {
       print('response.body creation du process = ${response.body}');
       return true;
     } else {
-      // print('resQuestion = $resQuestion');
       throw Exception('Failed to load album');
     }
   }
@@ -54,11 +54,11 @@ class ProcessName {
     );
   }
 
-  static List<List <String>> processList(parsedJson) {
+  static List<List<String>> processList(parsedJson) {
     var res = parsedJson['response'];
     String elem;
     String elem2;
-    List<List <String>> tab = [];
+    List<List<String>> tab = [];
 
     for (var i in res) {
       elem = i['title'];
@@ -68,17 +68,21 @@ class ProcessName {
     return tab;
   }
 
-  static Future<List<List <String>>> fetchProcessName() async {
-    List<List <String>> list;
+  static Future<List<List<String>>> fetchProcessName() async {
+    List<List<String>> list;
+    print("${dotenv.get('SERVER_URL')}/process/getAll?language=$language");
     final response = await http.get(
-      Uri.parse("${dotenv.get('SERVER_URL')}/process/getAll?language=$language"),
+      Uri.parse(
+          "${dotenv.get('SERVER_URL')}/process/getAll?language=$language"),
       headers: {
         "Content-Type": "application/json",
       },
     );
+    print(response.statusCode);
     list = processList(jsonDecode(response.body));
 
     if (response.statusCode == 200) {
+      print(list);
       return list;
     } else {
       throw Exception('Failed to load album');

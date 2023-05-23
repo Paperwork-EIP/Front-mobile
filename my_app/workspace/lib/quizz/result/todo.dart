@@ -17,7 +17,7 @@ class ToDo {
   factory ToDo.fromJson(Map<String, dynamic> json) {
     return ToDo(
       id: json['step_id'],
-      todoText: json['step_description'],
+      todoText: json['description'],
       isDone: json['is_done'],
     );
   }
@@ -42,8 +42,10 @@ class ToDo {
         "Content-Type": "application/json",
       },
     );
-
+    print('response.statusCode of getUserSteps');
+    print(response.statusCode);
     if (response.statusCode == 200) {
+      print(response.body);
       var parsedJson = jsonDecode(response.body);
       return todoList(parsedJson);
     } else {
@@ -60,8 +62,8 @@ class ToDo {
         body: jsonEncode({
           "process_title": processName,
           "user_token": token,
-          "step": resStep,
-          }));
+          "questions": resStep,
+        }));
 
     if (response.statusCode == 200) {
       return true;

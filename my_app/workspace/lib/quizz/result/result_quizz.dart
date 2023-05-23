@@ -14,7 +14,8 @@ class ResultQuizz extends StatefulWidget {
 class _ResultQuizzState extends State<ResultQuizz> {
   late Future<List<ToDo>> futureToDoList;
   var step = {'step_id': 'tom', 'response': 'pass@123'};
-  List<Map> stepUpdate = []; // remetre la liste à null une fois le call effectuer
+  List<Map> stepUpdate =
+      []; // remetre la liste à null une fois le call effectuer
 
   @override
   void initState() {
@@ -116,7 +117,7 @@ class _ResultQuizzState extends State<ResultQuizz> {
       todo.isDone = !todo.isDone;
     });
     details['step_id'] = todo.id.toString();
-    details['is_done'] = todo.isDone.toString();
+    details['response'] = todo.isDone.toString();
     stepUpdate.add(details);
     print(stepUpdate);
   }

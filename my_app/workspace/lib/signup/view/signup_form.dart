@@ -16,7 +16,9 @@ class SignupForm extends StatelessWidget {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
-                SnackBar(content: Text(AppLocalizations.of(context).translate('Authentication_failure'))),
+                SnackBar(
+                    content: Text(AppLocalizations.of(context)
+                        .translate('Authentication_failure'))),
               );
           }
         },
@@ -37,7 +39,6 @@ class SignupForm extends StatelessWidget {
                 Wrap(
                   spacing: 50,
                   alignment: WrapAlignment.center,
-
                   children: [
                     _GoogleButton(),
                     _FacebookButton(),
@@ -48,8 +49,7 @@ class SignupForm extends StatelessWidget {
               ],
             ),
           ),
-        )
-      );
+        ));
   }
 }
 
@@ -71,7 +71,9 @@ class _UsernameInput extends StatelessWidget {
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 labelText: AppLocalizations.of(context).translate('Username'),
-                errorText: state.username.invalid ? AppLocalizations.of(context).translate('Invalid_username') : null,
+                errorText: state.username.invalid
+                    ? AppLocalizations.of(context).translate('Invalid_username')
+                    : null,
               ),
             ));
       },
@@ -96,7 +98,9 @@ class _EmailInput extends StatelessWidget {
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 labelText: 'Email',
-                errorText: state.email.invalid ? AppLocalizations.of(context).translate('Invalid_email') : null,
+                errorText: state.email.invalid
+                    ? AppLocalizations.of(context).translate('Invalid_email')
+                    : null,
               ),
             ));
       },
@@ -112,7 +116,6 @@ class _PasswordInput extends StatefulWidget {
 }
 
 class _PasswordInputState extends State<_PasswordInput> {
-
   bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
@@ -146,7 +149,9 @@ class _PasswordInputState extends State<_PasswordInput> {
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 labelText: AppLocalizations.of(context).translate('Password'),
-                errorText: state.password.invalid ? AppLocalizations.of(context).translate('Invalid_password') : null,
+                errorText: state.password.invalid
+                    ? AppLocalizations.of(context).translate('Invalid_password')
+                    : null,
               ),
             ));
       },
@@ -164,7 +169,6 @@ class _ConfirmPasswordInput extends StatefulWidget {
 class _ConfirmPasswordInputState extends State<_ConfirmPasswordInput> {
   bool _isObscure = true;
   @override
-  
   Widget build(BuildContext context) {
     return BlocBuilder<SignupBloc, SignupState>(
       buildWhen: (previous, current) => previous.password != current.password,
@@ -195,8 +199,11 @@ class _ConfirmPasswordInputState extends State<_ConfirmPasswordInput> {
                     }),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                labelText: AppLocalizations.of(context).translate('Confirm_password'),
-                errorText: state.password.invalid ? AppLocalizations.of(context).translate('Invalid_password') : null,
+                labelText:
+                    AppLocalizations.of(context).translate('Confirm_password'),
+                errorText: state.password.invalid
+                    ? AppLocalizations.of(context).translate('Invalid_password')
+                    : null,
               ),
             ));
       },

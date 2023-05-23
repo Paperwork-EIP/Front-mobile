@@ -43,8 +43,13 @@ void main() {
       const invalidEmail = 'invalid@example';
 
       expect(
-          () => setModifyUser(token: "azertyuytfdsdrftyytrezzerty", newEmail: newEmail, newUsername: newUsername, newPassword: newPassword, profilePicture: newPicture), throwsException);
+          () => setModifyUser(
+              token: "azertyuytfdsdrftyytrezzerty",
+              newEmail: newEmail,
+              newUsername: newUsername,
+              newPassword: newPassword,
+              profilePicture: newPicture),
+          throwsException);
     });
   });
-
 }

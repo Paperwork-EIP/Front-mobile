@@ -16,7 +16,9 @@ class LoginForm extends StatelessWidget {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
-                SnackBar(content: Text(AppLocalizations.of(context).translate('Authentication_failure'))),
+                SnackBar(
+                    content: Text(AppLocalizations.of(context)
+                        .translate('Authentication_failure'))),
               );
           }
         },
@@ -68,7 +70,9 @@ class _UsernameInput extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 labelText: 'Email',
-                errorText: state.username.invalid ? AppLocalizations.of(context).translate('Invalid_email') : null,
+                errorText: state.username.invalid
+                    ? AppLocalizations.of(context).translate('Invalid_email')
+                    : null,
               ),
             ));
       },
@@ -83,14 +87,10 @@ class _PasswordInput extends StatefulWidget {
   State<_PasswordInput> createState() => _PasswordInputState();
 }
 
-
 class _PasswordInputState extends State<_PasswordInput> {
-  
   bool _isObscure = true;
   @override
-
   Widget build(BuildContext context) {
-    
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
@@ -121,7 +121,9 @@ class _PasswordInputState extends State<_PasswordInput> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 labelText: AppLocalizations.of(context).translate('Password'),
-                errorText: state.password.invalid ? AppLocalizations.of(context).translate('Invalid_password') : null,
+                errorText: state.password.invalid
+                    ? AppLocalizations.of(context).translate('Invalid_password')
+                    : null,
               ),
             ));
       },

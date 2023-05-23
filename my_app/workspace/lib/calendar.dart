@@ -170,7 +170,6 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 96, 128, 118),
@@ -210,8 +209,12 @@ class _CalendarPageState extends State<CalendarPage> {
                           TimePickerSpinner(
                             spacing: 40,
                             minutesInterval: 15,
-                            highlightedTextStyle: const TextStyle(color:Color.fromARGB(242, 211, 207, 210), fontWeight: FontWeight.bold, fontSize: 30),
-                            normalTextStyle: const TextStyle(color:Color.fromARGB(242, 211, 207, 210)),
+                            highlightedTextStyle: const TextStyle(
+                                color: Color.fromARGB(242, 211, 207, 210),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30),
+                            normalTextStyle: const TextStyle(
+                                color: Color.fromARGB(242, 211, 207, 210)),
                             onTimeChange: (time) {
                               setState(() {
                                 _dateTime = time;
@@ -228,11 +231,17 @@ class _CalendarPageState extends State<CalendarPage> {
                       ),
                       actions: [
                         TextButton(
-                          child: const Text("Cancel", style: TextStyle(color: Color.fromARGB(255, 228, 117, 126)),),
+                          child: const Text(
+                            "Cancel",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 228, 117, 126)),
+                          ),
                           onPressed: () => Navigator.pop(context),
                         ),
                         TextButton(
-                          child: const Text("Ok", style: TextStyle(color: Color.fromARGB(255, 166, 221, 204))),
+                          child: const Text("Ok",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 166, 221, 204))),
                           onPressed: () {
                             if (_processController.text.isEmpty ||
                                 _descriptionController.text.isEmpty ||
@@ -326,9 +335,11 @@ class _CalendarPageState extends State<CalendarPage> {
                     fontWeight: FontWeight.w800)),
             calendarStyle: const CalendarStyle(
                 selectedDecoration: BoxDecoration(
-                    color:  Color.fromARGB(255, 228, 117, 126), shape: BoxShape.circle),
+                    color: Color.fromARGB(255, 228, 117, 126),
+                    shape: BoxShape.circle),
                 todayDecoration: BoxDecoration(
-                    color: Color.fromARGB(255, 166, 221, 204), shape: BoxShape.circle),
+                    color: Color.fromARGB(255, 166, 221, 204),
+                    shape: BoxShape.circle),
                 todayTextStyle: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -452,6 +463,5 @@ Future<void> setAppointment(date) async {
     throw Exception("Failed to set calendar event");
   }
 }
-
 
 //delete?user_process_id=5&step_id=22

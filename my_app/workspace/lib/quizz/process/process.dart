@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:my_app/quizz/process/process_question.dart';
 import 'package:my_app/quizz/result/result_quizz.dart';
 import '../../global.dart';
+import 'dart:io';
 
 class Quizz extends StatelessWidget {
   const Quizz({super.key});
@@ -58,6 +59,7 @@ Future<List<Map>> fetchQuestions(processName) async {
       "Content-Type": "application/json",
     },
   );
+  print('response.statusCode of processQuestiion');
   print(response.statusCode);
   if (response.statusCode == 200) {
     parsedJson = stepList(jsonDecode(response.body));
@@ -95,16 +97,17 @@ class _QuizzProcessState extends State<QuizzProcess> {
     String? processName = widget.processName;
 
     void increment(int nb, bool value) {
-      Map resStep = {"step_id": "", "question": ""};
+      Map resStep = {"step_id": "", "response": ""};
       if (count < listy.length - 1) {
         resStep["step_id"] = listy[count]["step_id"];
-        resStep["question"] = value;
+        resStep["response"] = value;
         res.add(resStep);
       } else {
         resStep["step_id"] = listy[count]["step_id"];
-        resStep["question"] = value;
+        resStep["response"] = value;
         res.add(resStep);
         ProcessQuestion.fetchResultQuizz(res, processName, context);
+        sleep(const Duration(seconds: 2, milliseconds: 500));
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -243,7 +246,7 @@ class StartProcess extends StatefulWidget {
 class _StartProcessState extends State<StartProcess> {
   String? dropdownValue;
 
-  late Future<List<List <String>>> futureProcess;
+  late Future<List<List<String>>> futureProcess;
 
   @override
   void initState() {
@@ -273,7 +276,7 @@ class _StartProcessState extends State<StartProcess> {
           children: [
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: FutureBuilder<List<List <String>>>(
+              child: FutureBuilder<List<List<String>>>(
                   future: futureProcess,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
@@ -294,6 +297,7 @@ class _StartProcessState extends State<StartProcess> {
                             child: dropDown(context, snapshot.data!));
                       }
                     } else if (snapshot.hasError) {
+                      print(snapshot.hasData);
                       return Text('${snapshot.error}');
                     }
 
@@ -332,7 +336,7 @@ class _StartProcessState extends State<StartProcess> {
     );
   }
 
-  Widget dropDown(BuildContext context, final List<List <String>> items) {
+  Widget dropDown(BuildContext context, final List<List<String>> items) {
     Color setColor(bool value) {
       if (value) {
         return const Color.fromARGB(242, 211, 207, 210);

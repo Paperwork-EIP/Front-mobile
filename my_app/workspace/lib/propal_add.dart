@@ -10,11 +10,10 @@ Future<void> submitProcessIdea(
     required String description,
     required String content,
     required String token}) async {
-      
   var response;
   try {
     response = await http.post(
-      Uri.parse("${dotenv.get('SERVER_URL')}/process/add"),
+      Uri.parse("${dotenv.get('SERVER_URL')}/processProposal/add"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -22,11 +21,11 @@ Future<void> submitProcessIdea(
         "title": title,
         "description": description,
         "content": content,
-        "token": token,
+        "user_token": token,
       }),
     );
     if (response.statusCode == 200) {
-      // _controller.add(AuthStatus.authenticated);
+      return;
     }
   } catch (e) {
     print('r= ${response}');
@@ -67,84 +66,80 @@ class AddPropal extends StatelessWidget {
       body: Container(
         alignment: Alignment.center,
         color: Color.fromARGB(31, 98, 133, 114),
-        child: 
-        ListView(
-                children: [ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child:
-           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                height: 600,
-                width: 420,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10)),
-                child: 
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Submit a new process idea',
-                      style:
-                          TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                    ),
-                    CreateInput(
-                        'Title', 'title', true, 335, 60, _controllerEmail),
-                    CreateInput('Description', 'description', true, 335, 60,
-                        _controllerPassword),
-                    SizedBox(
-                      width: 335,
-                      // height: height,
-                      child: TextField(
-                        controller: _controller,
-                        obscureText: false,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Explain why this approach would be useful?',
+        child: ListView(
+          children: [
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1200),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    height: 600,
+                    width: 420,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Submit a new process idea',
+                          style: TextStyle(
+                              fontSize: 28, fontWeight: FontWeight.bold),
                         ),
-                        minLines: 10,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        style: const TextStyle(fontSize: 14),
-                      ),
+                        CreateInput(
+                            'Title', 'title', true, 335, 60, _controllerEmail),
+                        CreateInput('Description', 'description', true, 335, 60,
+                            _controllerPassword),
+                        SizedBox(
+                          width: 335,
+                          child: TextField(
+                            controller: _controller,
+                            obscureText: false,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText:
+                                  'Explain why this approach would be useful?',
+                            ),
+                            minLines: 10,
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(130, 40),
+                              backgroundColor: const Color(0xFFFC6976)),
+                          onPressed: () {
+                            submitProcessIdea(
+                                title: _controllerEmail.text,
+                                description: _controllerPassword.text,
+                                content: _controller.text,
+                                token: globals.token);
+                            _controllerEmail.clear();
+                            _controllerPassword.clear();
+                            _controller.clear();
+                            Fluttertoast.showToast(
+                              msg: "Demand submit",
+                              toastLength: Toast.LENGTH_SHORT,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 178, 255, 191),
+                              textColor: const Color.fromARGB(255, 0, 0, 0),
+                              fontSize: 16.0,
+                            );
+                          },
+                          child: const Text("Submit"),
+                        ),
+                      ],
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(130, 40),
-                          backgroundColor:
-                              const Color(0xFFFC6976)),
-                      // ),
-                      onPressed: () {
-                        submitProcessIdea(
-                            title: _controllerEmail.text,
-                            description: _controllerPassword.text,
-                            content: _controller.text,
-                            token: globals.token);
-                        _controllerEmail.clear();
-                        _controllerPassword.clear();
-                        _controller.clear();
-                          Fluttertoast.showToast(
-                            msg: "Demand submit",
-                            toastLength: Toast.LENGTH_SHORT,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: const Color.fromARGB(255, 178, 255, 191),
-                            textColor: const Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 16.0,
-                          );
-                      },
-                      child: const Text("Submit"),
-                    ),
-                  ],
-                ),
-          ),
-            ],
+                  ),
+                ],
               ),
-          
-              ),
-              ],
+            ),
+          ],
         ),
       ),
     );

@@ -33,8 +33,8 @@ class App extends StatelessWidget {
           userRepository: userRepository,
         ),
         child: EasyDynamicThemeWidget(
-            child: const AppView(),
-          ),
+          child: const AppView(),
+        ),
       ),
     );
   }
@@ -56,18 +56,16 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(), 
-      darkTheme: ThemeData.dark(), 
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       themeMode: EasyDynamicTheme.of(context).themeMode,
       supportedLocales: const [
-        Locale('en', 'US'), // English
-        Locale('fr', 'FR'), // French
+        Locale('en', 'US'),
+        Locale('fr', 'FR'),
       ],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
-        // GlobalCupertinoLocalizations.delegate,
-      //   // DefaultCupertinoLocalizations.delegate,
         AppLocalizations.delegate,
       ],
       localeResolutionCallback: (locale, supportedLocales) {
@@ -111,7 +109,7 @@ class _AppViewState extends State<AppView> {
       onGenerateRoute: (_) => SplashPage.route(),
       routes: {
         '/calendar': (context) => const CalendarPage(),
-        '/profile' : (context) => Profile(),
+        '/profile': (context) => Profile(),
       },
     );
   }

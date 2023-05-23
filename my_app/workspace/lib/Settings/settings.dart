@@ -37,7 +37,8 @@ class _SettingsPage1State extends State<SettingsPage1> {
                       title: "Dark Mode",
                       icon: CupertinoIcons.moon,
                       trailing: CupertinoSwitch(
-                          value: Theme.of(context).brightness == Brightness.dark,
+                          value:
+                              Theme.of(context).brightness == Brightness.dark,
                           onChanged: (value) {
                             EasyDynamicTheme.of(context).changeTheme();
                             // mode = !mode;
@@ -134,9 +135,9 @@ class _SingleSection extends StatelessWidget {
 
   Color setColor(bool value) {
     if (value) {
-      return  Color.fromARGB(166, 78, 80, 79);
+      return Color.fromARGB(166, 78, 80, 79);
     } else {
-      return  Colors.white;
+      return Colors.white;
     }
   }
 
