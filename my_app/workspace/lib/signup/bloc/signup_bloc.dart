@@ -1,7 +1,7 @@
 import 'package:authentication_repository/auth_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:my_app/signup/signup.dart';
+import 'package:paperwork/signup/signup.dart';
 import 'package:formz/formz.dart';
 
 part 'signup_event.dart';

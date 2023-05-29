@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:my_app/global.dart' as globals;
+import 'package:paperwork/global.dart' as globals;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -45,10 +45,10 @@ class HelpState extends State<Help> {
   // final _bodyController = TextEditingController(
   //   text: 'Mail body.',
   // );
-  
+
   late String platformResponse;
-  
-  Future<void> send(String _body, String _subject ) async {
+
+  Future<void> send(String _body, String _subject) async {
     final Email email = Email(
       body: _body,
       subject: _subject,
@@ -56,7 +56,7 @@ class HelpState extends State<Help> {
       // attachmentPaths: attachments,
       isHTML: isHTML,
     );
-  
+
     try {
       await FlutterEmailSender.send(email);
       platformResponse = 'success';
@@ -64,7 +64,6 @@ class HelpState extends State<Help> {
       print(error);
       platformResponse = error.toString();
     }
-
   }
 
   @override
@@ -76,22 +75,25 @@ class HelpState extends State<Help> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-        title: const Text("Contact us", style: TextStyle(color: Colors.black),),
+        title: const Text(
+          "Contact us",
+          style: TextStyle(color: Colors.black),
+        ),
         iconTheme: const IconThemeData(
           color: Colors.black,
-          ),
+        ),
       ),
       body: Container(
         alignment: Alignment.center,
         color: const Color.fromARGB(255, 255, 255, 255),
-        child:
-        ListView(
-                children: [ ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
+        child: ListView(
+          children: [
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1200),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
                   Container(
                     height: 600,
                     width: 420,
@@ -162,12 +164,12 @@ class HelpState extends State<Help> {
                           child: const Text("Submit"),
                         ),
                       ],
-                ),
-              ),
-            ],
-          ),
-          ),
+                    ),
+                  ),
                 ],
+              ),
+            ),
+          ],
         ),
       ),
     );

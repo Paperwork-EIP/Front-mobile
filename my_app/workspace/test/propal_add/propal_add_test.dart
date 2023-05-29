@@ -2,7 +2,7 @@
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/propal_add.dart';
+import 'package:paperwork/propal_add.dart';
 // import 'package:http/http.dart' as http;
 
 void main() {
