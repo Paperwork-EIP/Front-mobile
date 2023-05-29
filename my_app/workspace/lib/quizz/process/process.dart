@@ -3,8 +3,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:my_app/quizz/process/process_question.dart';
-import 'package:my_app/quizz/result/result_quizz.dart';
+import 'package:paperwork/quizz/process/process_question.dart';
+import 'package:paperwork/quizz/result/result_quizz.dart';
 import '../../global.dart';
 import 'dart:io';
 

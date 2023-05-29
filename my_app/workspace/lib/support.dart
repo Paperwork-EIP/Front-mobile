@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:my_app/global.dart' as globals;
+import 'package:paperwork/global.dart' as globals;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -93,6 +93,7 @@ class Support extends StatelessWidget {
                             _controllerPassword),
                         SizedBox(
                           width: 335,
+                          // height: height,
                           child: TextField(
                             controller: _controller,
                             obscureText: false,
@@ -110,6 +111,7 @@ class Support extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               fixedSize: const Size(130, 40),
                               backgroundColor: const Color(0xFFFC6976)),
+                          // ),
                           onPressed: () {
                             // submitProcessIdea(
                             //     title: _controllerEmail.text,
