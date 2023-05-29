@@ -94,7 +94,6 @@ class AddPropal extends StatelessWidget {
                             _controllerPassword),
                         SizedBox(
                           width: 335,
-                          // height: height,
                           child: TextField(
                             controller: _controller,
                             obscureText: false,
@@ -113,7 +112,6 @@ class AddPropal extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               fixedSize: const Size(130, 40),
                               backgroundColor: const Color(0xFFFC6976)),
-                          // ),
                           onPressed: () {
                             submitProcessIdea(
                                 title: _controllerEmail.text,

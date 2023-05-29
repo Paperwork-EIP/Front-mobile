@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:paperwork/global.dart' as globals;
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 // ignore: non_constant_identifier_names
@@ -35,16 +31,6 @@ class Help extends StatefulWidget {
 class HelpState extends State<Help> {
   final bool isHTML = false;
 
-  // final _recipientController = TextEditingController(
-  //   text: 'example@example.com',
-  // );
-
-  // final _subjectController = TextEditingController(text: 'The subject');
-
-  // final _bodyController = TextEditingController(
-  //   text: 'Mail body.',
-  // );
-
   late String platformResponse;
 
   Future<void> send(String _body, String _subject) async {
@@ -65,7 +51,6 @@ class HelpState extends State<Help> {
 
   @override
   Widget build(BuildContext context) {
-    final _controllerEmail = TextEditingController();
     final _controllerSubject = TextEditingController();
     final _controllerBody = TextEditingController();
 

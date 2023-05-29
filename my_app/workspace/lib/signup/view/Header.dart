@@ -1,15 +1,11 @@
 // ignore_for_file: avoid_returning_null_for_void
 
 import 'package:flutter/material.dart';
-// import 'package:my_app/app.dart';
-// import 'package:my_app/integration_test/app_test.dart';
+// import 'package:paperwork/app.dart';
+// import 'package:paperwork/integration_test/app_test.dart';
 import 'package:restart_app/restart_app.dart';
 
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:my_app/global.dart' as globals;
+import 'package:paperwork/global.dart' as globals;
 import '../../Settings/settings.dart';
 import '../../lexique.dart';
 import '../../propal_add.dart';
