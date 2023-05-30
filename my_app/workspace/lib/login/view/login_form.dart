@@ -4,7 +4,9 @@ import 'package:paperwork/forgotten_password.dart';
 import 'package:paperwork/login/login.dart';
 import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../app_localisation.dart';
+// import '../../app_localisation.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -18,8 +20,8 @@ class LoginForm extends StatelessWidget {
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 SnackBar(
-                    content: Text(AppLocalizations.of(context)
-                        .translate('Authentication_failure'))),
+                    content: Text(AppLocalizations.of(context)!
+                        .authenticationFailure)),
               );
           }
         },
@@ -72,7 +74,7 @@ class _UsernameInput extends StatelessWidget {
                 ),
                 labelText: 'Email',
                 errorText: state.username.invalid
-                    ? AppLocalizations.of(context).translate('Invalid_email')
+                    ? AppLocalizations.of(context)!.invalidEmail
                     : null,
               ),
             ));
@@ -104,12 +106,6 @@ class _PasswordInputState extends State<_PasswordInput> {
                   context.read<LoginBloc>().add(LoginPasswordChanged(password)),
               obscureText: _isObscure,
               decoration: InputDecoration(
-                // suffix: TextButton(
-                //   child: const Text("Show"),
-                //   onPressed: () {_obscureText = !_obscureText;},
-                //   style: TextButton.styleFrom(
-                //       foregroundColor: const Color(0xFF29C9B3)),
-                // ),
                 suffixIcon: IconButton(
                     icon: Icon(
                         _isObscure ? Icons.visibility : Icons.visibility_off),
@@ -121,9 +117,9 @@ class _PasswordInputState extends State<_PasswordInput> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                labelText: AppLocalizations.of(context).translate('Password'),
+                labelText: AppLocalizations.of(context)!.password,
                 errorText: state.password.invalid
-                    ? AppLocalizations.of(context).translate('Invalid_password')
+                    ? AppLocalizations.of(context)!.invalidPassword
                     : null,
               ),
             ));
@@ -183,7 +179,7 @@ class _LoginButton extends StatelessWidget {
                         const Color(0xFF29C9B3))),
                 key: const Key('loginForm_continue_raisedButton'),
                 child: Text(
-                  AppLocalizations.of(context).translate('Log_in'),
+                  AppLocalizations.of(context)!.logIn,
                   style: GoogleFonts.inter(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -215,7 +211,7 @@ class _ForgotButton extends StatelessWidget {
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.white)),
             child: Text(
-              AppLocalizations.of(context).translate('Forgot_password'),
+              AppLocalizations.of(context)!.forgotPassword,
               style: GoogleFonts.inter(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,

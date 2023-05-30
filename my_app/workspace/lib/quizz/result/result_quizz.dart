@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:paperwork/home/home.dart';
 import './todo.dart';
 import './todo_item.dart';
+// import '../../app_localisation.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResultQuizz extends StatefulWidget {
   final String? processName;
@@ -43,7 +46,7 @@ class _ResultQuizzState extends State<ResultQuizz> {
                   bottom: 20,
                 ),
                 child: Text(
-                  'All ToDos -' + processName!,
+                  AppLocalizations.of(context)!.allToDos + ' - ' + processName!,
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 30,
@@ -57,10 +60,10 @@ class _ResultQuizzState extends State<ResultQuizz> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.data!.isEmpty) {
-                          return const Center(
+                          return Center(
                             child: Text(
-                              "No requirement to get this process",
-                              style: TextStyle(
+                              AppLocalizations.of(context)!.noRequirement,
+                              style: const TextStyle(
                                 color: Color.fromARGB(255, 98, 153, 141),
                                 fontSize: 30,
                                 fontWeight: FontWeight.w500,
@@ -87,7 +90,7 @@ class _ResultQuizzState extends State<ResultQuizz> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  fixedSize: const Size(100, 40),
+                  fixedSize: const Size(120, 40),
                   backgroundColor: const Color(0xFFFC6976),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -102,7 +105,7 @@ class _ResultQuizzState extends State<ResultQuizz> {
                     MaterialPageRoute(builder: (context) => HomePage()),
                   );
                 },
-                child: const Text("Save"),
+                child: Text(AppLocalizations.of(context)!.save),
               ),
             ],
           ),

@@ -7,6 +7,9 @@ import 'package:paperwork/quizz/process/process_question.dart';
 import 'package:paperwork/quizz/result/result_quizz.dart';
 import '../../global.dart';
 import 'dart:io';
+// import '../../app_localisation.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Quizz extends StatelessWidget {
   const Quizz({super.key});
@@ -96,14 +99,14 @@ class _QuizzProcessState extends State<QuizzProcess> {
     String? processName = widget.processName;
 
     void increment(int nb, bool value) {
-      Map resStep = {"step_id": "", "question": ""};
+      Map resStep = {"step_id": "", "response": ""};
       if (count < listy.length - 1) {
         resStep["step_id"] = listy[count]["step_id"];
-        resStep["question"] = value;
+        resStep["response"] = value;
         res.add(resStep);
       } else {
         resStep["step_id"] = listy[count]["step_id"];
-        resStep["question"] = value;
+        resStep["response"] = value;
         res.add(resStep);
         ProcessQuestion.fetchResultQuizz(res, processName, context);
         sleep(const Duration(seconds: 2, milliseconds: 500));
@@ -150,7 +153,7 @@ class _QuizzProcessState extends State<QuizzProcess> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.data![0]["status"] == '404') {
-                          return const Text("Trouve un moyen c'est pas normal");
+                          return Text(AppLocalizations.of(context)!.problemOccured,);
                         } else {
                           return Stack(children: [
                             Text(
@@ -178,9 +181,9 @@ class _QuizzProcessState extends State<QuizzProcess> {
                                       }
                                     });
                                   },
-                                  child: const Text(
-                                    'No',
-                                    style: TextStyle(
+                                  child: Text(
+                                    AppLocalizations.of(context)!.no,
+                                    style: const TextStyle(
                                         fontSize: 20, color: Colors.white),
                                     textAlign: TextAlign.center,
                                   ),
@@ -204,9 +207,9 @@ class _QuizzProcessState extends State<QuizzProcess> {
                                       }
                                     });
                                   },
-                                  child: const Text(
-                                    'Yes',
-                                    style: TextStyle(
+                                  child: Text(
+                                    AppLocalizations.of(context)!.yes,
+                                    style: const TextStyle(
                                         fontSize: 20, color: Colors.white),
                                     textAlign: TextAlign.center,
                                   ),
@@ -264,8 +267,8 @@ class _StartProcessState extends State<StartProcess> {
         ),
         // ignore: prefer_const_constructors
         ListTile(
-          title: const Text('Choose a process',
-              style: TextStyle(fontSize: 22), textAlign: TextAlign.center),
+          title: Text(AppLocalizations.of(context)!.chooseAprocess,
+              style: const TextStyle(fontSize: 22), textAlign: TextAlign.center),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -277,10 +280,10 @@ class _StartProcessState extends State<StartProcess> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data!.isEmpty) {
-                        return const Center(
+                        return Center(
                           child: Text(
-                            "No process available for now, Try later",
-                            style: TextStyle(
+                            AppLocalizations.of(context)!.noProcessAvailable,
+                            style: const TextStyle(
                               color: Color.fromARGB(255, 98, 153, 141),
                               fontSize: 30,
                               fontWeight: FontWeight.w500,
@@ -293,7 +296,6 @@ class _StartProcessState extends State<StartProcess> {
                             child: dropDown(context, snapshot.data!));
                       }
                     } else if (snapshot.hasError) {
-                      print(snapshot.hasData);
                       return Text('${snapshot.error}');
                     }
 
@@ -318,9 +320,9 @@ class _StartProcessState extends State<StartProcess> {
                     );
                   }
                 },
-                child: const Text(
-                  'Start',
-                  style: TextStyle(
+                child: Text(
+                  AppLocalizations.of(context)!.start,
+                  style: const TextStyle(
                       fontSize: 20, color: Color.fromARGB(255, 255, 255, 255)),
                   textAlign: TextAlign.center,
                 ),
@@ -343,7 +345,7 @@ class _StartProcessState extends State<StartProcess> {
 
     return (DropdownButton<String>(
       value: dropdownValue,
-      hint: const Text('Select Process'),
+      hint: Text(AppLocalizations.of(context)!.selectProcess,),
       icon: const Icon(
         Icons.arrow_downward,
         size: 20,
@@ -364,7 +366,7 @@ class _StartProcessState extends State<StartProcess> {
           dropdownValue = newValue!;
         });
       },
-      disabledHint: const Text("Disabled"),
+      disabledHint: Text(AppLocalizations.of(context)!.disabled,),
       elevation: 4,
       style: TextStyle(
           color: setColor(Theme.of(context).brightness == Brightness.dark),

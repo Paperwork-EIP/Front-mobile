@@ -9,6 +9,9 @@ import '../../lexique.dart';
 import '../../propal_add.dart';
 import '../../quizz/process/process.dart';
 import '../../help/help.dart';
+// import '../../app_localisation.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Header extends StatelessWidget {
   final void Function() closeDrawer;
@@ -96,7 +99,7 @@ class NavBar extends StatelessWidget {
               ])),
           ListTile(
             leading: const Icon(Icons.create),
-            title: const Text('Start a new Process'),
+            title: Text(AppLocalizations.of(context)!.startNewProcess),
             onTap: () {
               Navigator.push(
                 context,
@@ -106,7 +109,7 @@ class NavBar extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.person),
-            title: const Text('Profile'),
+            title: Text(AppLocalizations.of(context)!.profile),
             onTap: () {
               globals.tentativeLink = globals.globalUserPicture;
               Navigator.pushNamed(context, '/profile');
@@ -114,7 +117,7 @@ class NavBar extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.calendar_month),
-            title: const Text('Calendar'),
+            title: Text(AppLocalizations.of(context)!.calendar),
             onTap: () {
               Navigator.pushNamed(
                 context,
@@ -124,7 +127,7 @@ class NavBar extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.menu_book),
-            title: const Text('Lexique'),
+            title: Text(AppLocalizations.of(context)!.lexique),
             onTap: () {
               Navigator.push(
                 context,
@@ -134,7 +137,7 @@ class NavBar extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.file_upload_outlined),
-            title: const Text('Suggest a process'),
+            title: Text(AppLocalizations.of(context)!.suggestProcess),
             onTap: () {
               Navigator.push(
                 context,
@@ -148,17 +151,17 @@ class NavBar extends StatelessWidget {
               const Divider(),
               ListTile(
                 leading: const Icon(Icons.help_outline),
-                title: const Text('Help'),
+                title: Text(AppLocalizations.of(context)!.help),
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Help()),
+                    MaterialPageRoute(builder: (context) => const Help()),
                   );
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.settings),
-                title: const Text('Settings'),
+                title: Text(AppLocalizations.of(context)!.settings),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -169,7 +172,7 @@ class NavBar extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.logout_outlined),
-                title: const Text('Logout'),
+                title: Text(AppLocalizations.of(context)!.logout),
                 onTap: () {
                   Restart.restartApp();
                 },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Lexique extends StatelessWidget {
   const Lexique({Key? key}) : super(key: key);
@@ -7,7 +8,7 @@ class Lexique extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Lexique"),
+        title: Text(AppLocalizations.of(context)!.lexique),
         backgroundColor: const Color.fromARGB(255, 96, 128, 118),
       ),
       body: Center(

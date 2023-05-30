@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgottenPasswordPage extends StatelessWidget {
   const ForgottenPasswordPage({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class ForgottenPasswordPage extends StatelessWidget {
         elevation: 0,
         title: Center(
             child: Text(
-          "Forgotten Password",
+          AppLocalizations.of(context)!.forgotPassword,
           style: GoogleFonts.inter(fontSize: 22, fontWeight: FontWeight.w700),
         )),
       ),
@@ -25,7 +26,7 @@ class ForgottenPasswordPage extends StatelessWidget {
           runSpacing: 25,
           children: [
             Text(
-                "Please provide below your email address. You will receive a link in order to reset your password",
+                AppLocalizations.of(context)!.provideEmail,
                 style: GoogleFonts.inter(
                     fontSize: 18, fontWeight: FontWeight.w500)),
             SizedBox(
@@ -53,7 +54,7 @@ class ForgottenPasswordPage extends StatelessWidget {
                     backgroundColor: MaterialStateProperty.all<Color>(
                         const Color(0xFF29C9B3))),
                 child: Text(
-                  "Send Email",
+                  AppLocalizations.of(context)!.sendEmail,
                   style: GoogleFonts.inter(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,

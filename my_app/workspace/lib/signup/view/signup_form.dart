@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paperwork/signup/signup.dart';
 import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../app_localisation.dart';
+// import '../../app_localisation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignupForm extends StatelessWidget {
   const SignupForm({Key? key}) : super(key: key);
@@ -17,8 +18,8 @@ class SignupForm extends StatelessWidget {
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 SnackBar(
-                    content: Text(AppLocalizations.of(context)
-                        .translate('Authentication_failure'))),
+                    content: Text(AppLocalizations.of(context)!
+                        .authenticationFailure)),
               );
           }
         },
@@ -32,7 +33,7 @@ class SignupForm extends StatelessWidget {
                 const Padding(padding: EdgeInsets.all(10)),
                 _EmailInput(),
                 const Padding(padding: EdgeInsets.all(10)),
-                _PasswordInput(),
+                const _PasswordInput(),
                 const Padding(padding: EdgeInsets.all(10)),
                 _ConfirmPasswordInput(),
                 const Padding(padding: EdgeInsets.all(30)),
@@ -70,9 +71,9 @@ class _UsernameInput extends StatelessWidget {
               decoration: InputDecoration(
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                labelText: AppLocalizations.of(context).translate('Username'),
+                labelText: AppLocalizations.of(context)!.username,
                 errorText: state.username.invalid
-                    ? AppLocalizations.of(context).translate('Invalid_username')
+                    ? AppLocalizations.of(context)!.invalidUsername
                     : null,
               ),
             ));
@@ -99,7 +100,7 @@ class _EmailInput extends StatelessWidget {
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 labelText: 'Email',
                 errorText: state.email.invalid
-                    ? AppLocalizations.of(context).translate('Invalid_email')
+                    ? AppLocalizations.of(context)!.invalidEmail
                     : null,
               ),
             ));
@@ -132,12 +133,6 @@ class _PasswordInputState extends State<_PasswordInput> {
                   .add(SignupPasswordChanged(password)),
               obscureText: _isObscure,
               decoration: InputDecoration(
-                // suffix: TextButton(
-                //   child: const Text("Show"),
-                //   onPressed: () {},
-                //   style: TextButton.styleFrom(
-                //       foregroundColor: const Color(0xFF29C9B3)),
-                // ),
                 suffixIcon: IconButton(
                     icon: Icon(
                         _isObscure ? Icons.visibility : Icons.visibility_off),
@@ -148,9 +143,9 @@ class _PasswordInputState extends State<_PasswordInput> {
                     }),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                labelText: AppLocalizations.of(context).translate('Password'),
+                labelText: AppLocalizations.of(context)!.password,
                 errorText: state.password.invalid
-                    ? AppLocalizations.of(context).translate('Invalid_password')
+                    ? AppLocalizations.of(context)!.invalidPassword
                     : null,
               ),
             ));
@@ -183,12 +178,6 @@ class _ConfirmPasswordInputState extends State<_ConfirmPasswordInput> {
                   .add(SignupPasswordChanged(password)),
               obscureText: _isObscure,
               decoration: InputDecoration(
-                // suffix: TextButton(
-                //   child: const Text("Show"),
-                //   onPressed: () {},
-                //   style: TextButton.styleFrom(
-                //       foregroundColor: const Color(0xFF29C9B3)),
-                // ),
                 suffixIcon: IconButton(
                     icon: Icon(
                         _isObscure ? Icons.visibility : Icons.visibility_off),
@@ -200,9 +189,9 @@ class _ConfirmPasswordInputState extends State<_ConfirmPasswordInput> {
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 labelText:
-                    AppLocalizations.of(context).translate('Confirm_password'),
+                    AppLocalizations.of(context)!.confirmPassword,
                 errorText: state.password.invalid
-                    ? AppLocalizations.of(context).translate('Invalid_password')
+                    ? AppLocalizations.of(context)!.invalidPassword
                     : null,
               ),
             ));
@@ -215,8 +204,7 @@ class _GoogleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignupBloc, SignupState>(
-      //     buildWhen: (previous, current) => previous.status != current.status,
-      builder: (context, state) {
+     builder: (context, state) {
         return IconButton(
             icon: Image.asset('assets/images/google_image.png'),
             iconSize: 50,
@@ -230,7 +218,6 @@ class _FacebookButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignupBloc, SignupState>(
-      //     buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return IconButton(
             icon: Image.asset('assets/images/facebook_image.png'),
@@ -262,7 +249,7 @@ class _SignupButton extends StatelessWidget {
                         const Color(0xFF29C9B3))),
                 key: const Key('signupForm_continue_raisedButton'),
                 child: Text(
-                  AppLocalizations.of(context).translate('Sign_up'),
+                  AppLocalizations.of(context)!.signUp,
                   style: GoogleFonts.inter(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,

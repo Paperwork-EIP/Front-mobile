@@ -5,6 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:paperwork/global.dart' as globals;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:my_app/locale_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ModifyProfile {
   final String message;
@@ -25,6 +28,7 @@ Future<ModifyProfile> setModifyUser({
   required String newPassword,
   required profilePicture,
   required String language,
+  required BuildContext context,
 }) async {
   try {
     if (newEmail == "") {
@@ -60,6 +64,12 @@ Future<ModifyProfile> setModifyUser({
       }),
     );
     if (response.statusCode == 200) {
+      globals.language = language;
+      if (globals.language == 'english') {
+        context.read<LocaleProvider>().setLocale(const Locale("en"));
+      } else {
+        context.read<LocaleProvider>().setLocale(const Locale("fr"));
+      }
       return ModifyProfile.fromJson(jsonDecode(response.body));
     }
     return ModifyProfile.fromJson(
@@ -151,7 +161,7 @@ class ProfileState extends State<Profile> {
       context: context,
       builder: (BuildContext context) => AlertDialog(
             backgroundColor: Colors.white,
-            title: const Text('Choose avatar'),
+            title: Text(AppLocalizations.of(context)!.chooseAvatar),
             content: StatefulBuilder(
                 builder: (BuildContext context, StateSetter setState) {
               return Ink(
@@ -207,11 +217,10 @@ class ProfileState extends State<Profile> {
                   ];
                   Navigator.pop(context, 'Cancel');
                 },
-                child: const Text('Cancel'),
+                child: Text(AppLocalizations.of(context)!.cancel),
               ),
               TextButton(
                 onPressed: () {
-                  print(_isSelected.length);
                   for (int index = 0; index < _isSelected.length; index++) {
                     if (_isSelected[index] == true) {
                       globals.tentativeLink = _avatarPath[index];
@@ -229,7 +238,7 @@ class ProfileState extends State<Profile> {
                     }
                   }
                   Fluttertoast.showToast(
-                    msg: "Avatar selected",
+                    msg: AppLocalizations.of(context)!.avatarSelected,
                     toastLength: Toast.LENGTH_SHORT,
                     timeInSecForIosWeb: 1,
                     backgroundColor: const Color.fromARGB(255, 178, 255, 191),
@@ -237,7 +246,7 @@ class ProfileState extends State<Profile> {
                     fontSize: 16.0,
                   );
                 },
-                child: const Text('Submit'),
+                child: Text(AppLocalizations.of(context)!.submit),
               ),
             ],
           ));
@@ -269,7 +278,7 @@ class ProfileState extends State<Profile> {
     // globals.tentativeLink = globals.globalUserPicture;
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Profil"),
+          title: Text(AppLocalizations.of(context)!.profile),
           backgroundColor: const Color(0xFF29C9B3),
         ),
         backgroundColor: Colors.white,
@@ -322,9 +331,9 @@ class ProfileState extends State<Profile> {
             SizedBox(
               height: 200,
               child: Column(children: [
-                const Text(
-                  "Your current process",
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.yourCurrentProcess,
+                  style: const TextStyle(
                     color: Color.fromARGB(255, 98, 153, 141),
                     fontSize: 30,
                     fontWeight: FontWeight.w500,
@@ -335,10 +344,10 @@ class ProfileState extends State<Profile> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.data!.response.isEmpty) {
-                          return const Center(
+                          return  Center(
                             child: Text(
-                              "No current process",
-                              style: TextStyle(
+                              AppLocalizations.of(context)!.noCurrentProcess,
+                              style:  const TextStyle(
                                 color: Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
@@ -394,7 +403,7 @@ class MyFormState extends State<MyForm> {
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
       const DropdownMenuItem(child: Text("English"), value: "english"),
-      const DropdownMenuItem(child: Text("Français"), value: "french"),
+      const DropdownMenuItem(child: Text("Français"), value: "français"),
     ];
     return menuItems;
   }
@@ -413,7 +422,7 @@ class MyFormState extends State<MyForm> {
                 decoration: InputDecoration(
                   icon: const Icon(Icons.person),
                   hintText: _username,
-                  labelText: 'Username',
+                  labelText: AppLocalizations.of(context)!.username,
                 ),
               ),
               TextFormField(
@@ -429,11 +438,11 @@ class MyFormState extends State<MyForm> {
                   decoration: InputDecoration(
                     icon: const Icon(Icons.password),
                     hintText: _changePassword,
-                    labelText: 'Change Password',
+                    labelText: AppLocalizations.of(context)!.changePassword,
                   ),
                   validator: (value) {
                     value!.length < 8 && value.isNotEmpty
-                        ? 'Minimum character length is 8'
+                        ? AppLocalizations.of(context)!.minimumCharactere
                         : null;
                   }),
               // TextFormField(
@@ -447,7 +456,7 @@ class MyFormState extends State<MyForm> {
                   width: 100,
                   child: DropdownButton<String>(
                     value: _dropDownValue,
-                    hint: const Text('Select Process'),
+                    hint: Text(AppLocalizations.of(context)!.selectLanguage),
                     icon: const Icon(
                       Icons.arrow_downward,
                       size: 20,
@@ -463,7 +472,7 @@ class MyFormState extends State<MyForm> {
                         _dropDownValue = newValue!;
                       });
                     },
-                    disabledHint: const Text("Disabled"),
+                    disabledHint: Text(AppLocalizations.of(context)!.disabled),
                     elevation: 4,
                     style: const TextStyle(color: Colors.black, fontSize: 18),
                     iconDisabledColor: Colors.grey[350],
@@ -477,7 +486,7 @@ class MyFormState extends State<MyForm> {
                       showDialog<String>(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Your Modifications has been send'),
+                          title: Text(AppLocalizations.of(context)!.yourModification),
                           actions: <Widget>[
                             TextButton(
                               onPressed: () {
@@ -495,7 +504,9 @@ class MyFormState extends State<MyForm> {
                         newPassword: _controllerPassword.text,
                         profilePicture: globals.tentativeLink,
                         language: _dropDownValue,
+                        context: context,
                       );
+                      print(_dropDownValue);
                       _controllerEmail.clear();
                       _controllerUsername.clear();
                       _controllerPassword.clear();
@@ -508,9 +519,9 @@ class MyFormState extends State<MyForm> {
                         side: const BorderSide(color: Color(0xFF29C9B3))),
                     elevation: 0,
                   ),
-                  child: const Text(
-                    'Submit',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  child: Text(
+                    AppLocalizations.of(context)!.submit,
+                    style: const TextStyle(fontSize: 18, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
                 )

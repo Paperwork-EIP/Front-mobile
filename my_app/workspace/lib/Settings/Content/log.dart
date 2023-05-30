@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// import '../../app_localisation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsLog extends StatelessWidget {
   const SettingsLog({Key? key}) : super(key: key);
@@ -7,25 +9,24 @@ class SettingsLog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Log"),
+        title: Text(AppLocalizations.of(context)!.log),
         backgroundColor: const Color.fromARGB(255, 96, 128, 118),
       ),
       body: Center(
         child: Container(
           constraints: const BoxConstraints(maxWidth: 400),
           child: ListView(
-            children: const [
+            children: [
               Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('\n\nPaperwork Log',
+                padding: const EdgeInsets.all(8.0),
+                child: Text(AppLocalizations.of(context)!.logTitle,
                     style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                        const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               ),
               Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  "\n\nBe aware of the latest updates and new features implemented. Here's what's changed since the last update:\n\n\n                   Account Verification\n                   Privacy Policy\n                   Adding the datepicker in the calendar\n",
-                  style: TextStyle(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(AppLocalizations.of(context)!.logText,
+                  style: const TextStyle(
                       // fontWeight: FontWeight.bold,
                       fontSize: 16),
                 ),

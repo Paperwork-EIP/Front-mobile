@@ -5,7 +5,8 @@ import 'package:paperwork/login/login.dart';
 import 'package:paperwork/signup/signup.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../app_localisation.dart';
+// import '../../app_localisation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class LoginPage extends StatelessWidget {
         // foregroundColor: Colors.black,
         elevation: 0,
         title: Text(
-          AppLocalizations.of(context).translate('Log_in'),
+          AppLocalizations.of(context)!.logIn,
           style: GoogleFonts.inter(fontSize: 22, fontWeight: FontWeight.w700),
         ),
         actions: <Widget>[
@@ -35,7 +36,7 @@ class LoginPage extends StatelessWidget {
               );
             },
             child: Text(
-              AppLocalizations.of(context).translate('Sign_up'),
+              AppLocalizations.of(context)!.signUp,
               style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
