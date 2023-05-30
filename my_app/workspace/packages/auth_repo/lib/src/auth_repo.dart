@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:my_app/global.dart' as globals;
+import 'package:paperwork/global.dart' as globals;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum AuthStatus { unknown, authenticated, unauthenticated }

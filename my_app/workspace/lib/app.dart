@@ -2,20 +2,19 @@ import 'package:authentication_repository/auth_repo.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_app/auth/auth.dart';
-import 'package:my_app/calendar.dart';
-import 'package:my_app/locale_provider.dart';
-import 'package:my_app/profile/profile.dart';
-import 'package:my_app/home/home.dart';
-import 'package:my_app/login/login.dart';
-import 'package:my_app/signup/signup.dart';
-import 'package:my_app/splash/splash.dart';
+import 'package:paperwork/locale_provider.dart';
+import 'package:paperwork/auth/auth.dart';
+import 'package:paperwork/calendar/calendar.dart';
+import 'package:paperwork/profile/profile.dart';
+import 'package:paperwork/home/home.dart';
+import 'package:paperwork/login/login.dart';
+import 'package:paperwork/signup/signup.dart';
+import 'package:paperwork/splash/splash.dart';
 import 'package:user_repository/user_repo.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:my_app/l10n/support_locale.dart';
-// import 'app_localisation.dart';
 
 class App extends StatelessWidget {
   const App({

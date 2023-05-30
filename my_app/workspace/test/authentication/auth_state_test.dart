@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:my_app/auth/auth.dart';
+import 'package:paperwork/auth/auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:user_repository/user_repo.dart';

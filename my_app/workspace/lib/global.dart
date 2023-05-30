@@ -1,4 +1,4 @@
-library my_app.globals;
+library paperwork.globals;
 
 dynamic token = "";
 dynamic email = "";

@@ -1,12 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_app/global.dart';
-// import '../../app_localisation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgottenPasswordPage extends StatelessWidget {

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:restart_app/restart_app.dart';
 
-import 'package:my_app/global.dart' as globals;
+import 'package:paperwork/global.dart' as globals;
 import '../../Settings/settings.dart';
 import '../../lexique.dart';
 import '../../propal_add.dart';

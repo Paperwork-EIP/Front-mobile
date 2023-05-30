@@ -1,8 +1,8 @@
 import 'package:authentication_repository/auth_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_app/login/login.dart';
-import 'package:my_app/signup/signup.dart';
+import 'package:paperwork/login/login.dart';
+import 'package:paperwork/signup/signup.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import '../../app_localisation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

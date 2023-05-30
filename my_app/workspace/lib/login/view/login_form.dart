@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_app/forgotten_password.dart';
-import 'package:my_app/login/login.dart';
+import 'package:paperwork/forgotten_password.dart';
+import 'package:paperwork/login/login.dart';
 import 'package:formz/formz.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import '../../app_localisation.dart';
