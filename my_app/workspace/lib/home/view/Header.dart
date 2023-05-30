@@ -9,8 +9,6 @@ import '../../lexique.dart';
 import '../../propal_add.dart';
 import '../../quizz/process/process.dart';
 import '../../help/help.dart';
-// import '../../app_localisation.dart';
-
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Header extends StatelessWidget {

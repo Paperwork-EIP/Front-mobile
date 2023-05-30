@@ -3,18 +3,13 @@ import 'package:paperwork/home/view/Header.dart';
 import 'package:paperwork/quizz/process/process.dart';
 import 'package:paperwork/quizz/result/result_quizz.dart';
 import 'package:intl/intl.dart';
-import 'package:my_app/locale_provider.dart';
-// import '../../app_localisation.dart';
-
+import 'package:paperwork/locale_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import '../../app.dart';
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'package:paperwork/global.dart' as globals;
 
 class UserPicture {

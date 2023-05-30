@@ -14,7 +14,7 @@ import 'package:user_repository/user_repo.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:my_app/l10n/support_locale.dart';
+import 'package:paperwork/l10n/support_locale.dart';
 
 class App extends StatelessWidget {
   const App({

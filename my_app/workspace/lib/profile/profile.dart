@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:paperwork/global.dart' as globals;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:my_app/locale_provider.dart';
+import 'package:paperwork/locale_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ModifyProfile {

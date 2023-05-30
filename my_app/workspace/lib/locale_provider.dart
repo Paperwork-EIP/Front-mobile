@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/l10n/support_locale.dart';
+import 'package:paperwork/l10n/support_locale.dart';
 
 class LocaleProvider with ChangeNotifier {
   Locale? _locale;
