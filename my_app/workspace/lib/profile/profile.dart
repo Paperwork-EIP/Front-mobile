@@ -3,7 +3,7 @@ import 'dart:core';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:my_app/global.dart' as globals;
+import 'package:paperwork/global.dart' as globals;
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ModifyProfile {

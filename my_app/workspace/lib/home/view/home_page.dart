@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/home/view/Header.dart';
-import 'package:my_app/quizz/process/process.dart';
-import 'package:my_app/quizz/result/result_quizz.dart';
+import 'package:paperwork/home/view/Header.dart';
+import 'package:paperwork/quizz/process/process.dart';
+import 'package:paperwork/quizz/result/result_quizz.dart';
 import 'package:intl/intl.dart';
 
 import 'dart:async';
@@ -9,7 +9,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:my_app/global.dart' as globals;
+import 'package:paperwork/global.dart' as globals;
 
 class UserPicture {
   final picture;
@@ -216,8 +216,7 @@ class _HomePageState extends State<HomePage> {
                                             color: Colors.grey.withOpacity(0.5),
                                             spreadRadius: 5,
                                             blurRadius: 7,
-                                            offset: const Offset(0,
-                                                3),
+                                            offset: const Offset(0, 3),
                                           ),
                                         ]),
                                     child: Row(
@@ -302,7 +301,8 @@ class _HomePageState extends State<HomePage> {
                                 }
                               } else {
                                 return const CircularProgressIndicator();
-                            }}),
+                              }
+                            }),
                       ),
                       SizedBox(
                           width: 400,
@@ -316,8 +316,7 @@ class _HomePageState extends State<HomePage> {
                                       color: Colors.grey.withOpacity(0.5),
                                       spreadRadius: 5,
                                       blurRadius: 7,
-                                      offset: const Offset(
-                                          0, 3),
+                                      offset: const Offset(0, 3),
                                     ),
                                   ]),
                               child: SingleChildScrollView(
@@ -406,7 +405,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )
                                                                     else
                                                                       Padding(
-                                                                        padding: const EdgeInsets.symmetric(
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
                                                                             horizontal:
                                                                                 50.0,
                                                                             vertical:

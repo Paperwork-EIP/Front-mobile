@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:my_app/global.dart' as globals;
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 // ignore: non_constant_identifier_names
@@ -55,7 +51,6 @@ class HelpState extends State<Help> {
 
   @override
   Widget build(BuildContext context) {
-    final _controllerEmail = TextEditingController();
     final _controllerSubject = TextEditingController();
     final _controllerBody = TextEditingController();
 

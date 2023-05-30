@@ -1,6 +1,6 @@
 import 'package:authentication_repository/auth_repo.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:my_app/login/login.dart';
+import 'package:paperwork/login/login.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
