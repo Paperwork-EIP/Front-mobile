@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_app/home/home.dart';
 import './todo.dart';
 import './todo_item.dart';
+// import '../../app_localisation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserProcess extends StatefulWidget {
   final String? processName;
@@ -28,7 +30,7 @@ class _UserProcessState extends State<UserProcess> {
     final processName = widget.processName;
     return Scaffold(
         appBar: AppBar(
-          title: const Text("My Process"),
+          title: Text(AppLocalizations.of(context)!.myProcess,),
           backgroundColor: const Color.fromARGB(255, 96, 128, 118),
         ),
         body: Stack(
@@ -48,7 +50,7 @@ class _UserProcessState extends State<UserProcess> {
                     child: Row(
                       children: [
                         Text(
-                          'All ToDos - ' + processName!,
+                          AppLocalizations.of(context)!.myProcess + ' - ' + processName!,
                           style: const TextStyle(
                             // color: Colors.black,
                             fontSize: 25,
@@ -56,7 +58,7 @@ class _UserProcessState extends State<UserProcess> {
                           ),
                         ),
                         Tooltip(
-                          message: 'See more details',
+                          message: AppLocalizations.of(context)!.seeMoreDetails,
                           child: IconButton(
                             iconSize: 20,
                             icon: const Icon(
@@ -74,10 +76,10 @@ class _UserProcessState extends State<UserProcess> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             if (snapshot.data!.isEmpty) {
-                              return const Center(
+                              return Center(
                                 child: Text(
-                                  "No requirement to get this process",
-                                  style: TextStyle(
+                                  AppLocalizations.of(context)!.noRequirement,
+                                  style: const TextStyle(
                                     color: Color.fromARGB(255, 98, 153, 141),
                                     fontSize: 30,
                                     fontWeight: FontWeight.w500,
@@ -114,7 +116,7 @@ class _UserProcessState extends State<UserProcess> {
                       ToDo.fetchUpdateData(widget.processName, stepUpdate);
                       stepUpdate.clear();
                     },
-                    child: const Text("Save"),
+                    child: Text(AppLocalizations.of(context)!.save),
                   ),
                 ],
               ),

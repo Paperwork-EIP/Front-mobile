@@ -1,6 +1,8 @@
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import '../../app_localisation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../support.dart';
 import 'Content/condition.dart';
@@ -22,7 +24,7 @@ class _SettingsPage1State extends State<SettingsPage1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Settings"),
+        title: Text(AppLocalizations.of(context)!.settings,),
         backgroundColor: const Color.fromARGB(255, 96, 128, 118),
       ),
       body: Center(
@@ -31,10 +33,10 @@ class _SettingsPage1State extends State<SettingsPage1> {
           child: ListView(
             children: [
               _SingleSection(
-                title: "General",
+                title: AppLocalizations.of(context)!.general,
                 children: [
                   _CustomListTile(
-                      title: "Dark Mode",
+                      title: AppLocalizations.of(context)!.darkMode,
                       icon: CupertinoIcons.moon,
                       trailing: CupertinoSwitch(
                           value:
@@ -43,45 +45,45 @@ class _SettingsPage1State extends State<SettingsPage1> {
                             EasyDynamicTheme.of(context).changeTheme();
                             // mode = !mode;
                           })),
-                  const _CustomListTile(
-                    title: "Version",
+                  _CustomListTile(
+                    title: AppLocalizations.of(context)!.version,
                     icon: CupertinoIcons.device_phone_portrait,
-                    trailing: Text("1.0"),
-                  ),
-                  const _CustomListTile(
-                    title: "Change Log",
-                    icon: CupertinoIcons.cloud_download,
-                    widget: SettingsLog(),
+                    trailing: const Text("1.0"),
                   ),
                   _CustomListTile(
-                    title: "Suport",
+                    title: AppLocalizations.of(context)!.changeLog,
+                    icon: CupertinoIcons.cloud_download,
+                    widget: const SettingsLog(),
+                  ),
+                  _CustomListTile(
+                    title: AppLocalizations.of(context)!.support,
                     icon: CupertinoIcons.lock_shield,
                     widget: Support(),
                   ),
-                  const _CustomListTile(
-                    title: "About",
+                  _CustomListTile(
+                    title: AppLocalizations.of(context)!.about,
                     icon: CupertinoIcons.person_2,
-                    widget: SettingsAbout(),
+                    widget: const SettingsAbout(),
                   ),
                 ],
               ),
-              const _SingleSection(
-                title: "Privacy and Security",
+              _SingleSection(
+                title: AppLocalizations.of(context)!.privacyAndSecurity,
                 children: [
                   _CustomListTile(
-                      title: "Condition générale d'utilisation",
+                      title: AppLocalizations.of(context)!.generalTermsAndConditionsOfUse,
                       icon: CupertinoIcons.lock),
                   _CustomListTile(
-                    title: "Politique de confidentialité",
+                    title: AppLocalizations.of(context)!.privacyPolicy,
                     icon: CupertinoIcons.lock,
-                    widget: SettingsPolicy(),
+                    widget: const SettingsPolicy(),
                   ),
                   _CustomListTile(
-                      title: "Terms et condition",
+                      title: AppLocalizations.of(context)!.termsAndProcedures,
                       icon: CupertinoIcons.lock,
-                      widget: SettingsTandC()),
+                      widget: const SettingsTandC()),
                   _CustomListTile(
-                      title: "Supprimer le compte",
+                      title: AppLocalizations.of(context)!.deleteAccount,
                       icon: CupertinoIcons.delete),
                 ],
               ),

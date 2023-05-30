@@ -5,6 +5,8 @@ import 'package:my_app/global.dart' as globals;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+// import '../../app_localisation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: non_constant_identifier_names
 SizedBox CreateInput(String name, String type, bool outline, double width,
@@ -62,9 +64,9 @@ class HelpState extends State<Help> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-        title: const Text(
-          "Contact us",
-          style: TextStyle(color: Colors.black),
+        title: Text(
+          AppLocalizations.of(context)!.constactUs,
+          style: const TextStyle(color: Colors.black),
         ),
         iconTheme: const IconThemeData(
           color: Colors.black,
@@ -90,21 +92,21 @@ class HelpState extends State<Help> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text(
-                          'Submit a problem',
-                          style: TextStyle(
+                         Text(
+                          AppLocalizations.of(context)!.submitAproblem,
+                          style: const TextStyle(
                               fontSize: 28, fontWeight: FontWeight.bold),
                         ),
-                        CreateInput('Subject', 'subject', true, 335, 60,
+                        CreateInput(AppLocalizations.of(context)!.subject, AppLocalizations.of(context)!.subject, true, 335, 60,
                             _controllerSubject),
                         SizedBox(
                           width: 335,
                           child: TextField(
                             controller: _controllerBody,
                             obscureText: false,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Describe your problem',
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              labelText: AppLocalizations.of(context)!.desribeProblem,
                             ),
                             minLines: 10,
                             keyboardType: TextInputType.multiline,
@@ -120,7 +122,7 @@ class HelpState extends State<Help> {
                             send(_controllerBody.text, _controllerSubject.text);
                             if (platformResponse == 'success') {
                               Fluttertoast.showToast(
-                                msg: "Email send",
+                                msg: AppLocalizations.of(context)!.emailSend,
                                 toastLength: Toast.LENGTH_SHORT,
                                 timeInSecForIosWeb: 1,
                                 backgroundColor:
@@ -133,7 +135,7 @@ class HelpState extends State<Help> {
                               platformResponse = '';
                             } else {
                               Fluttertoast.showToast(
-                                msg: "Problem submit",
+                                msg: AppLocalizations.of(context)!.problemSubmit,
                                 toastLength: Toast.LENGTH_SHORT,
                                 timeInSecForIosWeb: 1,
                                 backgroundColor:
@@ -143,7 +145,7 @@ class HelpState extends State<Help> {
                               );
                             }
                           },
-                          child: const Text("Submit"),
+                          child: Text(AppLocalizations.of(context)!.submit),
                         ),
                       ],
                     ),

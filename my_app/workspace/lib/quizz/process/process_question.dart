@@ -19,6 +19,8 @@ class ProcessQuestion {
 
   static Future<bool> fetchResultQuizz(
       resQuestion, processName, context) async {
+      print('processName = $processName');
+      print('resQuestion = $resQuestion');
     final response = await http.post(
         Uri.parse("${dotenv.get('SERVER_URL')}/userProcess/add"),
         headers: {
@@ -29,9 +31,7 @@ class ProcessQuestion {
           "user_token": token,
           "questions": resQuestion,
         }));
-    print(response.statusCode);
     if (response.statusCode == 200) {
-      print('response.body creation du process = ${response.body}');
       return true;
     } else {
       throw Exception('Failed to load album');

@@ -4,6 +4,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app/global.dart' as globals;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+// import 'app_localisation.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> submitProcessIdea(
     {required String title,
@@ -83,24 +86,24 @@ class AddPropal extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text(
-                          'Submit a new process idea',
-                          style: TextStyle(
+                        Text(
+                          AppLocalizations.of(context)!.submitIdea,
+                          style: const TextStyle(
                               fontSize: 28, fontWeight: FontWeight.bold),
                         ),
                         CreateInput(
-                            'Title', 'title', true, 335, 60, _controllerEmail),
-                        CreateInput('Description', 'description', true, 335, 60,
+                            AppLocalizations.of(context)!.title, AppLocalizations.of(context)!.title, true, 335, 60, _controllerEmail),
+                        CreateInput(AppLocalizations.of(context)!.description, AppLocalizations.of(context)!.description, true, 335, 60,
                             _controllerPassword),
                         SizedBox(
                           width: 335,
                           child: TextField(
                             controller: _controller,
                             obscureText: false,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
                               labelText:
-                                  'Explain why this approach would be useful?',
+                                  AppLocalizations.of(context)!.useful,
                             ),
                             minLines: 10,
                             keyboardType: TextInputType.multiline,
@@ -122,7 +125,7 @@ class AddPropal extends StatelessWidget {
                             _controllerPassword.clear();
                             _controller.clear();
                             Fluttertoast.showToast(
-                              msg: "Demand submit",
+                              msg: AppLocalizations.of(context)!.demandSubmitted,
                               toastLength: Toast.LENGTH_SHORT,
                               timeInSecForIosWeb: 1,
                               backgroundColor:
@@ -131,7 +134,7 @@ class AddPropal extends StatelessWidget {
                               fontSize: 16.0,
                             );
                           },
-                          child: const Text("Submit"),
+                          child: Text(AppLocalizations.of(context)!.submit),
                         ),
                       ],
                     ),

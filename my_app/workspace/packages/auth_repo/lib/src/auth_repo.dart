@@ -31,6 +31,7 @@ class AuthRepository {
         },
         body: json.encode({"email": email, "password": password}),
       );
+      print(response.statusCode);
       if (response.statusCode == 200) {
         print("Status code 200  --- " + response.body);
         var token = jsonDecode(response.body);

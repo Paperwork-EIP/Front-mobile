@@ -3,6 +3,12 @@ import 'package:my_app/home/view/Header.dart';
 import 'package:my_app/quizz/process/process.dart';
 import 'package:my_app/quizz/result/result_quizz.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/locale_provider.dart';
+// import '../../app_localisation.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import '../../app.dart';
 
 import 'dart:async';
 import 'dart:convert';
@@ -35,6 +41,7 @@ class UserPicture {
 
 Future<UserPicture> getUserPicture({
   required String token,
+  required BuildContext context,
 }) async {
   try {
     var response = await http.get(
@@ -48,8 +55,12 @@ Future<UserPicture> getUserPicture({
       globals.globalUserPicture = data.picture;
       globals.username = data.username;
       globals.language = data.language;
+      if (globals.language == 'english') {
+        context.read<LocaleProvider>().setLocale(const Locale("en"));
+      } else {
+        context.read<LocaleProvider>().setLocale(const Locale("fr"));
+      }
       print(response.body);
-      print('globals.globalUserPicture = ${globals.globalUserPicture}');
       return UserPicture.fromJson(jsonDecode(response.body));
     }
     return UserPicture.fromJson(
@@ -85,9 +96,8 @@ Future<OngoingProcess> getOngoingProcess({
         "Content-Type": "application/json",
       },
     );
-
+    print(response.body);
     if (response.statusCode == 200) {
-      print(response.body);
       return OngoingProcess.fromJson(jsonDecode(response.body));
     }
     return OngoingProcess.fromJson({
@@ -127,7 +137,6 @@ Future<Calendar> getCalendar({
       },
     );
     if (response.statusCode == 200) {
-      print('get calendar response = ${response.body}');
       return Calendar.fromJson(jsonDecode(response.body));
     }
     return Calendar.fromJson({
@@ -168,7 +177,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    getUserPicture(token: token);
+    getUserPicture(token: token, context: context);
     return Scaffold(
         key: _scaffoldKey,
         appBar: PreferredSize(
@@ -289,11 +298,11 @@ class _HomePageState extends State<HomePage> {
                                               offset: const Offset(0, 3),
                                             ),
                                           ]),
-                                      child: const Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 50.0, vertical: 35.0),
-                                        child: Text('No appointement planned',
-                                            style: TextStyle(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 30.0, vertical: 35.0),
+                                        child: Text(AppLocalizations.of(context)!.noAppointment,
+                                            style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20,
                                               color: Colors.black,
@@ -324,11 +333,11 @@ class _HomePageState extends State<HomePage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Padding(
-                                      padding: EdgeInsets.symmetric(
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 10.0, vertical: 5.0),
-                                      child: Text('Ongoing process',
-                                          style: TextStyle(
+                                      child: Text(AppLocalizations.of(context)!.ongoingProcess,
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20,
                                             color: Colors.black,
@@ -427,8 +436,8 @@ class _HomePageState extends State<HomePage> {
                                                     }
                                                 ]);
                                           } else {
-                                            return (const Text(
-                                                'No current process'));
+                                            return (Text(
+                                                AppLocalizations.of(context)!.noCurrentProcess,));
                                           }
                                         } else {
                                           return const CircularProgressIndicator();
@@ -453,7 +462,7 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context) => const Quizz()),
                           );
                         },
-                        child: const Text("Start a process"),
+                        child: Text(AppLocalizations.of(context)!.startNewProcess,),
                       ),
                     ],
                   ),
