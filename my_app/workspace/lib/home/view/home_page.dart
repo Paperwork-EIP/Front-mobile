@@ -190,14 +190,14 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: 500,
+                  height: 550,
                   width: 420,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       SizedBox(
                         width: 400,
-                        height: 100,
+                        height: 150,
                         child: FutureBuilder<Calendar>(
                             future: getCalendar(token: token),
                             builder: (context, snapshot) {
@@ -225,49 +225,57 @@ class _HomePageState extends State<HomePage> {
                                         ]),
                                     child: Row(
                                       children: [
-                                        SizedBox(
-                                          width: 109,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 5.0, vertical: 5.0),
-                                            child: Text(date,
-                                                softWrap: true,
-                                                maxLines: 2,
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                )),
-                                          ),
-                                        ),
-                                        const VerticalDivider(),
-                                        Column(
-                                          children: [
-                                            Padding(
+                                        Expanded(
+                                          child: SizedBox(
+                                            width: 109,
+                                            child: Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                      horizontal: 4.0,
-                                                      vertical: 15.0),
-                                              child: Text(title,
+                                                      horizontal: 5.0,
+                                                      vertical: 5.0),
+                                              child: Text(date,
+                                                  softWrap: true,
+                                                  maxLines: 2,
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
                                                     color: Colors.black,
                                                   )),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10.0,
-                                                      vertical: 5.0),
-                                              child: Text(hours,
-                                                  style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18,
-                                                    color: Colors.black,
-                                                  )),
-                                            )
-                                          ],
+                                          ),
+                                        ),
+                                        const VerticalDivider(),
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4.0,
+                                                        vertical: 15.0),
+                                                child: Text(title,
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18,
+                                                      color: Colors.black,
+                                                    )),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10.0,
+                                                        vertical: 5.0),
+                                                child: Text(hours,
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18,
+                                                      color: Colors.black,
+                                                    )),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                         const Icon(
                                           Icons.insert_drive_file_outlined,
@@ -295,7 +303,9 @@ class _HomePageState extends State<HomePage> {
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 30.0, vertical: 35.0),
-                                        child: Text(AppLocalizations.of(context)!.noAppointment,
+                                        child: Text(
+                                            AppLocalizations.of(context)!
+                                                .noAppointment,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20,
@@ -330,7 +340,9 @@ class _HomePageState extends State<HomePage> {
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 10.0, vertical: 5.0),
-                                      child: Text(AppLocalizations.of(context)!.ongoingProcess,
+                                      child: Text(
+                                          AppLocalizations.of(context)!
+                                              .ongoingProcess,
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20,
@@ -432,7 +444,9 @@ class _HomePageState extends State<HomePage> {
                                                 ]);
                                           } else {
                                             return (Text(
-                                                AppLocalizations.of(context)!.noCurrentProcess,));
+                                              AppLocalizations.of(context)!
+                                                  .noCurrentProcess,
+                                            ));
                                           }
                                         } else {
                                           return const CircularProgressIndicator();
@@ -457,7 +471,9 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context) => const Quizz()),
                           );
                         },
-                        child: Text(AppLocalizations.of(context)!.startNewProcess,),
+                        child: Text(
+                          AppLocalizations.of(context)!.startNewProcess,
+                        ),
                       ),
                     ],
                   ),

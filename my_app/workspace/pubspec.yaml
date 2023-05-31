@@ -38,7 +38,7 @@ dependencies:
   easy_dynamic_theme: ^2.2.0
   flutter_localizations:
     sdk: flutter
-  intl: ^0.17.0	
+  intl: ^0.18.1	
   flutter_email_sender: ^5.2.0
 
   

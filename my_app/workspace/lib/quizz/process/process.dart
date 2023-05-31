@@ -147,74 +147,78 @@ class _QuizzProcessState extends State<QuizzProcess> {
                       style: const TextStyle(fontSize: 22),
                       textAlign: TextAlign.center),
                 ),
-                Padding(padding: EdgeInsets.only(top: 50)),
+                Padding(padding: EdgeInsets.all(10.0)),
                 FutureBuilder<List<Map>>(
                     future: futureQuestion,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.data![0]["status"] == '404') {
-                          return Text(AppLocalizations.of(context)!.problemOccured,);
+                          return Text(
+                            AppLocalizations.of(context)!.problemOccured,
+                          );
                         } else {
                           return Stack(children: [
                             Text(
                               snapshot.data![count]["question"],
-                              style: const TextStyle(
-                                  fontSize: 18),
+                              style: const TextStyle(fontSize: 18),
                               textAlign: TextAlign.center,
                             ),
-                            ButtonBar(
-                              alignment: MainAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 228, 117, 126),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(25.0),
-                                      )),
-                                  onPressed: () {
-                                    increment(count, false);
-                                    setState(() {
-                                      if (count < listy.length - 1) {
-                                        count = count + 1;
-                                      }
-                                    });
-                                  },
-                                  child: Text(
-                                    AppLocalizations.of(context)!.no,
-                                    style: const TextStyle(
-                                        fontSize: 20, color: Colors.white),
-                                    textAlign: TextAlign.center,
+                            Padding(
+                              padding: const EdgeInsets.all(30.0),
+                              child: ButtonBar(
+                                alignment: MainAxisAlignment.center,
+                                children: [
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                        backgroundColor: const Color.fromARGB(
+                                            255, 228, 117, 126),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                        )),
+                                    onPressed: () {
+                                      increment(count, false);
+                                      setState(() {
+                                        if (count < listy.length - 1) {
+                                          count = count + 1;
+                                        }
+                                      });
+                                    },
+                                    child: Text(
+                                      AppLocalizations.of(context)!.no,
+                                      style: const TextStyle(
+                                          fontSize: 20, color: Colors.white),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 166, 221, 204),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(25.0),
-                                      )),
-                                  onPressed: () {
-                                    increment(count, true);
-                                    setState(() {
-                                      if (count < listy.length - 1) {
-                                        count = count + 1;
-                                      }
-                                    });
-                                  },
-                                  child: Text(
-                                    AppLocalizations.of(context)!.yes,
-                                    style: const TextStyle(
-                                        fontSize: 20, color: Colors.white),
-                                    textAlign: TextAlign.center,
+                                  const SizedBox(
+                                    width: 20,
                                   ),
-                                ),
-                              ],
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                        backgroundColor: const Color.fromARGB(
+                                            255, 166, 221, 204),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                        )),
+                                    onPressed: () {
+                                      increment(count, true);
+                                      setState(() {
+                                        if (count < listy.length - 1) {
+                                          count = count + 1;
+                                        }
+                                      });
+                                    },
+                                    child: Text(
+                                      AppLocalizations.of(context)!.yes,
+                                      style: const TextStyle(
+                                          fontSize: 20, color: Colors.white),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ]);
                         }
@@ -268,7 +272,8 @@ class _StartProcessState extends State<StartProcess> {
         // ignore: prefer_const_constructors
         ListTile(
           title: Text(AppLocalizations.of(context)!.chooseAprocess,
-              style: const TextStyle(fontSize: 22), textAlign: TextAlign.center),
+              style: const TextStyle(fontSize: 22),
+              textAlign: TextAlign.center),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -345,7 +350,9 @@ class _StartProcessState extends State<StartProcess> {
 
     return (DropdownButton<String>(
       value: dropdownValue,
-      hint: Text(AppLocalizations.of(context)!.selectProcess,),
+      hint: Text(
+        AppLocalizations.of(context)!.selectProcess,
+      ),
       icon: const Icon(
         Icons.arrow_downward,
         size: 20,
@@ -366,7 +373,9 @@ class _StartProcessState extends State<StartProcess> {
           dropdownValue = newValue!;
         });
       },
-      disabledHint: Text(AppLocalizations.of(context)!.disabled,),
+      disabledHint: Text(
+        AppLocalizations.of(context)!.disabled,
+      ),
       elevation: 4,
       style: TextStyle(
           color: setColor(Theme.of(context).brightness == Brightness.dark),
